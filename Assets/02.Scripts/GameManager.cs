@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
     int gameLevel;                          // 게임 난이도 
     public bool isCreateGuideNote;          // 가이드 노트 생성 여부
     bool oneTime = true;                    // 코루틴을 한 번만 호출하기 위한 제어 변수
+    
+    public static int gameScore;            // 게임 점수 
 
     [SerializeField] NoteManager noteManager = null; 
 
@@ -27,6 +29,13 @@ public class GameManager : MonoBehaviour
         CheckNoteEnded();
         GetInput();
     }
+    
+    // 난이도 조절
+    void LevelControl()
+    {
+
+    }
+
 
     // 노트를 입력 완료 했는지 검가 
     void CheckNoteEnded()
