@@ -16,6 +16,10 @@ public class ItemDatabase : MonoBehaviour
     {
         return stoneList;
     }
+    public List<Item> GetWeapons()
+    {
+        return weaponList;
+    }
 
     public void SetList()
     {
