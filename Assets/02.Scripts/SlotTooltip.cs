@@ -32,12 +32,12 @@ public class SlotTooltip : MonoBehaviour
         selectedItem = p_item;
 
         if (!go_Base.activeSelf)
-        //    LobbyManager.MyInstance.OpenClose(go_Base);
+            go_Base.SetActive(true);
 
         img_item.sprite = p_item.itemImage;
-        txt_ItemName.text = "+" + p_item.itemEnchantRank + " " + p_item.itemName;
-        txt_ItemAbility.text = p_item.itemMainAbility.ToString();
-        txt_ItemDesc.text = p_item.itemDesc;
+        txt_ItemName.text =  " " + p_item.itemName;
+      
+        
     }
 
 
@@ -53,9 +53,7 @@ public class SlotTooltip : MonoBehaviour
          //   LobbyManager.MyInstance.OpenClose(go_Base);
 
         img_item.sprite = p_item.itemImage;
-        txt_ItemName.text = "+" + p_item.itemEnchantRank + " " + p_item.itemName;
-        txt_ItemAbility.text = p_item.itemMainAbility.ToString();
-        txt_ItemDesc.text = p_item.itemDesc;
+
     }
 
 
@@ -92,18 +90,12 @@ public class SlotTooltip : MonoBehaviour
     {
         if (go_Base.activeSelf)
         {
-      //      LobbyManager.MyInstance.OpenClose(go_Base);
+            go_Base.SetActive(false);
             this.selectedItem = null;
         }
     }
 
-    // 아이템 장착
-    public void EquipItem()
-    {
-    //    InventoryManager.instance.EquipItem(selectedSlot);
-        HideToolTip();
-    }
-
+ 
     // 아이템 변경 
     public void ChangeItem()
     {

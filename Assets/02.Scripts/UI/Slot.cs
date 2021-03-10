@@ -26,22 +26,18 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public bool isClick;
 
     // 필요한 컴포넌트 
-    [SerializeField]
-    protected Text text_Count = null;
-    [SerializeField]
-    protected GameObject go_CountImage = null;
-    [SerializeField] protected Image itemBGImage = null;
+
+    //[SerializeField] protected Text text_Count = null;
+    //[SerializeField] protected GameObject go_CountImage = null;
+    //[SerializeField] protected Image itemBGImage = null;
     [SerializeField] protected RectTransform rt_parent = null;
     [SerializeField] protected Image fadeImage = null;
 
-    protected SlotTooltip theSlotTooltip;
-
     protected GameObject selectedSlot;
-
 
     void Start()
     {
-        theSlotTooltip = FindObjectOfType<SlotTooltip>();
+       
         originPos = transform.position;
     }
 
@@ -51,14 +47,13 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         UnityEngine.Color color = itemImage.color;
         color.a = _alpha;
         itemImage.color = color;
-        itemBGImage.color = color;
     }
 
     public void SetSize(Vector2 p_size)
     {
         // 슬롯 크기에 따른 width와 height 값을 가져와 대입
         itemImage.rectTransform.sizeDelta = p_size;
-        itemBGImage.rectTransform.sizeDelta = p_size;
+        //itemBGImage.rectTransform.sizeDelta = p_size;
     }
 
     public void SetSize()
@@ -66,7 +61,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         Debug.Log("사이즈!" + rt_parent.sizeDelta);
         // 슬롯 크기에 따른 width와 height 값을 가져와 대입
         itemImage.rectTransform.sizeDelta = rt_parent.sizeDelta;
-        itemBGImage.rectTransform.sizeDelta = rt_parent.sizeDelta;
+       // itemBGImage.rectTransform.sizeDelta = rt_parent.sizeDelta;
     }
 
 
@@ -80,42 +75,26 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public virtual void AddItem(Item _item, int _count = 1)
     {
         item = _item;
-        itemID = _item.itemImgID;
+        itemID = _item.itemID;
         itemName = _item.itemName;
         itemCount = _count;
         itemImage.sprite = _item.itemImage;
         //Debug.Log("아이템 들어옴" + _item.itemName + this.name + _item.itemRank);
-        SetBackGround(_item);
-        
-
-        if (_item.itemType != Item.ItemType.Equipment)
-        {
-            go_CountImage.SetActive(true);
-            text_Count.text = itemCount.ToString();
-        }
-        else
-        {
-            text_Count.text = "0";
-            go_CountImage.SetActive(false);
-        }
+       
         
         SetColor(1);
     }
 
     public void SetItemSale()
     {
-        if (fadeImage == null)
-            return;
 
         if (this.item.isSale)
         {
             isClick = false;
-            fadeImage.gameObject.SetActive(true);
         }
         else
         {
             isClick = true;
-            fadeImage.gameObject.SetActive(false);
         }
     }
 
@@ -123,7 +102,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     public void SetSlotCount(int _count)
     {
         itemCount += _count;
-        text_Count.text = itemCount.ToString();
+        //ext_Count.text = itemCount.ToString();
 
         if (itemCount <= 0)
             ClearSlot();
@@ -138,8 +117,8 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         itemImage.sprite = null;
         SetColor(0);
 
-        text_Count.text = "0";
-        go_CountImage.SetActive(false);
+        //text_Count.text = "0";
+        //go_CountImage.SetActive(false);
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)

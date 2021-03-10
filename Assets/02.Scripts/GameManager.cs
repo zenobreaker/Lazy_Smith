@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static int Gold;                        // 게임 화폐
+
     int gameLevel;                          // 게임 난이도 
     public bool isCreateGuideNote;          // 가이드 노트 생성 여부
     bool oneTime = true;                    // 코루틴을 한 번만 호출하기 위한 제어 변수
     
-    public static int gameScore;            // 게임 점수 
+    public int gameScore;            // 게임 점수 
 
     [SerializeField] NoteManager noteManager = null; 
 
     void Start()
     {
         Debug.Log("게임 매니저 테스트");
+      
     }
 
     private void Update()

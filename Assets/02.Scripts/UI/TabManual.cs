@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TabManual
+public class TabManual : MonoBehaviour
 {
     // 상태변수 
     // private bool isActivated = false;   // UI 상태 변수 
@@ -11,6 +11,16 @@ public class TabManual
     public int tabNumber = 0;
     protected int slectedSlotNumber;
     protected GameObject selectedTab; // 선택된 탭
+
+    public virtual void  OpenUI()
+    {
+        go_BaseUI.SetActive(true);
+    }
+
+    public virtual void HideUI()
+    {
+        go_BaseUI.SetActive(false);
+    }
 
     // 탭페이지 초기화 
     private void ClearSlot()

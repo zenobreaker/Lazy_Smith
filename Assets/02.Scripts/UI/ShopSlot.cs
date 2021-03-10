@@ -13,9 +13,10 @@ public class ShopSlot : Slot
     public override void OnPointerClick(PointerEventData eventData)
     {
         base.OnPointerClick(eventData);
-   
+
         if (item != null && isClick)
         {
+            Debug.Log("클릭함");
             // 아이템 구매 창
             ShopPage.instance.OpenSaleUI(this);
         }
