@@ -75,7 +75,7 @@ public class RecipePage : MonoBehaviour
     public void GotoCraft()
     {
         HideUI();
-        
+        GameManager.instance.StartGame();
     }
 
 

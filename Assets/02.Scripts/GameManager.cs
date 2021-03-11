@@ -1,21 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
     public static int Gold;                        // 게임 화폐
     public static GameManager instance; 
 
-    int gameLevel;                          // 게임 난이도 
+    public int gameLevel;                          // 게임 난이도 
     
     public bool isCreateGuideNote;          // 가이드 노트 생성 여부
     bool isStart = false;                   // 게임 시작 여부 
+    bool isStop = false;                    // 게임 중지 여부 
     bool oneTime = true;                    // 코루틴을 한 번만 호출하기 위한 제어 변수
     
     public int gameScore;            // 게임 점수 
 
     [SerializeField] NoteManager noteManager = null;
+    [SerializeField] GameObject go_PrepareUI = null;
 
     private void Awake()
     {
@@ -29,6 +32,7 @@ public class GameManager : MonoBehaviour
     {
         if (isStart)
         {
+            PrepareGame();
             PlayGame();
             CheckNoteEnded();
             GetInput();
@@ -40,6 +44,28 @@ public class GameManager : MonoBehaviour
     void LevelControl()
     {
 
+    }
+
+    // 게임 시작 전 준비 
+    public void PrepareGame()
+    {
+        if (isStop)
+        {
+            UIManager.instacne.TurnOnGameUI();
+            UIManager.instacne.TurnOnFadeUI();
+
+            if (EventSystem.current.currentSelectedGameObject.layer == 5)
+            {
+                UIManager.instacne.TurnOffFadeUI();
+                isStop = false;
+            }
+        }
+    }
+
+    public void StartGame()
+    {
+        isStart = true;
+        isStop = true;
     }
 
     public void PlayGame()
