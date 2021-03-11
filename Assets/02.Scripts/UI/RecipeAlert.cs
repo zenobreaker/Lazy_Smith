@@ -6,19 +6,40 @@ using UnityEngine.UI;
 public class RecipeAlert : MonoBehaviour
 {
     [SerializeField] Image img_ItemImage = null;
+    [SerializeField] GameObject go_BaseUI = null;
     [SerializeField] Button btn_Confirm = null;
     [SerializeField] Button btn_Cancel = null;
 
 
-    // Start is called before the first frame update
-    void Start()
+    Item currentItem;
+
+
+    public void OpneUI(RecipeSlot _recipeSlot)
     {
-        
+        SetItem(_recipeSlot);
+        go_BaseUI.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void HideUI()
     {
-        
+        go_BaseUI.SetActive(false);
     }
+
+    public void SetItem(RecipeSlot _recipeSlot)
+    {
+        currentItem = _recipeSlot.MyItem;
+        img_ItemImage.sprite = _recipeSlot.itemImage.sprite;
+    }
+
+    public void ClickConfirm()
+    {
+        RecipePage.instance.GotoCraft();
+        HideUI();
+    }
+
+    public void Cancel()
+    {
+        HideUI();
+    }
+
 }

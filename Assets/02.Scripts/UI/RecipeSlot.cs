@@ -17,6 +17,7 @@ public class RecipeSlot : Slot
         {
             Debug.Log("클릭함");
             // 아이템 구매 창
+            RecipePage.instance.OpenAlertUI(this);
         }
     }
 
@@ -34,6 +35,7 @@ public class RecipeSlot : Slot
 
     public void SetItem(Item _item)
     {
+        item = _item;
         itemImage.sprite = _item.itemImage;
         this.transform.localScale = Vector3.one;
     }
