@@ -28,6 +28,9 @@ public class NoteManager : MonoBehaviour
     [Header("생성 유저 노트 박스")]
     [SerializeField] GameObject go_UserBox = null;       // 유저가 노트를 두는 박스  
 
+    [Header("기타 매니저")]
+    [SerializeField] ComboManager comboManager = null;
+    [SerializeField] EffectManager effectManager = null; 
 
     // 입력을 다 하였는가?
     public bool CompleteInput()
@@ -52,24 +55,44 @@ public class NoteManager : MonoBehaviour
         }
 
         Debug.Log(correctCount + "개 맞춤");
-            
+
+        if (correctCount > 0)
+        {
+            if(correctCount >= maxNoteCount)
+                effectManager.judgementEffect(0);
+            else if(correctCount < maxNoteCount &&correctCount > 1)
+                effectManager.judgementEffect(1);
+            effectManager.NoteClearEffect();
+            comboManager.IncreaseCombo();
+        }
     }
 
 
     // 가이드 및 입력한 노트 및 정보 초기화 
-    public void ClearNote()
+    public void ClearGuideNote()
     {
-        for (int i = 0; i < maxNoteCount; i++)
+        for (int i = 0; i < guideNoteList.Count; i++)
         {
             Destroy(go_GuideBox.transform.GetChild(i).gameObject);
-            Destroy(go_UserBox.transform.GetChild(i).gameObject);
+          
         }
 
         correctCount = 0;
         inputCount = 0;
-        userNoteList.Clear();
+       
         guideNoteList.Clear();
     }
+
+    public void ClearUserNote()
+    {
+        for (int i = 0; i < userNoteList.Count; i++)
+        {
+            Destroy(go_UserBox.transform.GetChild(i).gameObject);
+        }
+        userNoteList.Clear();
+    }
+
+    
 
     // 랜덤하게 화살표 뽑기
     GameObject CreateRandomArrow()
@@ -114,6 +137,9 @@ public class NoteManager : MonoBehaviour
     {
         // 유저가 입력한 노트 리스트에 추가 
         GameObject clone = null;
+
+        if (inputCount >= maxNoteCount)  // 추가 개수 입력 방지 
+            return; 
 
         switch (p_KeyCode)
         {

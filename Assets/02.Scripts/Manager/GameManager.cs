@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public int gameScore;            // 게임 점수 
 
     [SerializeField] NoteManager noteManager = null;
+    [SerializeField] TimeGauageController theTimer = null; 
     [SerializeField] GameObject go_PrepareUI = null;
 
     private void Awake()
@@ -53,10 +54,12 @@ public class GameManager : MonoBehaviour
         {
             UIManager.instacne.TurnOnGameUI();
             UIManager.instacne.TurnOnFadeUI();
+            theTimer.isStart = false;
 
             if (EventSystem.current.currentSelectedGameObject.layer == 5)
             {
                 UIManager.instacne.TurnOffFadeUI();
+                theTimer.isStart = true;
                 isStop = false;
             }
         }
@@ -66,6 +69,8 @@ public class GameManager : MonoBehaviour
     {
         isStart = true;
         isStop = true;
+        theTimer.SetMaxValue(60);
+        theTimer.isStart = true;
     }
 
     public void PlayGame()
@@ -94,7 +99,8 @@ public class GameManager : MonoBehaviour
         noteManager.CheckCorrectNote();
         yield return new WaitForSeconds(0.3f);  // 딜레이를 줘서 모든 입력한 노트를 순간적으로 보여주고 지움
 
-        noteManager.ClearNote();
+        noteManager.ClearGuideNote();
+        noteManager.ClearUserNote();
         isCreateGuideNote = false;
         oneTime = true;     
     }

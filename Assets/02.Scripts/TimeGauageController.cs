@@ -23,6 +23,7 @@ public class TimeGauageController : MonoBehaviour
     public void SetMaxValue(float p_Max)
     {
         timeSlider.maxValue = p_Max;
+        timeSlider.value = p_Max;
     }
 
     void ChangeFillColor()
