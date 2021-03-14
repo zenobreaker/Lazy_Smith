@@ -4,18 +4,32 @@ using UnityEngine;
 
 public class TimingManager : MonoBehaviour
 {
-    float effectTime; 
+    int[] judgementRecord = new int[4];
+     
+    float effectTime;
+    public float maxTime; 
 
-
-    void CheckTiming()
+    public void GameStart()
     {
-
+        StartCoroutine(TimingCo());
     }
 
-    private void Update()
+    public void SettingLevelTime(float p_num)
     {
-        if (effectTime > 0)
-            effectTime -= Time.deltaTime;
+        maxTime = p_num;
+    }
+
+
+  
+     IEnumerator TimingCo()
+    {
+        while (GameManager.instance.isStart)
+        {
+            if (effectTime > 0)
+                effectTime -= Time.deltaTime;
+
+            yield return null;
+        }
     }
 
 }

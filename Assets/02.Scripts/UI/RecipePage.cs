@@ -72,10 +72,10 @@ public class RecipePage : MonoBehaviour
     }
 
     // 제작하러 가기 
-    public void GotoCraft()
+    public void GotoCraft(int p_num = 0 )
     {
         HideUI();
-        GameManager.instance.StartGame();
+        GameManager.instance.StartGame(p_num);
     }
 
 
@@ -92,6 +92,7 @@ public class RecipePage : MonoBehaviour
     public void OpenAlertUI(RecipeSlot _recipeSlot)
     {
         ra_AlertUI.OpneUI(_recipeSlot);
+        ra_AlertUI.SetCount(recipeSlots.FindIndex(x=> x == _recipeSlot));
     }
 
     private void Awake()

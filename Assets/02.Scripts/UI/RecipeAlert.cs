@@ -12,7 +12,12 @@ public class RecipeAlert : MonoBehaviour
 
 
     Item currentItem;
+    int currentCount;
 
+    public void SetCount(int p_num)
+    {
+        currentCount = p_num;
+    }
 
     public void OpneUI(RecipeSlot _recipeSlot)
     {
@@ -33,7 +38,7 @@ public class RecipeAlert : MonoBehaviour
 
     public void ClickConfirm()
     {
-        RecipePage.instance.GotoCraft();
+        RecipePage.instance.GotoCraft(currentCount);
         HideUI();
     }
 

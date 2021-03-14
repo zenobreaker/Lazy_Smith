@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public int gameLevel;                          // 게임 난이도 
     
     public bool isCreateGuideNote;          // 가이드 노트 생성 여부
-    bool isStart = false;                   // 게임 시작 여부 
+    public bool isStart = false;                   // 게임 시작 여부 
     bool isStop = false;                    // 게임 중지 여부 
     bool oneTime = true;                    // 코루틴을 한 번만 호출하기 위한 제어 변수
     
@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] NoteManager noteManager = null;
     [SerializeField] TimeGauageController theTimer = null; 
     [SerializeField] GameObject go_PrepareUI = null;
+    [SerializeField] StageManager stageManager = null;
 
     private void Awake()
     {
@@ -42,9 +43,13 @@ public class GameManager : MonoBehaviour
     }
     
     // 난이도 조절
-    void LevelControl()
+    public void IncreaseLevel()
     {
-
+        if (stageManager.GetStageProcesivity() > 30)
+        {
+            gameLevel++;
+        }
+        
     }
 
     // 게임 시작 전 준비 
@@ -65,8 +70,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public void StartGame(int p_stageNum = 0)
     {
+        stageManager.SettingStage(p_stageNum);
         isStart = true;
         isStop = true;
         theTimer.SetMaxValue(60);

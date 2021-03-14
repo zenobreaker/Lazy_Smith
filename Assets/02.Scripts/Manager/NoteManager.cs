@@ -30,7 +30,8 @@ public class NoteManager : MonoBehaviour
 
     [Header("기타 매니저")]
     [SerializeField] ComboManager comboManager = null;
-    [SerializeField] EffectManager effectManager = null; 
+    [SerializeField] EffectManager effectManager = null;
+    [SerializeField] TimingManager timingManager = null;
 
     // 입력을 다 하였는가?
     public bool CompleteInput()
@@ -60,8 +61,11 @@ public class NoteManager : MonoBehaviour
         {
             if(correctCount >= maxNoteCount)
                 effectManager.judgementEffect(0);
-            else if(correctCount < maxNoteCount &&correctCount > 1)
+            else if(correctCount < maxNoteCount &&correctCount >= (int)Mathf.Round(maxNoteCount / 2))
                 effectManager.judgementEffect(1);
+            else if(correctCount > 0  && correctCount < (int)Mathf.Round(maxNoteCount / 2))
+                effectManager.judgementEffect(2);
+
             effectManager.NoteClearEffect();
             comboManager.IncreaseCombo();
         }
