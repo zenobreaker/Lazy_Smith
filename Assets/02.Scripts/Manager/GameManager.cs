@@ -16,10 +16,11 @@ public class GameManager : MonoBehaviour
     bool oneTime = true;                    // 코루틴을 한 번만 호출하기 위한 제어 변수
     
     public int gameScore;            // 게임 점수 
+    
+    [SerializeField] GameObject go_PrepareUI = null;
 
     [SerializeField] NoteManager noteManager = null;
     [SerializeField] TimeGauageController theTimer = null; 
-    [SerializeField] GameObject go_PrepareUI = null;
     [SerializeField] StageManager stageManager = null;
 
     private void Awake()
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
             PlayGame();
             CheckNoteEnded();
             GetInput();
+            EndGame();
         }
         
     }
@@ -46,8 +48,9 @@ public class GameManager : MonoBehaviour
     // 진행도 조절 stageManager에게 연결할 징검다리 
     public void IncreaseLevel(ComboHit p_comboHit)
     {
+        // 콤보에 따른 진행도 증가 
         stageManager.IncreaseProcessivity(p_comboHit);
-        // 
+        
         if (stageManager.GetStageProcesivity() > 30)
         {
             gameLevel++;
@@ -73,6 +76,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ReturnLobby()
+    {
+        UIManager.instacne.TurnOnLobby();
+    }
+
     public void StartGame(int p_stageNum = 0)
     {
         stageManager.SettingStage(p_stageNum);
@@ -89,6 +97,21 @@ public class GameManager : MonoBehaviour
         {
             noteManager.CreateNote(stageManager.GetCurStageTimingValue());
             isCreateGuideNote = true;
+        }
+    }
+
+    // 게임 종료 
+    public void EndGame()
+    {
+        if(stageManager.GetStageProcesivity() >= stageManager.GetStageMaxProcess())
+        {
+            // 게임 종료 로직 
+            isStart = false;
+            theTimer.isStart = false;
+            noteManager.ClearGuideNote();
+            noteManager.ClearUserNote();
+            stageManager.EndStage();
+            ReturnLobby();
         }
     }
 

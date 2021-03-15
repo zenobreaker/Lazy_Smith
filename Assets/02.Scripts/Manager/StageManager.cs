@@ -9,8 +9,6 @@ public class StageManager : MonoBehaviour
     Stage currentStage; 
 
 
-
-
     public void SettingStage(int p_num)
     {
         currentStage = stageArray[p_num];
@@ -48,11 +46,23 @@ public class StageManager : MonoBehaviour
         }
 
         currentStage.stageProcessivity += t_increasePoint;
+        Debug.Log("진행도 : " + currentStage.stageProcessivity);
     }
 
     public float GetStageProcesivity()
     {
         return currentStage.stageProcessivity;
+    }
+
+    public float GetStageMaxProcess()
+    {
+        return currentStage.maxProcessvitiy;
+    }
+
+    public void EndStage()
+    {
+        if (currentStage.stageProcessivity > 0)
+            currentStage.stageProcessivity = 0;
     }
 
     public void IncreaseStageProcessivity(float p_num)
