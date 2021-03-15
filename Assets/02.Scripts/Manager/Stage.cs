@@ -9,4 +9,5 @@ public class Stage
     public int stageLevel;                  // 스테이지 난이도 
     public float stageProcessivity;         // 스테이지 진행도 
     public float maxProcessvitiy;           // 스테이지 최대 진행도 
+    public float timingTime;                // 노트 완료 타이밍 수치 
 }

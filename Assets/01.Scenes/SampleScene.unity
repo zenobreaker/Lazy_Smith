@@ -4888,6 +4888,7 @@ MonoBehaviour:
   noteManager: {fileID: 603463413}
   theTimer: {fileID: 1398585511}
   go_PrepareUI: {fileID: 168145169}
+  stageManager: {fileID: 2131991096}
 --- !u!4 &1398069337
 Transform:
   m_ObjectHideFlags: 0
@@ -7564,33 +7565,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageArray:
-  - stageLevel: 1
+  - weaponID: 001
+    stageLevel: 1
     stageProcessivity: 0
     maxProcessvitiy: 30
-  - stageLevel: 2
+  - weaponID: 002
+    stageLevel: 2
     stageProcessivity: 0
     maxProcessvitiy: 0
-  - stageLevel: 1
+  - weaponID: 
+    stageLevel: 1
     stageProcessivity: 0
     maxProcessvitiy: 35
-  - stageLevel: 2
+  - weaponID: 
+    stageLevel: 2
     stageProcessivity: 0
     maxProcessvitiy: 50
-  - stageLevel: 2
+  - weaponID: 
+    stageLevel: 2
     stageProcessivity: 0
     maxProcessvitiy: 55
-  - stageLevel: 0
+  - weaponID: 
+    stageLevel: 0
     stageProcessivity: 0
     maxProcessvitiy: 0
-  - stageLevel: 0
+  - weaponID: 
+    stageLevel: 0
     stageProcessivity: 0
     maxProcessvitiy: 0
-  - stageLevel: 0
+  - weaponID: 
+    stageLevel: 0
     stageProcessivity: 0
     maxProcessvitiy: 0
-  - stageLevel: 0
+  - weaponID: 
+    stageLevel: 0
     stageProcessivity: 0
     maxProcessvitiy: 0
-  - stageLevel: 0
+  - weaponID: 
+    stageLevel: 0
     stageProcessivity: 0
     maxProcessvitiy: 0

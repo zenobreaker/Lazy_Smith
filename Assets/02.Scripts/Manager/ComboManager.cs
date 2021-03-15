@@ -22,7 +22,6 @@ public class ComboManager : MonoBehaviour
         {
             txt_ComboText.gameObject.SetActive(true);
             txt_ComboText.text = string.Format("{0:#,##0}", comboCount) + "Combo!";
-            GameManager.instance.IncreaseLevel();
         }
 
     }

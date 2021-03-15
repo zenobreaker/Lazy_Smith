@@ -6,30 +6,66 @@ public class TimingManager : MonoBehaviour
 {
     int[] judgementRecord = new int[4];
      
-    float effectTime;
-    public float maxTime; 
+    bool isGoodTiming;      // 좋은 점수를 유지하는 타이밍 확인  
+    float curTime;          // 진행하는 시간 수 
+    float maxTime;
+    IEnumerator timing;
+    int timingCount = 0;
 
-    public void GameStart()
+    public void StartTiming(float p_time)
     {
-        StartCoroutine(TimingCo());
+        curTime = p_time;
+        maxTime = p_time;
+        timing = TimingCo();
+        StartCoroutine(timing);
     }
 
-    public void SettingLevelTime(float p_num)
+    public void StopTiming()
     {
-        maxTime = p_num;
+        timingCount = 0;
+        StopCoroutine(timing);
     }
 
+    public void ResetTiming()
+    {
+        StopCoroutine(timing);
+        curTime = maxTime;
+        timing = TimingCo();
+        StartCoroutine(timing);
+    }
 
-  
+    public bool GetTiming()
+    {
+        return isGoodTiming;
+    }
+
+    public int GetTimeValue()
+    {
+        float rate = curTime / maxTime * 100;
+
+        if (rate > 70)
+            return 0;
+        else if (rate <= 70 && rate > 40)
+            return 1;
+        else if (rate <= 40 && rate > 0)
+            return 2;
+        else
+            return 3;
+    }
+
      IEnumerator TimingCo()
     {
-        while (GameManager.instance.isStart)
-        {
-            if (effectTime > 0)
-                effectTime -= Time.deltaTime;
+        timingCount++;
+        Debug.Log("현재 진행 중인 타이밍 = " + timingCount);
 
+        while (curTime > 0)
+        {
+            curTime -= Time.deltaTime;
+            isGoodTiming = true;
             yield return null;
         }
+
+        isGoodTiming = false; 
     }
 
 }

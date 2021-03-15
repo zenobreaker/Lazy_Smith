@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ComboHit { PERFECT, COOL, GOOD, MISS};
+
 public class NoteManager : MonoBehaviour
 {
     /*   노트 매니저
      *   노트 랜덤하게 일정 개수만큼 배치 
      *   난이도 별로 개수가 다름 
      */
-    public int maxNoteCount;                                   // 최대로 생성될 노트 수 
+    int fixedNoteCount = 7;                                     // 고정 수 
+    //public int maxNoteCount;                                   // 최대로 생성될 노트 수 
+    int currentNoteCount;                                       // 현재 나오는 노트 수 
     int correctCount;
     public int inputCount;                                    // 노트를 누른 수 
+    int initCount; 
+    ComboHit comboHit;
 
     List<int> guideNoteList = new List<int>();
     List<int> userNoteList = new List<int>();
@@ -36,7 +42,7 @@ public class NoteManager : MonoBehaviour
     // 입력을 다 하였는가?
     public bool CompleteInput()
     {
-        if (inputCount == maxNoteCount)
+        if (inputCount == currentNoteCount)
         {
             return true;
         }
@@ -47,7 +53,7 @@ public class NoteManager : MonoBehaviour
     // 노트 검사 
     public void CheckCorrectNote()
     {
-        for (int i = 0; i < maxNoteCount; i++)
+        for (int i = 0; i < currentNoteCount; i++)
         {
             if(userNoteList[i] == guideNoteList[i])
             {
@@ -55,20 +61,55 @@ public class NoteManager : MonoBehaviour
             } 
         }
 
-        Debug.Log(correctCount + "개 맞춤");
+        //Debug.Log(correctCount + "개 맞춤");
 
-        if (correctCount > 0)
+        if (correctCount == currentNoteCount)
         {
-            if(correctCount >= maxNoteCount)
-                effectManager.judgementEffect(0);
-            else if(correctCount < maxNoteCount &&correctCount >= (int)Mathf.Round(maxNoteCount / 2))
-                effectManager.judgementEffect(1);
-            else if(correctCount > 0  && correctCount < (int)Mathf.Round(maxNoteCount / 2))
-                effectManager.judgementEffect(2);
-
-            effectManager.NoteClearEffect();
+            //if(timingManager.GetTiming())
+            switch(timingManager.GetTimeValue())
+            {
+                case 0:
+                    comboHit = ComboHit.PERFECT;
+                    effectManager.judgementEffect(0);
+                    break;
+                case 1:
+                    comboHit = ComboHit.COOL;
+                    effectManager.judgementEffect(1); break;
+                case 2:
+                case 3:
+                    comboHit = ComboHit.GOOD;
+                    effectManager.judgementEffect(2); 
+                    break;
+            }
+            
             comboManager.IncreaseCombo();
+            IncreaseNoteCount();
         }
+        else
+        {
+            comboHit = ComboHit.MISS;
+            effectManager.judgementEffect(3);
+            comboManager.ResetCombo();
+            ResetNoteCount();
+        }
+        effectManager.NoteClearEffect();
+        GameManager.instance.IncreaseLevel(comboHit);
+        timingManager.StopTiming();        // 타이밍값 초기화
+
+    }
+
+    // 노트 등장 수 초기화 
+    void ResetNoteCount()
+    {
+        currentNoteCount = initCount;
+    }
+
+    // 진행에 따른 노트 수 추가 
+    void IncreaseNoteCount()
+    {
+        if(currentNoteCount <= fixedNoteCount)
+            currentNoteCount++;
+
     }
 
 
@@ -123,12 +164,20 @@ public class NoteManager : MonoBehaviour
         }
     }
 
-    // 노트 생성 메소드
-    public void CreateNote(int p_Max)
+    // 노트 개수 설정 
+    public void SettingNoteCount(int p_num)
     {
-        maxNoteCount = p_Max;
+        initCount = p_num;
+        currentNoteCount = p_num;
+    }
 
-        for (int  i = 0;  i < p_Max;  i++)
+    // 노트 생성 메소드
+    public void CreateNote(float p_time)
+    {
+        // 타이밍 체크 
+        timingManager.StartTiming(p_time);
+
+        for (int  i = 0;  i < currentNoteCount;  i++)
         {
             // 노트 생성 후 가이드 박스에 붙이기 
             var clone = Instantiate(CreateRandomArrow(), go_GuideBox.transform);
@@ -142,7 +191,7 @@ public class NoteManager : MonoBehaviour
         // 유저가 입력한 노트 리스트에 추가 
         GameObject clone = null;
 
-        if (inputCount >= maxNoteCount)  // 추가 개수 입력 방지 
+        if (inputCount >= currentNoteCount)  // 추가 개수 입력 방지 
             return; 
 
         switch (p_KeyCode)

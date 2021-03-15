@@ -8,15 +8,46 @@ public class StageManager : MonoBehaviour
     [SerializeField] Stage[] stageArray = null;
     Stage currentStage; 
 
+
+
+
     public void SettingStage(int p_num)
     {
         currentStage = stageArray[p_num];
     }
 
-
-    public void IncreaseProcessivity(float p_num)
+    public int GetCurStageLevel()
     {
-        currentStage.stageProcessivity += p_num;
+        Debug.Log("스테이지 레벨 : " + currentStage.stageLevel);
+        return currentStage.stageLevel;
+    }
+
+    public float GetCurStageTimingValue()
+    {
+        return currentStage.timingTime;
+    }
+
+    public void IncreaseProcessivity(ComboHit p_combohit)
+    {
+        int t_increasePoint = 0; 
+
+        switch (p_combohit)
+        {
+            case ComboHit.PERFECT:
+                t_increasePoint = (int)(currentStage.maxProcessvitiy * 0.3f);
+                break;
+            case ComboHit.COOL:
+                t_increasePoint = (int)(currentStage.maxProcessvitiy * 0.2f);
+                break;
+            case ComboHit.GOOD:
+                t_increasePoint = (int)(currentStage.maxProcessvitiy * 0.1f);
+                break;
+            case ComboHit.MISS:
+                t_increasePoint = 0;
+                break;
+        }
+
+        currentStage.stageProcessivity += t_increasePoint;
     }
 
     public float GetStageProcesivity()

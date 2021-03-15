@@ -42,9 +42,12 @@ public class GameManager : MonoBehaviour
         
     }
     
-    // 난이도 조절
-    public void IncreaseLevel()
+
+    // 진행도 조절 stageManager에게 연결할 징검다리 
+    public void IncreaseLevel(ComboHit p_comboHit)
     {
+        stageManager.IncreaseProcessivity(p_comboHit);
+        // 
         if (stageManager.GetStageProcesivity() > 30)
         {
             gameLevel++;
@@ -73,6 +76,7 @@ public class GameManager : MonoBehaviour
     public void StartGame(int p_stageNum = 0)
     {
         stageManager.SettingStage(p_stageNum);
+        noteManager.SettingNoteCount(stageManager.GetCurStageLevel());
         isStart = true;
         isStop = true;
         theTimer.SetMaxValue(60);
@@ -83,7 +87,7 @@ public class GameManager : MonoBehaviour
     {
         if (!isCreateGuideNote)
         {
-            noteManager.CreateNote(gameLevel);
+            noteManager.CreateNote(stageManager.GetCurStageTimingValue());
             isCreateGuideNote = true;
         }
     }
