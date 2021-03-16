@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
+    [SerializeField] ClearUI clearUI = null; 
+
     [SerializeField] Stage[] stageArray = null;
+    
     Stage currentStage; 
 
 
@@ -47,6 +50,9 @@ public class StageManager : MonoBehaviour
 
         currentStage.stageProcessivity += t_increasePoint;
         Debug.Log("진행도 : " + currentStage.stageProcessivity);
+
+      
+       
     }
 
     public float GetStageProcesivity()
@@ -63,6 +69,9 @@ public class StageManager : MonoBehaviour
     {
         if (currentStage.stageProcessivity > 0)
             currentStage.stageProcessivity = 0;
+
+        clearUI.OpenUI();
+        clearUI.SettingItem(currentStage.weaponID);
     }
 
     public void IncreaseStageProcessivity(float p_num)

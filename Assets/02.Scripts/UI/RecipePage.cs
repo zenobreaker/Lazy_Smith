@@ -16,7 +16,7 @@ public class RecipePage : MonoBehaviour
     [SerializeField] GameObject go_BaseUI = null;
     [SerializeField] GameObject go_ParentPanel = null;
     [SerializeField] RecipeSlot recipeSlot = null;
-    [SerializeField] ItemDatabase itemDatabase = null;
+    //[SerializeField] ItemDatabase itemDatabase = null;
 
     public List<RecipeItem> recipeItems = new List<RecipeItem>();
     public List<RecipeSlot> recipeSlots = new List<RecipeSlot>();
@@ -27,7 +27,7 @@ public class RecipePage : MonoBehaviour
     // 레시피 리스트에 아이템 추가 
     void SetRecipeList()
     {
-        List<Item> _items = itemDatabase.GetWeapons();
+        List<Item> _items = ItemDatabase.instance.GetWeapons();
 
         for (int i = 0; i < _items.Count; i++)
         {

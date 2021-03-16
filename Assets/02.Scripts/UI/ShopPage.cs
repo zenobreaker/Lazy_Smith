@@ -12,7 +12,6 @@ public class ShopPage : TabManual
     [SerializeField] ShopDialog saleAlertUI = null;   // 구매 의사 UI
     [SerializeField] Scrollbar scrollbar = null;
 
-    public ItemDatabase itemDatabase;
     private List<ShopSlot> shopSlots = new List<ShopSlot>();
 
     [Header("일반 아이템 상점 목록")]
@@ -68,7 +67,7 @@ public class ShopPage : TabManual
 
     void SetList()
     {
-        stoneItems = itemDatabase.GetStones();
+        stoneItems = ItemDatabase.instance.GetStones();
     }
 
     // 정해진 아이템 리스트만큼 슬롯프리팹 생성 후 리스트 정렬 

@@ -51,11 +51,6 @@ public class GameManager : MonoBehaviour
         // 콤보에 따른 진행도 증가 
         stageManager.IncreaseProcessivity(p_comboHit);
         
-        if (stageManager.GetStageProcesivity() > 30)
-        {
-            gameLevel++;
-        }
-        
     }
 
     // 게임 시작 전 준비 
@@ -111,7 +106,7 @@ public class GameManager : MonoBehaviour
             noteManager.ClearGuideNote();
             noteManager.ClearUserNote();
             stageManager.EndStage();
-            ReturnLobby();
+           // ReturnLobby();
         }
     }
 

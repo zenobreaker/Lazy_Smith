@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class ItemDatabase : MonoBehaviour
 {
+    public static ItemDatabase instance; 
+
     public List<Item> stoneList;
     public List<Item> weaponList;
 
-    void Start()
+
+    private void Awake()
     {
-      
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
     }
 
     public List<Item> GetStones()
@@ -26,5 +32,15 @@ public class ItemDatabase : MonoBehaviour
 
     }
 
-  
+
+    public Item GetWeaponItemByID(string p_ID)
+    {
+        Item t_item = weaponList.Find(x => x.itemID == p_ID);
+
+        if (t_item != null)
+            return t_item;
+        else
+            return null;
+    }
+
 }
