@@ -33,6 +33,16 @@ public class ItemDatabase : MonoBehaviour
     }
 
 
+    public Item GetMetrialItemByID(string p_ID)
+    {
+        Item t_item = stoneList.Find(x => x.itemID == p_ID);
+
+        if (t_item != null)
+            return t_item;
+        else
+            return null;
+    }
+
     public Item GetWeaponItemByID(string p_ID)
     {
         Item t_item = weaponList.Find(x => x.itemID == p_ID);

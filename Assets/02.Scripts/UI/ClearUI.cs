@@ -22,6 +22,7 @@ public class ClearUI : MonoBehaviour
 
     public void CofirmClear()
     {
+        SoundManager.instance.PlaySE("ButtonClick");
         ResetInfo();
         go_BaseUI.SetActive(false);
         GameManager.instance.ReturnLobby();

@@ -41,6 +41,7 @@ public class ShopPage : TabManual
 
     public override void OpenUI()
     {
+        SoundManager.instance.PlaySE("ButtonClick");
         base.OpenUI(); TabSetting(0);
     }
 
@@ -48,6 +49,7 @@ public class ShopPage : TabManual
     public override void HideUI()
     {
         base.HideUI();
+        SoundManager.instance.PlaySE("ButtonClick");
     }
 
     // 구매의사 UI 켜기
@@ -128,7 +130,7 @@ public class ShopPage : TabManual
 
     public void TabSetting(int _tabNumber)
     {
-        //SoundManager.instance.PlaySE("Confirm_Click");
+        SoundManager.instance.PlaySE("ButtonClick");
         ClearPage();
         switch (_tabNumber)
         {

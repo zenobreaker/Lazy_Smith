@@ -22,7 +22,10 @@ public class RecipePage : MonoBehaviour
     public List<RecipeSlot> recipeSlots = new List<RecipeSlot>();
     List<bool> recipeLockList = new List<bool>();       // 레시피 해금 여부 리스트 
 
-    [SerializeField] RecipeAlert ra_AlertUI = null; 
+    [SerializeField] RecipeAlert ra_AlertUI = null;
+    [SerializeField] GameObject go_RacipeUI = null;
+    [SerializeField] GameObject go_RecipeContent = null;
+    [SerializeField] MaterialQuest[] materialQuests = null;
 
     // 레시피 리스트에 아이템 추가 
     void SetRecipeList()
@@ -72,27 +75,72 @@ public class RecipePage : MonoBehaviour
     }
 
     // 제작하러 가기 
-    public void GotoCraft(int p_num = 0 )
+    public void GotoCraft(int p_num = 0)
     {
         HideUI();
         GameManager.instance.StartGame(p_num);
+        SoundManager.instance.PlaySE("ButtonClick");
     }
+
 
 
     public void OpenUI()
     {
         go_BaseUI.SetActive(true);
+        SoundManager.instance.PlaySE("ButtonClick");
     }
 
     public void HideUI()
     {
         go_BaseUI.SetActive(false);
+        SoundManager.instance.PlaySE("ButtonClick");
     }
 
     public void OpenAlertUI(RecipeSlot _recipeSlot)
     {
         ra_AlertUI.OpneUI(_recipeSlot);
-        ra_AlertUI.SetCount(recipeSlots.FindIndex(x=> x == _recipeSlot));
+        ra_AlertUI.SetCount(recipeSlots.FindIndex(x => x == _recipeSlot));
+       
+        SoundManager.instance.PlaySE("ButtonClick");
+    }
+
+    public void OpenRecipeUI(RecipeSlot _recipeSlot)
+    {
+        SetRecipe(_recipeSlot.MyItem.itemID);
+        go_RacipeUI.SetActive(true);
+        SoundManager.instance.PlaySE("ButtonClick");
+    }
+
+    public void HideRecipeUI()
+    {
+        go_RacipeUI.SetActive(false);
+        ClearMaterialList();
+        SoundManager.instance.PlaySE("ButtonClick");
+    }
+
+
+    public void SetRecipe(string p_ItemID)
+    {
+        Recipe t_Recipe = RecipeManager.instance.GetRecipe(p_ItemID);
+
+        
+        string[] t_ItemsID = t_Recipe.matrerialID;
+
+        for (int x = 0; x < t_ItemsID.Length; x++)
+        {
+            var clone = Instantiate(materialQuests[x], go_RecipeContent.transform);
+            Item t_Item = ItemDatabase.instance.GetMetrialItemByID(t_ItemsID[x]);
+            clone.SettingUI(t_Item, 0, t_Recipe.each[x]);
+            clone.gameObject.SetActive(true);
+        }
+    }
+
+    public void ClearMaterialList()
+    {
+        for (int i = 0; i < materialQuests.Length; i++)
+        {
+            materialQuests[i].gameObject.SetActive(false);
+        }
     }
 
     private void Awake()
@@ -110,6 +158,8 @@ public class RecipePage : MonoBehaviour
         SetSlotAndList();
         UnlockRecipe(0);
         CheckUsedRecipes();
+        ClearMaterialList();
+        //SetRecipes();
     }
 
 

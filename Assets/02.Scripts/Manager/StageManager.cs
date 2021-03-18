@@ -50,9 +50,6 @@ public class StageManager : MonoBehaviour
 
         currentStage.stageProcessivity += t_increasePoint;
         Debug.Log("진행도 : " + currentStage.stageProcessivity);
-
-      
-       
     }
 
     public float GetStageProcesivity()

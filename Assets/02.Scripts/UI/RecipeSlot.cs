@@ -19,6 +19,11 @@ public class RecipeSlot : Slot
             // 아이템 구매 창
             RecipePage.instance.OpenAlertUI(this);
         }
+        else if (isLock)
+        {
+            Debug.Log("잠김" + item.itemID);
+            RecipePage.instance.OpenRecipeUI(this);
+        }
     }
 
     public void UnlockedSlot()

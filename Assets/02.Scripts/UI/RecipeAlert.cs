@@ -23,10 +23,12 @@ public class RecipeAlert : MonoBehaviour
     {
         SetItem(_recipeSlot);
         go_BaseUI.SetActive(true);
+        SoundManager.instance.PlaySE("ButtonClick");
     }
 
     public void HideUI()
     {
+        SoundManager.instance.PlaySE("Cancel");
         go_BaseUI.SetActive(false);
     }
 
@@ -38,6 +40,7 @@ public class RecipeAlert : MonoBehaviour
 
     public void ClickConfirm()
     {
+        SoundManager.instance.PlaySE("ButtonClick");
         RecipePage.instance.GotoCraft(currentCount);
         HideUI();
     }

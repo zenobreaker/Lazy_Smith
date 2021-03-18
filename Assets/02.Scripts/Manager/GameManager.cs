@@ -137,13 +137,25 @@ public class GameManager : MonoBehaviour
     void GetInput()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            SoundManager.instance.PlaySE("UpButton");
             noteManager.CreateNoteWithUser(KeyCode.UpArrow);
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            SoundManager.instance.PlaySE("DownButton");
             noteManager.CreateNoteWithUser(KeyCode.DownArrow);
+        }
         if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            SoundManager.instance.PlaySE("RightButton");
             noteManager.CreateNoteWithUser(KeyCode.RightArrow);
+        }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            SoundManager.instance.PlaySE("LeftButton");
             noteManager.CreateNoteWithUser(KeyCode.LeftArrow);
+        }
     }
 
     // 상자 터치 입력 검사 p_Num : 1,2,3,4 위 아래 오른 왼
@@ -152,15 +164,19 @@ public class GameManager : MonoBehaviour
         switch (p_Num)
         {
             case 1:
+                SoundManager.instance.PlaySE("UpButton");
                 noteManager.CreateNoteWithUser(KeyCode.UpArrow);
                 break;
             case 2:
+                SoundManager.instance.PlaySE("DownButton");
                 noteManager.CreateNoteWithUser(KeyCode.DownArrow);
                 break;
             case 3:
+                SoundManager.instance.PlaySE("RightButton");
                 noteManager.CreateNoteWithUser(KeyCode.LeftArrow);
                 break;
             case 4:
+                SoundManager.instance.PlaySE("LeftButton");
                 noteManager.CreateNoteWithUser(KeyCode.RightArrow);
                 break;
 
