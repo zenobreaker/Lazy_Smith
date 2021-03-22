@@ -178,6 +178,12 @@ public class Inventory : TabManual
         }
     }
 
+    // 아이템 개수 감소 
+    public void DecreaseItemCount(string p_ItemID , int p_Count)
+    {
+        materialItems.Find(x => x.itemID.Equals(p_ItemID)).itemCount -= p_Count; 
+    }
+
     public void SellWeaponItem(Item p_Item, int p_Count = 1)
     {
         GameManager.money += p_Item.itemValue;
@@ -201,6 +207,7 @@ public class Inventory : TabManual
         return 0;
     }
 
+    // 레시피 매니저에서 호출 
     public int GetMaterialItemByID(string p_ID)
     {
         Item t_Item = materialItems.Find(x => x.itemID.Equals(p_ID));

@@ -27,6 +27,8 @@ public class RecipePage : MonoBehaviour
     [SerializeField] GameObject go_RecipeContent = null;
     [SerializeField] MaterialQuest[] materialQuests = null;
 
+    RecipeSlot currentRSlot; 
+
     // 레시피 리스트에 아이템 추가 
     void SetRecipeList()
     {
@@ -108,6 +110,7 @@ public class RecipePage : MonoBehaviour
 
     public void OpenRecipeUI(RecipeSlot _recipeSlot)
     {
+        currentRSlot = _recipeSlot;
         SetRecipe(_recipeSlot.MyItem.itemID);
         go_RacipeUI.SetActive(true);
         SoundManager.instance.PlaySE("ButtonClick");
@@ -115,6 +118,7 @@ public class RecipePage : MonoBehaviour
 
     public void HideRecipeUI()
     {
+        currentRSlot = null;
         go_RacipeUI.SetActive(false);
         ClearMaterialList();
         SoundManager.instance.PlaySE("ButtonClick");
@@ -130,17 +134,23 @@ public class RecipePage : MonoBehaviour
 
         for (int x = 0; x < t_ItemsID.Length; x++)
         {
-            var clone = Instantiate(materialQuests[x], go_RecipeContent.transform);
+          //  var clone = Instantiate(materialQuests[x], go_RecipeContent.transform);
             Item t_Item = ItemDatabase.instance.GetMetrialItemByID(t_ItemsID[x]);
-            clone.SettingUI(t_Item, Inventory.instance.GetMaterialItemCount(t_Item), t_Recipe.each[x]);
-            clone.gameObject.SetActive(true);
+            materialQuests[x].SettingUI(t_Item, Inventory.instance.GetMaterialItemCount(t_Item), t_Recipe.each[x]);
+            materialQuests[x].gameObject.SetActive(true);
         }
     }
 
     // 재료가 다 모였는지 확인 
     public void CheckRecipeUnlock()
     {
-        //RecipeManager.instance.CheckUnlockRecipe()
+        if (RecipeManager.instance.CheckUnlockRecipe(currentRSlot.MyItem.itemID))
+        {
+            currentRSlot.UnlockedSlot();
+            UnlockRecipe(recipeSlots.IndexOf(currentRSlot));
+            RecipeManager.instance.UsedRecipeMaterial(currentRSlot.MyItem.itemID);
+            HideRecipeUI();
+        }
     }
 
     public void ClearMaterialList()
@@ -150,9 +160,6 @@ public class RecipePage : MonoBehaviour
             materialQuests[i].gameObject.SetActive(false);
         }
     }
-
-
-
 
 
     private void Awake()

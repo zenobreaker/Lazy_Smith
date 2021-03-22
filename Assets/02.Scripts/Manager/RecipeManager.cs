@@ -60,7 +60,31 @@ public class RecipeManager : MonoBehaviour
     }
 
 
-    public void CheckUnlockRecipe(string p_ItemID) 
+
+    // 레시피 해금 확인
+    public bool CheckUnlockRecipe(string p_ItemID) 
+    {
+        Recipe t_recipe = recipeDic[p_ItemID];
+
+        string[] t_ItemIDs = t_recipe.matrerialID;
+        int recipeCount = 0; 
+
+        for (int i = 0; i < t_ItemIDs.Length; i++)
+        {
+            int t_ItemCount = Inventory.instance.GetMaterialItemByID(t_ItemIDs[i]);
+
+            if (t_ItemCount == t_recipe.each[i])
+                recipeCount++;
+        }
+
+        if (recipeCount == t_recipe.matrerialID.Length)
+            return true;
+        else
+            return false;
+    }
+    // 레시피 재료 소모 
+
+    public void UsedRecipeMaterial(string p_ItemID)
     {
         Recipe t_recipe = recipeDic[p_ItemID];
 
@@ -69,7 +93,9 @@ public class RecipeManager : MonoBehaviour
         for (int i = 0; i < t_ItemIDs.Length; i++)
         {
             int t_ItemCount = Inventory.instance.GetMaterialItemByID(t_ItemIDs[i]);
-            
+
+            if (t_ItemCount == t_recipe.each[i])
+                Inventory.instance.DecreaseItemCount(t_ItemIDs[i], t_ItemCount);
         }
     }
 }
