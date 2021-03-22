@@ -93,6 +93,8 @@ public class RecipePage : MonoBehaviour
     public void HideUI()
     {
         go_BaseUI.SetActive(false);
+        ra_AlertUI.HideUI();
+        go_RacipeUI.SetActive(false);
         SoundManager.instance.PlaySE("ButtonClick");
     }
 
@@ -130,9 +132,15 @@ public class RecipePage : MonoBehaviour
         {
             var clone = Instantiate(materialQuests[x], go_RecipeContent.transform);
             Item t_Item = ItemDatabase.instance.GetMetrialItemByID(t_ItemsID[x]);
-            clone.SettingUI(t_Item, 0, t_Recipe.each[x]);
+            clone.SettingUI(t_Item, Inventory.instance.GetMaterialItemCount(t_Item), t_Recipe.each[x]);
             clone.gameObject.SetActive(true);
         }
+    }
+
+    // 재료가 다 모였는지 확인 
+    public void CheckRecipeUnlock()
+    {
+        //RecipeManager.instance.CheckUnlockRecipe()
     }
 
     public void ClearMaterialList()
@@ -142,6 +150,10 @@ public class RecipePage : MonoBehaviour
             materialQuests[i].gameObject.SetActive(false);
         }
     }
+
+
+
+
 
     private void Awake()
     {

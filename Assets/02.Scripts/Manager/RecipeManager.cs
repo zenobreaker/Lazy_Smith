@@ -14,7 +14,7 @@ public class RecipeManager : MonoBehaviour
 {
     public static RecipeManager instance;
 
-    public List<Recipe> recipeList = new List<Recipe>(); 
+    public List<Recipe> recipeList = new List<Recipe>();
     public Dictionary<string, Recipe> recipeDic = new Dictionary<string, Recipe>();
 
     private void Awake()
@@ -55,8 +55,21 @@ public class RecipeManager : MonoBehaviour
     public Recipe[] GetRecipes()
     {
         Recipe[] t_recipe = new Recipe[recipeDic.Values.Count];
-        recipeDic.Values.CopyTo(t_recipe,0);
+        recipeDic.Values.CopyTo(t_recipe, 0);
         return t_recipe;
     }
-    
+
+
+    public void CheckUnlockRecipe(string p_ItemID) 
+    {
+        Recipe t_recipe = recipeDic[p_ItemID];
+
+        string[] t_ItemIDs = t_recipe.matrerialID;
+
+        for (int i = 0; i < t_ItemIDs.Length; i++)
+        {
+            int t_ItemCount = Inventory.instance.GetMaterialItemByID(t_ItemIDs[i]);
+            
+        }
+    }
 }

@@ -130,18 +130,20 @@ public class ShopPage : TabManual
 
     public void TabSetting(int _tabNumber)
     {
-        SoundManager.instance.PlaySE("ButtonClick");
+        
         ClearPage();
         switch (_tabNumber)
         {
 
             case 0:
+                SoundManager.instance.PlaySE("ButtonClick");
                 SettingShopSlot(stoneItems);
                 SettingItems(stoneItems);
                 TabSlotOpen(parentSlotPage);
 
                 break;
             case 1:
+                SoundManager.instance.PlaySE("ButtonClick");
                 SettingShopSlot(stoneItems);
                 SettingItems(stoneItems);
                 TabSlotOpen(parentSlotPage);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject go_Lobby = null;
     [SerializeField] GameObject go_InGame = null;
     [SerializeField] GameObject go_FadeUI = null;
+    [SerializeField] Text txt_Money = null;
 
 
     public void TurnOnFadeUI()
@@ -43,4 +45,14 @@ public class UIManager : MonoBehaviour
             Destroy(this);
     }
 
+
+    public void SetMoney(int p_Money)
+    {
+        txt_Money.text = p_Money.ToString();
+    }
+
+    private void Start()
+    {
+        SetMoney(GameManager.money);
+    }
 }

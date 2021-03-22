@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
-    public static int Gold;                        // 게임 화폐
+    public static int money;                        // 게임 화폐
     public static GameManager instance; 
 
     public int gameLevel;                          // 게임 난이도 

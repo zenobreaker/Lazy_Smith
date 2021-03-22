@@ -38,6 +38,7 @@ public class ClearUI : MonoBehaviour
             currentItem = t_item;
             img_ItemImage.sprite = t_item.itemImage;
             txt_ItemName.text = t_item.itemName;
+            Inventory.instance.IncreaseItemCount(currentItem);
         }
         
     }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum ItemType { WEAPON, MATERIAL}
+
+
 [System.Serializable]
 public class Item
 {
@@ -13,8 +16,9 @@ public class Item
     public Sprite itemImage;     
     public string itemName;     // 아이템 이름
     public int itemValue;       // 아이템 가격 
+    public int itemCount;       // 아이템 개수 
     public bool isSale;
-    
+    public ItemType itemType;   // 아이템 타입     
   
   
 
@@ -24,7 +28,7 @@ public class Item
  
         itemName = _item.itemName;
         itemValue = _item.itemValue;
-     
+        
 
     }
   

@@ -53,14 +53,13 @@ public class ShopDialog : MonoBehaviour
         //        return;
         //}
 
-        if (GameManager.Gold >= selectedItem.itemValue)
+        if (GameManager.money >= selectedItem.itemValue)
         {
-            Item buyedItem = new Item(selectedItem);
-            GameManager.Gold -= selectedItem.itemValue;
-            //InventoryManager.instance.AddItemToInven(buyedItem, itemCount);
-            //LobbyManager.MyInstance.IncreseCoin(-selectedItem.itemValue);
-            //LobbyManager.MyInstance.Cancel(go_Base);
-            Debug.Log("구입 완료" + buyedItem.itemName);
+            //Item buyedItem = new Item(selectedItem);
+            GameManager.money -= selectedItem.itemValue;
+            UIManager.instacne.SetMoney(GameManager.money);
+            Inventory.instance.IncreaseItemCount(selectedItem);
+            Debug.Log("구입 완료" + selectedItem.itemName);
             CancelUI();
         }
     }
