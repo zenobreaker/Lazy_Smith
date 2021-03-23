@@ -38,6 +38,7 @@ public class NoteManager : MonoBehaviour
     [SerializeField] ComboManager comboManager = null;
     [SerializeField] EffectManager effectManager = null;
     [SerializeField] TimingManager timingManager = null;
+    [SerializeField] HammerController theHammer = null; 
 
     // 입력을 다 하였는가?
     public bool CompleteInput()
@@ -84,6 +85,7 @@ public class NoteManager : MonoBehaviour
             
             comboManager.IncreaseCombo();
             IncreaseNoteCount();
+            theHammer.StartAction();
         }
         else
         {
@@ -169,6 +171,8 @@ public class NoteManager : MonoBehaviour
     {
         initCount = p_num;
         currentNoteCount = p_num;
+        comboManager.ResetCombo();
+        effectManager.ResetEffect();
     }
 
     // 노트 생성 메소드

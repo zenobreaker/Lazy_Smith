@@ -184,9 +184,10 @@ public class Inventory : TabManual
         materialItems.Find(x => x.itemID.Equals(p_ItemID)).itemCount -= p_Count; 
     }
 
+    // 무기 판매
     public void SellWeaponItem(Item p_Item, int p_Count = 1)
     {
-        GameManager.money += p_Item.itemValue;
+        GameManager.money += p_Item.itemValue * p_Count;
         p_Item.itemCount -= p_Count;    // 얕은 복사를 이용함
         SettingItem(p_Item,weaponitems.IndexOf(p_Item));
         UIManager.instacne.SetMoney(GameManager.money);

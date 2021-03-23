@@ -73,11 +73,11 @@ public class RecipeManager : MonoBehaviour
         {
             int t_ItemCount = Inventory.instance.GetMaterialItemByID(t_ItemIDs[i]);
 
-            if (t_ItemCount == t_recipe.each[i])
+            if (t_ItemCount >= t_recipe.each[i])
                 recipeCount++;
         }
 
-        if (recipeCount == t_recipe.matrerialID.Length)
+        if (recipeCount >= t_recipe.matrerialID.Length)
             return true;
         else
             return false;
@@ -94,8 +94,8 @@ public class RecipeManager : MonoBehaviour
         {
             int t_ItemCount = Inventory.instance.GetMaterialItemByID(t_ItemIDs[i]);
 
-            if (t_ItemCount == t_recipe.each[i])
-                Inventory.instance.DecreaseItemCount(t_ItemIDs[i], t_ItemCount);
+            if (t_ItemCount >= t_recipe.each[i])
+                Inventory.instance.DecreaseItemCount(t_ItemIDs[i], t_recipe.each[i]);
         }
     }
 }

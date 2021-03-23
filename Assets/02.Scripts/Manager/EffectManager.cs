@@ -21,4 +21,11 @@ public class EffectManager : MonoBehaviour
     {
         NoteClearAnimator.SetTrigger("Clear");
     }
+
+    public void ResetEffect()
+    {
+        NoteClearAnimator.ResetTrigger("Clear");
+        judgementAnimator.ResetTrigger("Hit");
+
+    }
 }

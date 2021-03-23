@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] GameObject go_Lobby = null;
     [SerializeField] GameObject go_InGame = null;
+    [SerializeField] GameObject go_GameView = null;
     [SerializeField] GameObject go_FadeUI = null;
     [SerializeField] Text txt_Money = null;
 
@@ -27,12 +28,14 @@ public class UIManager : MonoBehaviour
     public void TurnOnGameUI()
     {
         go_InGame.SetActive(true);
+        go_GameView.SetActive(true);
         go_Lobby.SetActive(false);
     }
 
     public void TurnOnLobby()
     {
         go_InGame.SetActive(false);
+        go_GameView.SetActive(false);
         go_Lobby.SetActive(true);
     }
 
