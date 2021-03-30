@@ -75,7 +75,8 @@ public class NoteManager : MonoBehaviour
                     break;
                 case 1:
                     comboHit = ComboHit.COOL;
-                    effectManager.judgementEffect(1); break;
+                    effectManager.judgementEffect(1);
+                    break;
                 case 2:
                 case 3:
                     comboHit = ComboHit.GOOD;

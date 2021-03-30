@@ -28,8 +28,11 @@ public class HammerController : MonoBehaviour
 
      void AppearEffect()
     {
-        var clone = Instantiate(hitAnimator.gameObject,targetTR.position,Quaternion.identity);
-        clone.GetComponent<Animator>().SetTrigger("Hit");
+        // var clone = Instantiate(hitAnimator.gameObject,targetTR.position,Quaternion.identity);
+        // clone.GetComponent<Animator>().SetTrigger("Hit");
+        hitAnimator.transform.position = targetTR.position;
+        hitAnimator.gameObject.SetActive(true);
+        hitAnimator.SetTrigger("Hit");
     }
 
 

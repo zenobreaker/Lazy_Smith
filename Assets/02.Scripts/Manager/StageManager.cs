@@ -30,18 +30,22 @@ public class StageManager : MonoBehaviour
 
     public void IncreaseProcessivity(ComboHit p_combohit)
     {
-        int t_increasePoint = 0; 
+        int t_increasePoint = 0;
+        float levelCount = 0.0f;
 
+        levelCount = Mathf.Pow(0.1f, currentStage.stageLevel);
+
+        Debug.Log("레벨 보너스 " + levelCount);
         switch (p_combohit)
         {
             case ComboHit.PERFECT:
-                t_increasePoint = (int)(currentStage.maxProcessvitiy * 0.3f);
+                t_increasePoint = (int)(currentStage.maxProcessvitiy * (0.3f));
                 break;
             case ComboHit.COOL:
-                t_increasePoint = (int)(currentStage.maxProcessvitiy * 0.2f);
+                t_increasePoint = (int)(currentStage.maxProcessvitiy * (0.2f));
                 break;
             case ComboHit.GOOD:
-                t_increasePoint = (int)(currentStage.maxProcessvitiy * 0.1f);
+                t_increasePoint = (int)(currentStage.maxProcessvitiy * (0.1f));
                 break;
             case ComboHit.MISS:
                 t_increasePoint = 0;
