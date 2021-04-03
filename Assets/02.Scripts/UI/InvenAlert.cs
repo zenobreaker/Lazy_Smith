@@ -19,7 +19,7 @@ public class InvenAlert : MonoBehaviour
     {
         currentItem = p_Item;
         currentCount = maxCount = currentItem.itemCount;
-        img_ItemImage.sprite = p_Item.itemImage;
+        img_ItemImage.sprite = p_Item.itemIcon;
         txt_ItemCount.text = p_Item.itemCount.ToString();
 
     }

@@ -78,7 +78,7 @@ public class Slot : MonoBehaviour, IPointerClickHandler
         itemID = _item.itemID;
         itemName = _item.itemName;
         itemCount = _count;
-        itemImage.sprite = _item.itemImage;
+        itemImage.sprite = _item.itemIcon;
         //Debug.Log("아이템 들어옴" + _item.itemName + this.name + _item.itemRank);
        
         

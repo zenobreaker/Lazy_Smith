@@ -20,7 +20,7 @@ public class RecipePage : MonoBehaviour
 
     public List<RecipeItem> recipeItems = new List<RecipeItem>();
     public List<RecipeSlot> recipeSlots = new List<RecipeSlot>();
-    List<bool> recipeLockList = new List<bool>();       // 레시피 해금 여부 리스트 
+    public List<bool> recipeLockList = new List<bool>();       // 레시피 해금 여부 리스트 
 
     [SerializeField] RecipeAlert ra_AlertUI = null;
     [SerializeField] GameObject go_RacipeUI = null;
@@ -89,6 +89,7 @@ public class RecipePage : MonoBehaviour
     public void OpenUI()
     {
         go_BaseUI.SetActive(true);
+        CheckUsedRecipes();
         SoundManager.instance.PlaySE("ButtonClick");
     }
 

@@ -7,9 +7,11 @@ public class ClearUI : MonoBehaviour
 {
     [SerializeField] GameObject go_BaseUI = null;
     [SerializeField] Image img_ItemImage = null;
+    [SerializeField] Image img_BackGround = null;
     [SerializeField] Text txt_ItemName = null;
     [SerializeField] Button btn_Confirm = null;
-    
+    [SerializeField] Animator theAnim = null;
+
     Item currentItem;
 
     // UI에 등재된 내용 리셋 
@@ -25,6 +27,7 @@ public class ClearUI : MonoBehaviour
         SoundManager.instance.PlaySE("ButtonClick");
         ResetInfo();
         go_BaseUI.SetActive(false);
+        img_BackGround.gameObject.SetActive(false);
         GameManager.instance.ReturnLobby();
     }
 
@@ -46,6 +49,18 @@ public class ClearUI : MonoBehaviour
 
     public void OpenUI()
     {
+        img_BackGround.gameObject.SetActive(true);
         go_BaseUI.SetActive(true);
+        theAnim.SetTrigger("Appear");
+    }
+
+    public void OpenFailureUI()
+    {
+
+        txt_ItemName.text = "제작 실패!";
+
+        img_BackGround.gameObject.SetActive(true);
+        go_BaseUI.SetActive(true);
+        theAnim.SetTrigger("Appear");
     }
 }

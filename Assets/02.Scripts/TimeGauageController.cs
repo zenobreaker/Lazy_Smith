@@ -8,23 +8,46 @@ public class TimeGauageController : MonoBehaviour
     [SerializeField] Slider timeSlider = null;
     [SerializeField] Image img_fillGauage = null;
 
-    public bool isStart; 
+    bool isOver;
 
-    private void LateUpdate()
+    public bool IsTimeOver()
     {
-        if(isStart)
-        {
-            timeSlider.value -= Time.deltaTime;
-            ChangeFillColor();
-        }
+        return isOver;
+    }
+
+    // 코루틴 종료 
+    public void StopTimer()
+    {
+        StopCoroutine(GauageDown());
+        isOver = false;
+    }
+
+    public void StartTimer()
+    {
+        StartCoroutine(GauageDown());
     }
 
     // 슬라이더 최대값 변경 
     public void SetMaxValue(float p_Max)
     {
+        isOver = false;
         timeSlider.maxValue = p_Max;
         timeSlider.value = p_Max;
     }
+
+    IEnumerator GauageDown()
+    {
+        while (timeSlider.value > 0)
+        {
+            timeSlider.value -= Time.deltaTime;
+            ChangeFillColor();
+            yield return null;
+        }
+
+        if (timeSlider.value <= 0)
+            isOver = true;
+    }
+
 
     void ChangeFillColor()
     {

@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] NoteManager noteManager = null;
     [SerializeField] TimeGauageController theTimer = null; 
     [SerializeField] StageManager stageManager = null;
+    [SerializeField] SaveManager saveManager = null;
 
     private void Awake()
     {
@@ -60,12 +61,11 @@ public class GameManager : MonoBehaviour
         {
             UIManager.instacne.TurnOnGameUI();
             UIManager.instacne.TurnOnFadeUI();
-            theTimer.isStart = false;
+            theTimer.StartTimer();
 
             if (EventSystem.current.currentSelectedGameObject.layer == 5)
             {
                 UIManager.instacne.TurnOffFadeUI();
-                theTimer.isStart = true;
                 isStop = false;
             }
         }
@@ -83,7 +83,6 @@ public class GameManager : MonoBehaviour
         isStart = true;
         isStop = true;
         theTimer.SetMaxValue(60);
-        theTimer.isStart = true;
     }
 
     public void PlayGame()
@@ -98,14 +97,21 @@ public class GameManager : MonoBehaviour
     // 게임 종료 
     public void EndGame()
     {
-        if(stageManager.GetStageProcesivity() >= stageManager.GetStageMaxProcess())
+        if (theTimer.IsTimeOver()) {
+            isStart = false;
+            theTimer.StopTimer();
+            noteManager.ClearGuideNote();
+            noteManager.ClearUserNote();
+            stageManager.EndFailureStage();
+        }
+        else if(stageManager.GetStageProcesivity() >= stageManager.GetStageMaxProcess())
         {
             // 게임 종료 로직 
             isStart = false;
-            theTimer.isStart = false;
+            theTimer.StopTimer();
             noteManager.ClearGuideNote();
             noteManager.ClearUserNote();
-            stageManager.EndStage();
+            stageManager.EndClearStage();
            // ReturnLobby();
         }
     }
@@ -183,4 +189,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void SaveClick()
+    {
+        saveManager.SaveData();
+    }
+
+
+    public void LoadClick()
+    {
+        saveManager.LoadData();
+        UIManager.instacne.SetMoney(money);
+    }
 }

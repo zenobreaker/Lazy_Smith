@@ -41,7 +41,7 @@ public class RecipeSlot : Slot
     public void SetItem(Item _item)
     {
         item = _item;
-        itemImage.sprite = _item.itemImage;
+        itemImage.sprite = _item.itemIcon;
         this.transform.localScale = Vector3.one;
     }
 }

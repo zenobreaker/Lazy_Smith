@@ -13,6 +13,7 @@ public class Item
 
 
     public string itemID;           // 아이템의 고유 ID
+    public Sprite itemIcon;     // 아이템 아이콘
     public Sprite itemImage;     
     public string itemName;     // 아이템 이름
     public int itemValue;       // 아이템 가격 

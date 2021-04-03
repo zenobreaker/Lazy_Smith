@@ -9,6 +9,7 @@ public class Inventory : TabManual
     [SerializeField] InvenSlot invenSlot = null;
     [SerializeField] GameObject parentSlotObject = null;
     [SerializeField] InvenAlert invenAlert = null;
+    [SerializeField] GameObject go_BackGround = null;
 
     List<InvenSlot> invenSlots = new List<InvenSlot>();
     List<Item> weaponitems = new List<Item>();
@@ -35,7 +36,7 @@ public class Inventory : TabManual
     {
         base.OpenUI();
         SettingInvenSlot(weaponitems);
-        SettingItems(weaponitems);
+       // SettingItems(weaponitems);
         TabSetting(0);
     }
 
@@ -217,5 +218,24 @@ public class Inventory : TabManual
             return t_Item.itemCount;
         else
             return 0;
+    }
+
+    public Item[] SaveWeaponData()
+    {
+        return weaponitems.ToArray();
+    }
+    public Item[] SaveMaterialData()
+    {
+        return materialItems.ToArray();
+    }
+
+    public void LoadWeaponData(string p_ID, int p_itemCount)
+    {
+        weaponitems.Find(x => x.itemID == p_ID).itemCount = p_itemCount;
+    }
+
+    public void LoadMaterialData(string p_ID, int p_itemCount)
+    {
+        materialItems.Find(x => x.itemID == p_ID).itemCount = p_itemCount;
     }
 }

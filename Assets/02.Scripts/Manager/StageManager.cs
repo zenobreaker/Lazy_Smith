@@ -5,16 +5,24 @@ using UnityEngine.UI;
 
 public class StageManager : MonoBehaviour
 {
-    [SerializeField] ClearUI clearUI = null; 
+    [SerializeField] ClearUI clearUI = null;
 
     [SerializeField] Stage[] stageArray = null;
-    
-    Stage currentStage; 
 
+    Stage currentStage;
+
+    [SerializeField] SpriteRenderer sptr_WeaponImage = null; 
+  
+    public void SettingItemImage()
+    {
+        Item t_weapon = ItemDatabase.instance.GetWeaponItemByID(currentStage.weaponID);
+        sptr_WeaponImage.sprite = t_weapon.itemImage;
+    }
 
     public void SettingStage(int p_num)
     {
         currentStage = stageArray[p_num];
+        SettingItemImage();
     }
 
     public int GetCurStageLevel()
@@ -66,13 +74,19 @@ public class StageManager : MonoBehaviour
         return currentStage.maxProcessvitiy;
     }
 
-    public void EndStage()
+    public void EndClearStage()
     {
         if (currentStage.stageProcessivity > 0)
             currentStage.stageProcessivity = 0;
 
         clearUI.OpenUI();
         clearUI.SettingItem(currentStage.weaponID);
+    }
+
+    public void EndFailureStage()
+    {
+        currentStage.stageProcessivity = 0;
+        clearUI.OpenFailureUI();
     }
 
     public void IncreaseStageProcessivity(float p_num)
@@ -86,4 +100,6 @@ public class StageManager : MonoBehaviour
             // 게임 종료 
         }
     }
+
+
 }
