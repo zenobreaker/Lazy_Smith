@@ -20,7 +20,7 @@ public class RecipePage : MonoBehaviour
 
     public List<RecipeItem> recipeItems = new List<RecipeItem>();
     public List<RecipeSlot> recipeSlots = new List<RecipeSlot>();
-    public List<bool> recipeLockList = new List<bool>();       // 레시피 해금 여부 리스트 
+    public List<bool> recipeUnLockList = new List<bool>();       // 레시피 해금 여부 리스트 
 
     [SerializeField] RecipeAlert ra_AlertUI = null;
     [SerializeField] GameObject go_RacipeUI = null;
@@ -51,7 +51,7 @@ public class RecipePage : MonoBehaviour
             clone.transform.SetParent(go_ParentPanel.transform);
             clone.SetItem(recipeItems[i].item);
             clone.LockedSlot();
-            recipeLockList.Add(true);
+            recipeUnLockList.Add(true);
             recipeSlots.Add(clone);
         }
     }
@@ -59,15 +59,15 @@ public class RecipePage : MonoBehaviour
     // 레시피 해금 
     public void UnlockRecipe(int _targetNum)
     {
-        recipeLockList[_targetNum] = false;
+        recipeUnLockList[_targetNum] = false;
     }
 
     // 사용가능한 레시피 확인 
     public void CheckUsedRecipes()
     {
-        for (int i = 0; i < recipeLockList.Count; i++)
+        for (int i = 0; i < recipeUnLockList.Count; i++)
         {
-            if (!recipeLockList[i])
+            if (!recipeUnLockList[i])
             {
                 recipeSlots[i].UnlockedSlot();
             }
@@ -183,4 +183,14 @@ public class RecipePage : MonoBehaviour
     }
 
 
+    public List<bool> SaveRecipeData()
+    {
+        return recipeUnLockList;
+    }
+
+    public void LoadRecipeData(List<bool> p_list)
+    {
+        recipeUnLockList = p_list;
+        CheckUsedRecipes();
+    }
 }

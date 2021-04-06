@@ -22,6 +22,7 @@ public class SaveManager : MonoBehaviour
     private string SAVE_FILENAME = "/SaveFile.txt";
 
     private Inventory theInven;
+    private RecipePage theRecipe; 
 
     // Start is called before the first frame update
     void Start()
@@ -34,24 +35,43 @@ public class SaveManager : MonoBehaviour
 
     public void SaveData()
     {
-        theInven = FindObjectOfType<Inventory>();
-
+        if(theInven == null)
+            theInven = FindObjectOfType<Inventory>();
+        if (theRecipe == null)
+            theRecipe = FindObjectOfType<RecipePage>();
 
         Item[] wItems = theInven.SaveWeaponData();
         Item[] mItems = theInven.SaveMaterialData();
 
         saveData.money = GameManager.money;
+        saveData.recipeUnlockList = theRecipe.SaveRecipeData();
 
         for (int i = 0; i < wItems.Length; i++)
         {
-            saveData.weaponItemList.Add(wItems[i].itemID);
-            saveData.wItemCountList.Add(wItems[i].itemCount);
+            if (saveData.weaponItemList.Contains(wItems[i].itemID))
+            {
+                int idx = saveData.weaponItemList.IndexOf(wItems[i].itemID);
+                saveData.wItemCountList.Add(wItems[idx].itemCount);
+            }
+            else
+            {
+                saveData.weaponItemList.Add(wItems[i].itemID);
+                saveData.wItemCountList.Add(wItems[i].itemCount);
+            }
         }
 
         for (int j = 0; j < mItems.Length; j++)
         {
-            saveData.materialItemList.Add(mItems[j].itemID);
-            saveData.mItemCountList.Add(mItems[j].itemCount);
+            if (saveData.weaponItemList.Contains(mItems[j].itemID))
+            {
+                int idx = saveData.materialItemList.IndexOf(mItems[j].itemID);
+                saveData.mItemCountList.Add(mItems[idx].itemCount);
+            }
+            else
+            {
+                saveData.materialItemList.Add(mItems[j].itemID);
+                saveData.mItemCountList.Add(mItems[j].itemCount);
+            }
         }
 
         string json = JsonUtility.ToJson(saveData);
@@ -71,7 +91,11 @@ public class SaveManager : MonoBehaviour
         {
             string loadJson = File.ReadAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME);
             saveData = JsonUtility.FromJson<SaveData>(loadJson);
-            theInven = FindObjectOfType<Inventory>();
+
+            if(theInven == null)
+                theInven = FindObjectOfType<Inventory>();
+            if (theRecipe == null)
+                theRecipe = FindObjectOfType<RecipePage>();
 
             for (int i = 0; i < saveData.weaponItemList.Count; i++)
             {
@@ -82,9 +106,11 @@ public class SaveManager : MonoBehaviour
             {
                 theInven.LoadMaterialData(saveData.materialItemList[x], saveData.mItemCountList[x]);
             }
+            
+            theRecipe.LoadRecipeData(saveData.recipeUnlockList);
 
             GameManager.money = saveData.money;
-
+            
             Debug.Log("로드 완료");
         }
         else

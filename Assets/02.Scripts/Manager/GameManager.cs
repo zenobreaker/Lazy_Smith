@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public bool isStart = false;                   // 게임 시작 여부 
     bool isStop = false;                    // 게임 중지 여부 
     bool oneTime = true;                    // 코루틴을 한 번만 호출하기 위한 제어 변수
-    
+    bool isInfinite; 
     public int gameScore;            // 게임 점수 
     
     [SerializeField] GameObject go_PrepareUI = null;
@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
 
             if (EventSystem.current.currentSelectedGameObject.layer == 5)
             {
+                Debug.Log("누름");
                 UIManager.instacne.TurnOffFadeUI();
                 isStop = false;
             }

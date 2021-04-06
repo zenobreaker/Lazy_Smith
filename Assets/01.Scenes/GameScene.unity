@@ -6088,7 +6088,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -200}
-  m_SizeDelta: {x: 635.0267, y: 89.829666}
+  m_SizeDelta: {x: 635.34534, y: 89.95413}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &969812423
 MonoBehaviour:
@@ -6136,7 +6136,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ready to Touch!
+  m_Text: Start to Touch!
 --- !u!222 &969812425
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8634,7 +8634,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1284191690
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10971,7 +10971,7 @@ MonoBehaviour:
     itemImage: {fileID: 5630592314672409346, guid: bf7ecf75eb462184b83388b3598cec18,
       type: 3}
     itemName: "\uC0AC\uAE08\uD65C"
-    itemValue: 1000
+    itemValue: 2200
     itemCount: 0
     isSale: 0
     itemType: 0
@@ -10981,7 +10981,7 @@ MonoBehaviour:
     itemImage: {fileID: 7086721464045164195, guid: bf7ecf75eb462184b83388b3598cec18,
       type: 3}
     itemName: "\uC410\uAE30\uCC3D"
-    itemValue: 1000
+    itemValue: 2500
     itemCount: 0
     isSale: 0
     itemType: 0
@@ -11031,8 +11031,8 @@ RectTransform:
   m_Father: {fileID: 950453517}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 70, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -15096,7 +15096,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
