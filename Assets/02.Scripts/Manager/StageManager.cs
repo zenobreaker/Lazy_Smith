@@ -11,8 +11,9 @@ public class StageManager : MonoBehaviour
 
     Stage currentStage;
 
-    [SerializeField] SpriteRenderer sptr_WeaponImage = null; 
-  
+    [SerializeField] SpriteRenderer sptr_WeaponImage = null;
+    int curNum;
+
     public void SettingItemImage()
     {
         Item t_weapon = ItemDatabase.instance.GetWeaponItemByID(currentStage.weaponID);
@@ -22,7 +23,20 @@ public class StageManager : MonoBehaviour
     public void SettingStage(int p_num)
     {
         currentStage = stageArray[p_num];
+        curNum = p_num;
         SettingItemImage();
+    }
+
+    public void SettingNextStage()
+    {
+        if(curNum <= stageArray.Length-1)
+        {
+            currentStage = stageArray[curNum];
+            Debug.Log("현재 스테이지 " + curNum);
+            SettingItemImage();
+            curNum++;
+            
+        }
     }
 
     public int GetCurStageLevel()
@@ -87,6 +101,15 @@ public class StageManager : MonoBehaviour
     {
         currentStage.stageProcessivity = 0;
         clearUI.OpenFailureUI();
+    }
+
+    public void EndTimeAttack()
+    {
+        for (int i = 0; i < stageArray.Length; i++)
+        {
+            stageArray[i].stageProcessivity = 0;
+        }
+        clearUI.OpenTimeAttackUI();
     }
 
     public void IncreaseStageProcessivity(float p_num)

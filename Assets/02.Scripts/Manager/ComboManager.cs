@@ -6,25 +6,32 @@ using UnityEngine.UI;
 public class ComboManager : MonoBehaviour
 {
     public int comboCount;
-    public int maxCombo; 
+    public int maxCombo;
+    public int score;
+    IEnumerator timeout; 
 
-    [SerializeField] Text txt_ComboText = null; 
-    
+    [SerializeField] Text txt_ComboText = null;
 
+    private void Start()
+    {
+        timeout = CountTimeOut();
+    }
     public void IncreaseCombo()
     {
         comboCount++;
-        StopCoroutine(CountTimeOut());
+       
+        StopCoroutine(timeout);
         txt_ComboText.color = new Color(txt_ComboText.color.r, txt_ComboText.color.g, txt_ComboText.color.b, 1);
         
-        if (comboCount >= maxCombo)
-            comboCount = maxCombo;
+        if (comboCount > maxCombo)
+              maxCombo = comboCount;
 
         if(comboCount >= 2)
         {
             txt_ComboText.gameObject.SetActive(true);
             txt_ComboText.text = string.Format("{0:#,##0}", comboCount) + "Combo!";
-            StartCoroutine(CountTimeOut());
+            timeout = CountTimeOut();
+            StartCoroutine(timeout);
         }
 
     }
@@ -32,6 +39,7 @@ public class ComboManager : MonoBehaviour
     public void InitailCombo()
     {
         comboCount = 0;
+        score = 0;
     }
 
     public void ResetCombo()
@@ -56,4 +64,19 @@ public class ComboManager : MonoBehaviour
         comboCount = 0;
     }
     
+    public void IncreaseScore(ComboHit p_ComboHit)
+    {
+        switch (p_ComboHit)
+        {
+            case ComboHit.PERFECT:
+                score += 100;
+                break;
+            case ComboHit.COOL:
+                score += 70;
+                break;
+            case ComboHit.GOOD:
+                score += 25;
+                break;
+        }
+    }
 }

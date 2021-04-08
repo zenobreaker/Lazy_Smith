@@ -83,7 +83,7 @@ public class NoteManager : MonoBehaviour
                     effectManager.judgementEffect(2); 
                     break;
             }
-            
+            comboManager.IncreaseScore(comboHit);
             comboManager.IncreaseCombo();
             IncreaseNoteCount();
             theHammer.StartAction();
@@ -172,6 +172,8 @@ public class NoteManager : MonoBehaviour
     {
         initCount = p_num;
         currentNoteCount = p_num;
+       
+        comboManager.InitailCombo();
         comboManager.ResetCombo();
         effectManager.ResetEffect();
     }
@@ -181,9 +183,10 @@ public class NoteManager : MonoBehaviour
     {
         // 타이밍 체크 
         timingManager.StartTiming(p_time);
-
+       
         for (int  i = 0;  i < currentNoteCount;  i++)
         {
+            Debug.Log("노트 붙임-- ");
             // 노트 생성 후 가이드 박스에 붙이기 
             var clone = Instantiate(CreateRandomArrow(), go_GuideBox.transform);
             go_GuideBox.transform.SetParent(clone.transform);

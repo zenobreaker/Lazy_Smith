@@ -84,7 +84,12 @@ public class RecipePage : MonoBehaviour
         SoundManager.instance.PlaySE("ButtonClick");
     }
 
-
+    public void GotoTimeAtack()
+    {
+        HideUI();
+        GameManager.instance.StartTimeAttack();
+        SoundManager.instance.PlaySE("ButtonClick");
+    }
 
     public void OpenUI()
     {
