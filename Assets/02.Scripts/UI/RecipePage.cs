@@ -27,8 +27,9 @@ public class RecipePage : MonoBehaviour
     [SerializeField] GameObject go_RecipeContent = null;
     [SerializeField] MaterialQuest[] materialQuests = null;
 
-    RecipeSlot currentRSlot; 
+    RecipeSlot currentRSlot;
 
+    [SerializeField] InteractionController theIC = null;
     // 레시피 리스트에 아이템 추가 
     void SetRecipeList()
     {
@@ -60,6 +61,7 @@ public class RecipePage : MonoBehaviour
     public void UnlockRecipe(int _targetNum)
     {
         recipeUnLockList[_targetNum] = false;
+        theIC.ShowDialogue(_targetNum);
     }
 
     // 사용가능한 레시피 확인 
