@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
 {
-   
     void Update()
     {
         if(Application.platform == RuntimePlatform.Android)
@@ -18,6 +17,15 @@ public class Title : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene("GameScene");
+    }
+
+    IEnumerator LoadCoroutine()
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync("GameScene");
+        while (!operation.isDone) 
+        {
+            yield return null;
+        }
     }
 
     public void EndGame()

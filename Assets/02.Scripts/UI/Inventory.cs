@@ -35,6 +35,7 @@ public class Inventory : TabManual
     public override void OpenUI()
     {
         base.OpenUI();
+        go_BackGround.SetActive(true);
         SettingInvenSlot(weaponitems);
        // SettingItems(weaponitems);
         TabSetting(0);
@@ -42,6 +43,7 @@ public class Inventory : TabManual
 
     public override void HideUI()
     {
+        go_BackGround.SetActive(false);
         base.HideUI();
     }
 

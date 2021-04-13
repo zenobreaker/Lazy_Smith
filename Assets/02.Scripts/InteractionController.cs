@@ -15,16 +15,6 @@ public class InteractionController : MonoBehaviour
 
     public List<InteractionEvent> IEList = new List<InteractionEvent>();
 
-    public void UnlockEvent()
-    {
-        
-    }
-
-    public void AppearStoryEvent()
-    {
-
-    }
-
 
     public void ShowDialogue(int p_EventNum)
     {
@@ -33,6 +23,7 @@ public class InteractionController : MonoBehaviour
             case 1:
                 if (!theIE.isView)
                 {
+                    ScriptManager.instance.SettingData("prologue_Lazy");
                     theDM.ShowDialogue(theIE.GetDialogue());
                     theIE.isView = true;
                 }

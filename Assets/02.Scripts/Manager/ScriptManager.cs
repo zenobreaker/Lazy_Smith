@@ -8,6 +8,8 @@ public class ScriptManager : MonoBehaviour
 
     [SerializeField] string csv_FileName;
 
+    DialogueParser theParser;
+
     Dictionary<int, Dialogue> dialogueDic = new Dictionary<int, Dialogue>();
 
     public static bool isFinish = false;
@@ -17,18 +19,28 @@ public class ScriptManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DialogueParser theParser = GetComponent<DialogueParser>();
-            
-            if (csv_FileName != "")
+            theParser = GetComponent<DialogueParser>();
+            //SettingData(csv_FileName);
+        }
+    }
+
+    public void SettingData(string p_FileName)
+    {
+        csv_FileName = p_FileName;
+        ParsingData();
+    }
+
+    void ParsingData()
+    {
+        if (csv_FileName != "")
+        {
+            Dialogue[] dialogues = theParser.Parse(csv_FileName);
+            Debug.Log("가져옴 어디에서?" + dialogues.Length + dialogues[0].name);
+            for (int i = 0; i < dialogues.Length; i++)
             {
-                Dialogue[] dialogues = theParser.Parse(csv_FileName);
-                Debug.Log("가져옴 어디에서?" + dialogues.Length + dialogues[0].name);
-                for (int i = 0; i < dialogues.Length; i++)
-                {
-                    dialogueDic.Add(i + 1, dialogues[i]);
-                }
-                isFinish = true;
+                dialogueDic.Add(i + 1, dialogues[i]);
             }
+            isFinish = true;
         }
     }
 
