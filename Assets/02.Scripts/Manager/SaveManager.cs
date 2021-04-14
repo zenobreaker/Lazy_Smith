@@ -73,7 +73,7 @@ public class SaveManager : MonoBehaviour
 
         for (int j = 0; j < mItems.Length; j++)
         {
-            if (saveData.weaponItemList.Contains(mItems[j].itemID))
+            if (saveData.materialItemList.Contains(mItems[j].itemID))
             {
                 int idx = saveData.materialItemList.IndexOf(mItems[j].itemID);
                 saveData.mItemCountList[idx] = mItems[idx].itemCount;

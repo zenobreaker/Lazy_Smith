@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ComboHit { PERFECT, COOL, GOOD, MISS};
+public enum ComboHit { PERFECT, COOL, GOOD, MISS, FEVER };
 
 public class NoteManager : MonoBehaviour
 {
@@ -10,17 +10,26 @@ public class NoteManager : MonoBehaviour
      *   노트 랜덤하게 일정 개수만큼 배치 
      *   난이도 별로 개수가 다름 
      */
-    int fixedNoteCount = 7;                                     // 고정 수 
-    //public int maxNoteCount;                                   // 최대로 생성될 노트 수 
-    int currentNoteCount;                                       // 현재 나오는 노트 수 
-    int correctCount;
-    public int inputCount;                                    // 노트를 누른 수 
-    int initCount; 
-    ComboHit comboHit;
+    public int inputCount;          // 노트를 누른 수 
 
+    int fixedNoteCount = 7;         // 고정 수 
+    //public int maxNoteCount;      // 최대로 생성될 노트 수 
+    int currentNoteCount;           // 현재 나오는 노트 수 
+    int correctCount;
+
+    int initCount;                  // 게임 시작시 등장할 노트 수
+
+    ComboHit comboHit;
     List<int> guideNoteList = new List<int>();
     List<int> userNoteList = new List<int>();
+    public List<GameObject> feverNotes = new List<GameObject>();
 
+
+    int prevCount;      // 이전에 노트 수
+    int curIdx = 0;
+    int feverCount;
+    public int[] feverValue = new int[5];
+    public static bool isFever = false;
 
     [Header("화살표 노트")]
     [SerializeField] GameObject go_UpArrow = null;      // 화살표 프리팹  
@@ -30,7 +39,7 @@ public class NoteManager : MonoBehaviour
 
     [Header("생성 가이드 노트 박스")]
     [SerializeField] GameObject go_GuideBox = null;       // 게임 노트를 두는 박스  
-    
+
     [Header("생성 유저 노트 박스")]
     [SerializeField] GameObject go_UserBox = null;       // 유저가 노트를 두는 박스  
 
@@ -38,7 +47,7 @@ public class NoteManager : MonoBehaviour
     [SerializeField] ComboManager comboManager = null;
     [SerializeField] EffectManager effectManager = null;
     [SerializeField] TimingManager timingManager = null;
-    [SerializeField] HammerController theHammer = null; 
+    [SerializeField] HammerController theHammer = null;
 
     // 입력을 다 하였는가?
     public bool CompleteInput()
@@ -54,20 +63,22 @@ public class NoteManager : MonoBehaviour
     // 노트 검사 
     public void CheckCorrectNote()
     {
-        for (int i = 0; i < currentNoteCount; i++)
-        {
-            if(userNoteList[i] == guideNoteList[i])
-            {
-                correctCount++;
-            } 
-        }
 
-        //Debug.Log(correctCount + "개 맞춤");
+        if (userNoteList.Count == guideNoteList.Count)
+        {
+            for (int i = 0; i < currentNoteCount; i++)
+            {
+                if (userNoteList[i] == guideNoteList[i])
+                {
+                    correctCount++;
+                }
+            }
+        }
 
         if (correctCount == currentNoteCount)
         {
-            //if(timingManager.GetTiming())
-            switch(timingManager.GetTimeValue())
+
+            switch (timingManager.GetTimeValue())
             {
                 case 0:
                     comboHit = ComboHit.PERFECT;
@@ -80,9 +91,10 @@ public class NoteManager : MonoBehaviour
                 case 2:
                 case 3:
                     comboHit = ComboHit.GOOD;
-                    effectManager.judgementEffect(2); 
+                    effectManager.judgementEffect(2);
                     break;
             }
+
             comboManager.IncreaseScore(comboHit);
             comboManager.IncreaseCombo();
             IncreaseNoteCount();
@@ -95,11 +107,33 @@ public class NoteManager : MonoBehaviour
             comboManager.ResetCombo();
             ResetNoteCount();
         }
+
         effectManager.NoteClearEffect();
         GameManager.instance.IncreaseLevel(comboHit);
+        if (GameManager.instance.isTimeAttack)
+            IncreaseFeverCount(comboHit);
         timingManager.StopTiming();        // 타이밍값 초기화
 
     }
+
+    public void CheckFeverNote()
+    {
+        if (!timingManager.GetTiming())
+        {
+            isFever = false;
+            currentNoteCount = prevCount;
+        }
+
+        Debug.Log("피버 노트 생성");
+        if (userNoteList.Count >= 3)
+        {
+            comboHit = ComboHit.FEVER;
+            effectManager.judgementEffect(0);
+            comboManager.IncreaseScore(comboHit);
+            comboManager.IncreaseCombo();
+            theHammer.StartAction();
+        }
+    } 
 
     // 노트 등장 수 초기화 
     void ResetNoteCount()
@@ -110,11 +144,37 @@ public class NoteManager : MonoBehaviour
     // 진행에 따른 노트 수 추가 
     void IncreaseNoteCount()
     {
-        if(currentNoteCount <= fixedNoteCount)
+        if (currentNoteCount <= fixedNoteCount)
             currentNoteCount++;
 
     }
 
+    // 콤보에 따른 피버 수치 증가
+    void IncreaseFeverCount(ComboHit p_Comobo)
+    {
+        switch (p_Comobo)
+        {
+            case ComboHit.PERFECT:
+                feverCount += 10;
+                break;
+            case ComboHit.COOL:
+                feverCount += 7;
+                break;
+            case ComboHit.GOOD:
+                feverCount += 3;
+                break;
+        }
+        Debug.Log("현재 피버 점수 : " + feverCount);
+        if (feverCount == feverValue[curIdx])
+        {
+            Debug.Log("피버!!1");
+            if(curIdx < 4)
+                curIdx++;
+            isFever = true;
+            timingManager.StartFever();
+            feverCount = 0;
+        }
+    }
 
     // 가이드 및 입력한 노트 및 정보 초기화 
     public void ClearGuideNote()
@@ -122,12 +182,12 @@ public class NoteManager : MonoBehaviour
         for (int i = 0; i < guideNoteList.Count; i++)
         {
             Destroy(go_GuideBox.transform.GetChild(i).gameObject);
-          
+
         }
 
         correctCount = 0;
         inputCount = 0;
-       
+
         guideNoteList.Clear();
     }
 
@@ -140,7 +200,7 @@ public class NoteManager : MonoBehaviour
         userNoteList.Clear();
     }
 
-    
+
 
     // 랜덤하게 화살표 뽑기
     GameObject CreateRandomArrow()
@@ -172,7 +232,8 @@ public class NoteManager : MonoBehaviour
     {
         initCount = p_num;
         currentNoteCount = p_num;
-       
+        curIdx = 0;
+
         comboManager.InitailCombo();
         comboManager.ResetCombo();
         effectManager.ResetEffect();
@@ -181,15 +242,30 @@ public class NoteManager : MonoBehaviour
     // 노트 생성 메소드
     public void CreateNote(float p_time)
     {
-        // 타이밍 체크 
-        timingManager.StartTiming(p_time);
-       
-        for (int  i = 0;  i < currentNoteCount;  i++)
+        if (!isFever)
         {
-            Debug.Log("노트 붙임-- ");
-            // 노트 생성 후 가이드 박스에 붙이기 
-            var clone = Instantiate(CreateRandomArrow(), go_GuideBox.transform);
-            go_GuideBox.transform.SetParent(clone.transform);
+            // 타이밍 체크 
+            timingManager.StartTiming(p_time);
+
+            for (int i = 0; i < currentNoteCount; i++)
+            {
+                Debug.Log("노트 붙임-- ");
+                // 노트 생성 후 가이드 박스에 붙이기 
+                var clone = Instantiate(CreateRandomArrow(), go_GuideBox.transform);
+                go_GuideBox.transform.SetParent(clone.transform);
+            }
+        }
+        else
+        {
+            // 피버 타임 배치 
+            prevCount = currentNoteCount;
+            currentNoteCount = 3; 
+            for (int i = 0; i < feverNotes.Count; i++)
+            {
+                CreateRandomArrow();
+                var clone = Instantiate(feverNotes[i], go_GuideBox.transform);
+                go_GuideBox.transform.SetParent(clone.transform);
+            }
         }
     }
 
@@ -200,7 +276,7 @@ public class NoteManager : MonoBehaviour
         GameObject clone = null;
 
         if (inputCount >= currentNoteCount)  // 추가 개수 입력 방지 
-            return; 
+            return;
 
         switch (p_KeyCode)
         {
@@ -226,7 +302,7 @@ public class NoteManager : MonoBehaviour
                 break;
         }
         inputCount++;
-        if(clone != null)
+        if (clone != null)
             go_UserBox.transform.SetParent(clone.transform);
     }
 

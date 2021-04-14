@@ -14,15 +14,18 @@ public class GameManager : MonoBehaviour
     public bool isStart = false;                   // 게임 시작 여부 
     bool isStop = false;                    // 게임 중지 여부 
     bool oneTime = true;                    // 코루틴을 한 번만 호출하기 위한 제어 변수
-    bool isTimeAttack; 
+    public bool isTimeAttack; 
     public int gameScore;            // 게임 점수 
+
     
+
     [SerializeField] GameObject go_PrepareUI = null;
 
     [SerializeField] NoteManager noteManager = null;
     [SerializeField] TimeGauageController theTimer = null; 
     [SerializeField] StageManager stageManager = null;
     [SerializeField] SaveManager saveManager = null;
+    [SerializeField] TimingManager timingManager = null;
 
     private void Awake()
     {
@@ -95,6 +98,7 @@ public class GameManager : MonoBehaviour
         noteManager.SettingNoteCount(stageManager.GetCurStageLevel());
         isStart = true;
         isStop = true;
+        NoteManager.isFever = false;
         isTimeAttack = true;
         theTimer.SetMaxValue(60);
     }
@@ -145,8 +149,26 @@ public class GameManager : MonoBehaviour
     // 노트를 입력 완료 했는지 검가 
     void CheckNoteEnded()
     {
+        if (!timingManager.GetTiming())
+        {
+            if (!NoteManager.isFever)
+                noteManager.CheckCorrectNote();
+            else
+                noteManager.CheckFeverNote();
+
+            timingManager.StopTiming();        // 타이밍값 초기화
+            noteManager.ClearGuideNote();
+            noteManager.ClearUserNote();
+            isCreateGuideNote = false;
+        }
+
         if (noteManager.CompleteInput() && oneTime)
         {
+            if (!NoteManager.isFever)
+                noteManager.CheckCorrectNote();
+            else
+                noteManager.CheckFeverNote();
+
             oneTime = false;
             StartCoroutine(CheckNoteComplete());
         }
@@ -155,7 +177,7 @@ public class GameManager : MonoBehaviour
     // 완전히 입력한 노트를 보여주고 지우는 역할 
     IEnumerator CheckNoteComplete()
     {
-        noteManager.CheckCorrectNote();
+       
         yield return new WaitForSeconds(0.3f);  // 딜레이를 줘서 모든 입력한 노트를 순간적으로 보여주고 지움
 
         noteManager.ClearGuideNote();

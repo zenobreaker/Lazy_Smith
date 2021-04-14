@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
 {
+    [SerializeField] GameObject go_Alert = null;
+
     void Update()
     {
         if(Application.platform == RuntimePlatform.Android)
@@ -26,6 +28,16 @@ public class Title : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    public void CancelAlert()
+    {
+        go_Alert.SetActive(false);
+    }
+
+    public void OpenAlet()
+    {
+        go_Alert.SetActive(true);
     }
 
     public void EndGame()

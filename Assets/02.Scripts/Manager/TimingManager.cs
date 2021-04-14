@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimingManager : MonoBehaviour
 {
     int[] judgementRecord = new int[4];
-     
+
+    [SerializeField] Image img_timingImage = null;
+
     bool isGoodTiming;      // 좋은 점수를 유지하는 타이밍 확인  
     float curTime;          // 진행하는 시간 수 
     float maxTime;
@@ -61,11 +64,34 @@ public class TimingManager : MonoBehaviour
         while (curTime > 0)
         {
             curTime -= Time.deltaTime;
+            img_timingImage.fillAmount = curTime/maxTime;
             isGoodTiming = true;
             yield return null;
         }
 
         isGoodTiming = false; 
+    }
+
+    public void StartFever()
+    {
+        StopTiming();
+        StartCoroutine(FeverTimeStart());
+    }
+
+    IEnumerator FeverTimeStart()
+    {
+        float t_FeverTime = 10.0f;
+
+        while (t_FeverTime > 0)
+        {
+            t_FeverTime -= Time.deltaTime;
+            img_timingImage.fillAmount = t_FeverTime / 10;
+            isGoodTiming = true;
+            yield return null;
+        }
+        Debug.Log("피버타임 끝");
+        isGoodTiming = false;
+        //NoteManager.isFever = false;
     }
 
 }

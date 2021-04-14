@@ -48,7 +48,6 @@ public class TimeGauageController : MonoBehaviour
             isOver = true;
     }
 
-
     void ChangeFillColor()
     {
         float currentValue = timeSlider.value / timeSlider.maxValue * 100;

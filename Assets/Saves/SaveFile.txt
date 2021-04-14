@@ -1,1 +1,1 @@
-{"money":0,"bgmSoundValue":1.0,"sfxSoundValue":0.5,"recipeUnlockList":[false,true,true,true,true,true],"weaponItemList":["101","102","103","104","105","106"],"wItemCountList":[1,0,0,0,0,0],"materialItemList":["001","002","003","004","005","006"],"mItemCountList":[0,0,0,0,0,0]}
+{"money":0,"bgmSoundValue":1.0,"sfxSoundValue":0.5,"recipeUnlockList":[false,true,true,true,true,true],"weaponItemList":["101","102","103","104","105","106"],"wItemCountList":[6,0,0,0,0,0],"materialItemList":["001","002","003","004","005","006"],"mItemCountList":[0,0,0,0,0,0]}
