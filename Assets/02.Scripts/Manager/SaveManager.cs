@@ -32,7 +32,7 @@ public class SaveManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SAVE_DATA_DIRECTROTY = Application.dataPath + "/Saves/";
+        SAVE_DATA_DIRECTROTY = Application.persistentDataPath + "/Saves/";
 
         if (!Directory.Exists(SAVE_DATA_DIRECTROTY))
             Directory.CreateDirectory(SAVE_DATA_DIRECTROTY);

@@ -11,6 +11,12 @@ public class EffectManager : MonoBehaviour
     [SerializeField] Image img_judgement = null;
     [SerializeField] Sprite[] judgementSprite = null;
 
+    public void SettingAnim(bool p_flag)
+    {
+        NoteClearAnimator.gameObject.SetActive(p_flag);
+        judgementAnimator.gameObject.SetActive(p_flag);
+    }
+
     public void judgementEffect(int p_num)
     {
         img_judgement.sprite = judgementSprite[p_num];

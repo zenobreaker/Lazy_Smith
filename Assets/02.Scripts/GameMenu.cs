@@ -93,6 +93,6 @@ public class GameMenu : TabManual
     public void GoToTitle()
     {
         saveManager.SaveData();
-        SceneManager.LoadScene("Title");
+        SceneManager.LoadScene(0);
     }
 }

@@ -10,14 +10,18 @@ public class NoteManager : MonoBehaviour
      *   노트 랜덤하게 일정 개수만큼 배치 
      *   난이도 별로 개수가 다름 
      */
-    public int inputCount;          // 노트를 누른 수 
+    public bool isStart = false;
+    public bool isCreateGuideNote = false;          // 가이드 노트 생성 여부
 
+
+    float timingValue;
     int fixedNoteCount = 7;         // 고정 수 
     //public int maxNoteCount;      // 최대로 생성될 노트 수 
     int currentNoteCount;           // 현재 나오는 노트 수 
     int correctCount;
-
     int initCount;                  // 게임 시작시 등장할 노트 수
+    int inputCount;
+    int prveIpCount;                // 사전에 입력한 좌표 기억용 
 
     ComboHit comboHit;
     List<int> guideNoteList = new List<int>();
@@ -26,10 +30,14 @@ public class NoteManager : MonoBehaviour
 
 
     int prevCount;      // 이전에 노트 수
-    int curIdx = 0;
+    int curFeverIdx = 0;
     int feverCount;
     public int[] feverValue = new int[5];
     public static bool isFever = false;
+    bool isFeverCheck = false;
+    public bool isTimeAttak = false;
+    bool isMiss = false;
+    bool isInput = true;   // 입력 제한 
 
     [Header("화살표 노트")]
     [SerializeField] GameObject go_UpArrow = null;      // 화살표 프리팹  
@@ -49,10 +57,64 @@ public class NoteManager : MonoBehaviour
     [SerializeField] TimingManager timingManager = null;
     [SerializeField] HammerController theHammer = null;
 
-    // 입력을 다 하였는가?
-    public bool CompleteInput()
+
+
+    private void Update()
     {
-        if (inputCount == currentNoteCount)
+        if (isStart)
+        {
+
+            CreateNote();
+            CheckTiming();
+            CheckFeverNote();
+            if(isInput)
+                GameManager.instance.GetInput();
+            GameManager.instance.GameEnd();
+            // CheckCorrectNote();
+        }
+    }
+
+
+    void CheckTiming()
+    {
+        if (!timingManager.GetTiming() && !isMiss && !isFever)
+        {
+
+            isMiss = true;
+            comboHit = ComboHit.MISS;
+            effectManager.judgementEffect(3);
+            comboManager.ResetCombo();
+            ResetNoteCount();
+            StopCoroutine(CheckNoteComplete());
+            StartCoroutine(CheckNoteComplete());
+        }
+        else if (!timingManager.GetTiming() && !isMiss && isFever)
+        {
+            isMiss = true;
+            isFever = false;
+            Debug.Log("피버 종료");
+            StartCoroutine(CheckNoteComplete());
+        }
+    }
+
+    public void ClearGame()
+    {
+        isStart = false;
+        isCreateGuideNote = false;
+        ClearGuideNote();
+        ClearUserNote();
+    }
+
+    public bool CheckSingleNote()
+    {
+        int targetIdx = userNoteList.Count - 1;
+
+        if (userNoteList.Count > guideNoteList.Count)
+        {
+            targetIdx = guideNoteList.Count - 1;
+        }
+
+        if (targetIdx >= 0 && userNoteList[targetIdx] == guideNoteList[targetIdx])
         {
             return true;
         }
@@ -64,15 +126,25 @@ public class NoteManager : MonoBehaviour
     public void CheckCorrectNote()
     {
 
-        if (userNoteList.Count == guideNoteList.Count)
+        if (isFever)
+            return;
+
+        if (CheckSingleNote())
         {
-            for (int i = 0; i < currentNoteCount; i++)
-            {
-                if (userNoteList[i] == guideNoteList[i])
-                {
-                    correctCount++;
-                }
-            }
+            // prveIpCount = inputCount;
+            correctCount++;
+            Debug.Log("이거 몇번 검사?");
+
+        }
+        else
+        {
+            Debug.Log("여기옹?");
+            comboHit = ComboHit.MISS;
+            effectManager.judgementEffect(3);
+            comboManager.ResetCombo();
+            ResetNoteCount();
+            StartCoroutine(CheckNoteComplete());
+
         }
 
         if (correctCount == currentNoteCount)
@@ -99,41 +171,33 @@ public class NoteManager : MonoBehaviour
             comboManager.IncreaseCombo();
             IncreaseNoteCount();
             theHammer.StartAction();
-        }
-        else
-        {
-            comboHit = ComboHit.MISS;
-            effectManager.judgementEffect(3);
-            comboManager.ResetCombo();
-            ResetNoteCount();
-        }
 
-        effectManager.NoteClearEffect();
-        GameManager.instance.IncreaseLevel(comboHit);
-        if (GameManager.instance.isTimeAttack)
-            IncreaseFeverCount(comboHit);
-        timingManager.StopTiming();        // 타이밍값 초기화
 
+            // 노트 정리 
+            StartCoroutine(CheckNoteComplete());
+        }
     }
 
+
+    // 피버 상태일 때 입력 검사
     public void CheckFeverNote()
     {
-        if (!timingManager.GetTiming())
+        if (isFever)
         {
-            isFever = false;
-            currentNoteCount = prevCount;
+            Debug.Log("피버 노트 등장 ");
+            if (userNoteList.Count >= 3 && !isFeverCheck)
+            {
+                Debug.Log("멈춤?" + timingManager.isStop());
+                isFeverCheck = true;
+                comboHit = ComboHit.FEVER;
+                effectManager.judgementEffect(0);
+                comboManager.IncreaseScore(comboHit);
+                comboManager.IncreaseCombo();
+                theHammer.StartAction();
+                StartCoroutine(CheckNoteComplete());
+            }
         }
-
-        Debug.Log("피버 노트 생성");
-        if (userNoteList.Count >= 3)
-        {
-            comboHit = ComboHit.FEVER;
-            effectManager.judgementEffect(0);
-            comboManager.IncreaseScore(comboHit);
-            comboManager.IncreaseCombo();
-            theHammer.StartAction();
-        }
-    } 
+    }
 
     // 노트 등장 수 초기화 
     void ResetNoteCount()
@@ -146,7 +210,31 @@ public class NoteManager : MonoBehaviour
     {
         if (currentNoteCount <= fixedNoteCount)
             currentNoteCount++;
+    }
 
+    // 노트 확인 코루틴 
+    IEnumerator CheckNoteComplete()
+    {
+        isInput = false;
+        effectManager.NoteClearEffect();
+        
+        yield return new WaitForSeconds(0.3f);
+
+        ClearGuideNote();
+        ClearUserNote();
+        GameManager.instance.IncreaseLevel(comboHit);
+        if (isTimeAttak)
+            IncreaseFeverCount(comboHit);
+        if (!isFever)
+            timingManager.StopTiming();        // 타이밍값 초기화
+
+        isCreateGuideNote = false;
+        isMiss = false;
+
+        if (isFever)
+            isFeverCheck = false;
+
+        isInput = true;
     }
 
     // 콤보에 따른 피버 수치 증가
@@ -163,13 +251,16 @@ public class NoteManager : MonoBehaviour
             case ComboHit.GOOD:
                 feverCount += 3;
                 break;
+            case ComboHit.MISS:
+                feverCount -= 2;
+                break;
         }
         Debug.Log("현재 피버 점수 : " + feverCount);
-        if (feverCount == feverValue[curIdx])
+        if (feverCount == feverValue[curFeverIdx] && !isFever)
         {
             Debug.Log("피버!!1");
-            if(curIdx < 4)
-                curIdx++;
+            if (curFeverIdx < 4)
+                curFeverIdx++;
             isFever = true;
             timingManager.StartFever();
             feverCount = 0;
@@ -186,7 +277,6 @@ public class NoteManager : MonoBehaviour
         }
 
         correctCount = 0;
-        inputCount = 0;
 
         guideNoteList.Clear();
     }
@@ -198,6 +288,8 @@ public class NoteManager : MonoBehaviour
             Destroy(go_UserBox.transform.GetChild(i).gameObject);
         }
         userNoteList.Clear();
+        inputCount = 0;
+        prveIpCount = 0;
     }
 
 
@@ -227,29 +319,52 @@ public class NoteManager : MonoBehaviour
         }
     }
 
-    // 노트 개수 설정 
-    public void SettingNoteCount(int p_num)
+    // 게임 세팅  
+    public void SettingGame(int p_NoteNum, float p_Time, bool p_TimeAttack = false)
     {
-        initCount = p_num;
-        currentNoteCount = p_num;
-        curIdx = 0;
+        // 노트 개수 설정 
+        initCount = p_NoteNum;
+        currentNoteCount = p_NoteNum;
+        inputCount = 0;
+        prveIpCount = inputCount;
+        correctCount = 0;
+        curFeverIdx = 0;    // 노트 피버 인덱스 초기화 
 
+        comboManager.InitailCombo();
+        comboManager.ResetCombo();
+
+        effectManager.SettingAnim(true);
+        effectManager.ResetEffect();
+
+        isStart = true;
+        isTimeAttak = p_TimeAttack;
+        // 타이밍 값 설정 
+        timingValue = p_Time;
+        //timingManager.StartTiming(p_Time);
+    }
+
+    public void ResetEffects()
+    {
+        effectManager.SettingAnim(false);
         comboManager.InitailCombo();
         comboManager.ResetCombo();
         effectManager.ResetEffect();
     }
 
     // 노트 생성 메소드
-    public void CreateNote(float p_time)
+    public void CreateNote()
     {
+        if (isCreateGuideNote)  // 중복 생성 방지 
+            return;
+
+        isCreateGuideNote = true;
+        Debug.Log("노트 붙임 : " + currentNoteCount);
         if (!isFever)
         {
-            // 타이밍 체크 
-            timingManager.StartTiming(p_time);
-
+            timingManager.StartTiming(timingValue);
             for (int i = 0; i < currentNoteCount; i++)
             {
-                Debug.Log("노트 붙임-- ");
+
                 // 노트 생성 후 가이드 박스에 붙이기 
                 var clone = Instantiate(CreateRandomArrow(), go_GuideBox.transform);
                 go_GuideBox.transform.SetParent(clone.transform);
@@ -259,7 +374,7 @@ public class NoteManager : MonoBehaviour
         {
             // 피버 타임 배치 
             prevCount = currentNoteCount;
-            currentNoteCount = 3; 
+            currentNoteCount = 3;
             for (int i = 0; i < feverNotes.Count; i++)
             {
                 CreateRandomArrow();
@@ -275,7 +390,7 @@ public class NoteManager : MonoBehaviour
         // 유저가 입력한 노트 리스트에 추가 
         GameObject clone = null;
 
-        if (inputCount >= currentNoteCount)  // 추가 개수 입력 방지 
+        if (userNoteList.Count >= currentNoteCount)  // 추가 개수 입력 방지 
             return;
 
         switch (p_KeyCode)
@@ -303,7 +418,10 @@ public class NoteManager : MonoBehaviour
         }
         inputCount++;
         if (clone != null)
+        {
             go_UserBox.transform.SetParent(clone.transform);
+            CheckCorrectNote();
+        }
     }
 
 

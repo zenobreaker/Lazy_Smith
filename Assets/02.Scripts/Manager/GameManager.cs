@@ -6,23 +6,18 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     public static int money;                        // 게임 화폐
-    public static GameManager instance; 
+    public static GameManager instance;
 
     public int gameLevel;                          // 게임 난이도 
-    
-    public bool isCreateGuideNote;          // 가이드 노트 생성 여부
-    public bool isStart = false;                   // 게임 시작 여부 
-    bool isStop = false;                    // 게임 중지 여부 
-    bool oneTime = true;                    // 코루틴을 한 번만 호출하기 위한 제어 변수
-    public bool isTimeAttack; 
+
     public int gameScore;            // 게임 점수 
 
-    
+
 
     [SerializeField] GameObject go_PrepareUI = null;
 
     [SerializeField] NoteManager noteManager = null;
-    [SerializeField] TimeGauageController theTimer = null; 
+    [SerializeField] TimeGauageController theTimer = null;
     [SerializeField] StageManager stageManager = null;
     [SerializeField] SaveManager saveManager = null;
     [SerializeField] TimingManager timingManager = null;
@@ -35,159 +30,92 @@ public class GameManager : MonoBehaviour
             Destroy(this);
     }
 
-    private void Update()
-    {
-        if (isStart)
-        {
-            PrepareGame();
-            PlayGame();
-            CheckNoteEnded();
-            GetInput();
-            EndGame();  
-        }
-        
-    }
-    
+  
 
     // 진행도 조절 stageManager에게 연결할 징검다리 
     public void IncreaseLevel(ComboHit p_comboHit)
     {
         // 콤보에 따른 진행도 증가 
         stageManager.IncreaseProcessivity(p_comboHit);
-        
-    }
 
-    // 게임 시작 전 준비 
-    public void PrepareGame()
-    {
-        if (isStop)
-        {
-            UIManager.instacne.TurnOnGameUI();
-            //UIManager.instacne.TurnOnFadeUI();
-            theTimer.StartTimer();
-            isCreateGuideNote = false;
-            if (EventSystem.current.currentSelectedGameObject.layer == 5)
-            {
-                Debug.Log("누름");
-                UIManager.instacne.TurnOffFadeUI();
-                isStop = false;
-            }
-        }
-    }
-
-    public void ReturnLobby()
-    {
-        UIManager.instacne.TurnOnLobby();
     }
 
     // 게임 시작 (일반 모드)
     public void StartGame(int p_stageNum = 0)
     {
+       
+        UIManager.instance.TurnOnGameUI();
+
+        Time.timeScale = 1;
+
+        noteManager.ClearGuideNote();
+        noteManager.ClearUserNote();
+
         stageManager.SettingStage(p_stageNum);
-        noteManager.SettingNoteCount(stageManager.GetCurStageLevel());
-        isStart = true;
-        isStop = true;
-        isTimeAttack = false;
+        noteManager.SettingGame(stageManager.GetCurStageLevel(), stageManager.GetCurStageTimingValue());
+     
         theTimer.SetMaxValue(60);
+        theTimer.StartTimer();
     }
 
     // 타임어택 모드 
     public void StartTimeAttack()
     {
+        UIManager.instance.TurnOnGameUI();
+
+        Time.timeScale =1;
+
+        noteManager.ClearGuideNote();
+        noteManager.ClearUserNote();
+
         stageManager.SettingStage(0);
-        noteManager.SettingNoteCount(stageManager.GetCurStageLevel());
-        isStart = true;
-        isStop = true;
+        noteManager.SettingGame(stageManager.GetCurStageLevel(), stageManager.GetCurStageTimingValue(),true);
+       
         NoteManager.isFever = false;
-        isTimeAttack = true;
         theTimer.SetMaxValue(60);
+        theTimer.StartTimer();
     }
 
-    public void PlayGame()
-    {
-        if (!isCreateGuideNote)
-        {
-            noteManager.CreateNote(stageManager.GetCurStageTimingValue());
-            isCreateGuideNote = true;
-        }
-    }
-
+    
     // 게임 종료 
-    public void EndGame()
+    public void GameEnd()
     {
-        if (theTimer.IsTimeOver()) {
-            isStart = false;
+        if (theTimer.IsTimeOver())
+        {
             theTimer.StopTimer();
-            noteManager.ClearGuideNote();
-            noteManager.ClearUserNote();
 
-            if (!isTimeAttack)
+            if (!noteManager.isTimeAttak)
                 stageManager.EndFailureStage();
-            else if (isTimeAttack)
+            else if (noteManager.isTimeAttak)
                 stageManager.EndTimeAttack();
         }
-        else if(stageManager.GetStageProcesivity() >= stageManager.GetStageMaxProcess())
+        else if (stageManager.GetStageProcesivity() >= stageManager.GetStageMaxProcess())
         {
-            if (!isTimeAttack)
+            if (!noteManager.isTimeAttak)
             {
                 // 게임 종료 로직 
-                isStart = false;
                 theTimer.StopTimer();
-                noteManager.ClearGuideNote();
-                noteManager.ClearUserNote();
                 stageManager.EndClearStage();
+                noteManager.ClearGame();
             }
             else
             {
                 stageManager.SettingNextStage();
             }
-           // ReturnLobby();
         }
     }
 
-
-    // 노트를 입력 완료 했는지 검가 
-    void CheckNoteEnded()
+    public void GameReset()
     {
-        if (!timingManager.GetTiming())
-        {
-            if (!NoteManager.isFever)
-                noteManager.CheckCorrectNote();
-            else
-                noteManager.CheckFeverNote();
-
-            timingManager.StopTiming();        // 타이밍값 초기화
-            noteManager.ClearGuideNote();
-            noteManager.ClearUserNote();
-            isCreateGuideNote = false;
-        }
-
-        if (noteManager.CompleteInput() && oneTime)
-        {
-            if (!NoteManager.isFever)
-                noteManager.CheckCorrectNote();
-            else
-                noteManager.CheckFeverNote();
-
-            oneTime = false;
-            StartCoroutine(CheckNoteComplete());
-        }
-    }
-
-    // 완전히 입력한 노트를 보여주고 지우는 역할 
-    IEnumerator CheckNoteComplete()
-    {
-       
-        yield return new WaitForSeconds(0.3f);  // 딜레이를 줘서 모든 입력한 노트를 순간적으로 보여주고 지움
-
-        noteManager.ClearGuideNote();
-        noteManager.ClearUserNote();
-        isCreateGuideNote = false;
-        oneTime = true;     
+        Time.timeScale = 1;
+        noteManager.ClearGame();
+        noteManager.ResetEffects();
+        theTimer.StopTimer();
+        timingManager.StopTiming();
     }
 
     // 방향키 입력 검사 
-    void GetInput()
+    public void GetInput()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -245,6 +173,6 @@ public class GameManager : MonoBehaviour
     public void LoadClick()
     {
         saveManager.LoadData();
-        UIManager.instacne.SetMoney(money);
+        UIManager.instance.SetMoney(money);
     }
 }

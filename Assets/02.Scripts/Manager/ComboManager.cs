@@ -8,7 +8,12 @@ public class ComboManager : MonoBehaviour
     public int comboCount;
     public int maxCombo;
     public int score;
-    IEnumerator timeout; 
+    IEnumerator timeout;
+
+    int perCount = 0;
+    int coolCount = 0;
+    int goodCount = 0;
+    int feverCount = 0;
 
     [SerializeField] Text txt_ComboText = null;
 
@@ -40,6 +45,10 @@ public class ComboManager : MonoBehaviour
     {
         comboCount = 0;
         score = 0;
+        perCount = 0;
+        coolCount = 0;
+        goodCount = 0;
+        feverCount = 0;
     }
 
     public void ResetCombo()
@@ -70,12 +79,19 @@ public class ComboManager : MonoBehaviour
         {
             case ComboHit.PERFECT:
                 score += 100;
+                perCount++;
                 break;
             case ComboHit.COOL:
                 score += 70;
+                coolCount++;
                 break;
             case ComboHit.GOOD:
                 score += 25;
+                goodCount++;
+                break;
+            case ComboHit.FEVER:
+                score += 120;
+                feverCount++;
                 break;
         }
     }
