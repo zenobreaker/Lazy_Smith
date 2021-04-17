@@ -5,24 +5,38 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instacne;
+    public static UIManager instance;
 
     [SerializeField] GameObject go_Lobby = null;
     [SerializeField] GameObject go_InGame = null;
     [SerializeField] GameObject go_GameView = null;
-    [SerializeField] GameObject go_FadeUI = null;
+    [SerializeField] GameObject go_PauseUI = null;
+    [SerializeField] GameObject go_ExitAlert = null;
     [SerializeField] Text txt_Money = null;
 
 
-    public void TurnOnFadeUI()
+
+
+    public void PasuseGame()
     {
-        go_FadeUI.SetActive(true);
+        go_PauseUI.SetActive(true);
         Time.timeScale = 0;
     }
-    public void TurnOffFadeUI()
+
+    public void CancelPauseUI()
     {
-        go_FadeUI.SetActive(false);
+        go_PauseUI.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    public void ExitPlayingGame()
+    {
+        go_ExitAlert.SetActive(true);
+    }
+
+    public void CancelAlert()
+    {
+        go_ExitAlert.SetActive(false);
     }
 
     public void TurnOnGameUI()
@@ -32,18 +46,22 @@ public class UIManager : MonoBehaviour
         go_Lobby.SetActive(false);
     }
 
-    public void TurnOnLobby()
+    public void ReturnLobby()
     {
+        GameManager.instance.GameReset();
         go_InGame.SetActive(false);
         go_GameView.SetActive(false);
         go_Lobby.SetActive(true);
-    }
+       
 
+        go_ExitAlert.SetActive(false);
+        go_PauseUI.SetActive(false);
+    }
 
     private void Awake()
     {
-        if (instacne == null)
-            instacne = this;
+        if (instance == null)
+            instance = this;
         else
             Destroy(this);
     }

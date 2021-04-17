@@ -193,7 +193,7 @@ public class Inventory : TabManual
         GameManager.money += p_Item.itemValue * p_Count;
         p_Item.itemCount -= p_Count;    // 얕은 복사를 이용함
         SettingItem(p_Item,weaponitems.IndexOf(p_Item));
-        UIManager.instacne.SetMoney(GameManager.money);
+        UIManager.instance.SetMoney(GameManager.money);
         //weaponitems.Find(x => x == p_Item).itemCount -= p_Count;
     }
 

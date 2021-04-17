@@ -39,7 +39,7 @@ public class ClearUI : MonoBehaviour
         ResetInfo();
         go_BaseUI.SetActive(false);
         img_BackGround.gameObject.SetActive(false);
-        GameManager.instance.ReturnLobby();
+        UIManager.instance.ReturnLobby();
     }
 
     public void SettingItem(string p_ID)

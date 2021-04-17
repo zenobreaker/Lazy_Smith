@@ -15,13 +15,11 @@ public class RecipeSlot : Slot
 
         if (item != null && !isLock)
         {
-            Debug.Log("클릭함");
             // 아이템 구매 창
             RecipePage.instance.OpenAlertUI(this);
         }
         else if (isLock)
         {
-            Debug.Log("잠김" + item.itemID);
             RecipePage.instance.OpenRecipeUI(this);
         }
     }

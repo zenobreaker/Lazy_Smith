@@ -19,6 +19,10 @@ public class TimingManager : MonoBehaviour
     {
         curTime = p_time;
         maxTime = p_time;
+        
+        if(timing != null)
+            StopTiming();
+        
         timing = TimingCo();
         StartCoroutine(timing);
     }
@@ -75,15 +79,25 @@ public class TimingManager : MonoBehaviour
     public void StartFever()
     {
         StopTiming();
-        StartCoroutine(FeverTimeStart());
+        timing = FeverTimeStart();
+        StartCoroutine(timing);
+    }
+
+    public bool isStop()
+    {
+        if (timing != null)
+            return true;
+        else
+            return false;
     }
 
     IEnumerator FeverTimeStart()
     {
         float t_FeverTime = 10.0f;
-
+        Debug.Log("피버타임 타이머 온 ");
         while (t_FeverTime > 0)
         {
+            Debug.Log("피버타임 중 ");
             t_FeverTime -= Time.deltaTime;
             img_timingImage.fillAmount = t_FeverTime / 10;
             isGoodTiming = true;

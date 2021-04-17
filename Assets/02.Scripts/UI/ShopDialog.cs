@@ -57,7 +57,7 @@ public class ShopDialog : MonoBehaviour
         {
             //Item buyedItem = new Item(selectedItem);
             GameManager.money -= selectedItem.itemValue;
-            UIManager.instacne.SetMoney(GameManager.money);
+            UIManager.instance.SetMoney(GameManager.money);
             Inventory.instance.IncreaseItemCount(selectedItem);
             Debug.Log("구입 완료" + selectedItem.itemName);
             CancelUI();

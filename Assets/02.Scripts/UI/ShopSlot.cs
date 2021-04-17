@@ -34,7 +34,6 @@ public class ShopSlot : Slot
     public override void AddItem(Item _item, int _count = 1)
     {
         base.AddItem(_item, _count);
-        Debug.Log("이게 됨");
         txt_ItemName.text = itemName;
         txt_ItemCost.text = _item.itemValue.ToString();
     }

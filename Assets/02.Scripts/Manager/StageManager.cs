@@ -13,6 +13,7 @@ public class StageManager : MonoBehaviour
 
     [SerializeField] SpriteRenderer sptr_WeaponImage = null;
     int curNum;
+    int increasePoint = 0;
 
     public void SettingItemImage()
     {
@@ -22,6 +23,7 @@ public class StageManager : MonoBehaviour
 
     public void SettingStage(int p_num)
     {
+        increasePoint = 0;
         currentStage = stageArray[p_num];
         curNum = p_num;
         SettingItemImage();
@@ -31,6 +33,7 @@ public class StageManager : MonoBehaviour
     {
         if(curNum <= stageArray.Length-1)
         {
+            increasePoint = 0;
             currentStage = stageArray[curNum];
             Debug.Log("현재 스테이지 " + curNum);
             SettingItemImage();
@@ -52,7 +55,7 @@ public class StageManager : MonoBehaviour
 
     public void IncreaseProcessivity(ComboHit p_combohit)
     {
-        int t_increasePoint = 0;
+        
         float levelCount = 0.0f;
 
         levelCount = Mathf.Pow(0.1f, currentStage.stageLevel);
@@ -61,26 +64,27 @@ public class StageManager : MonoBehaviour
         switch (p_combohit)
         {
             case ComboHit.PERFECT:
-                t_increasePoint = (int)(currentStage.maxProcessvitiy * (0.3f));
+                increasePoint += (int)(currentStage.maxProcessvitiy * (0.3f));
                 break;
             case ComboHit.COOL:
-                t_increasePoint = (int)(currentStage.maxProcessvitiy * (0.2f));
+                increasePoint += (int)(currentStage.maxProcessvitiy * (0.2f));
                 break;
             case ComboHit.GOOD:
-                t_increasePoint = (int)(currentStage.maxProcessvitiy * (0.1f));
+                increasePoint += (int)(currentStage.maxProcessvitiy * (0.1f));
                 break;
             case ComboHit.MISS:
-                t_increasePoint = 0;
+                increasePoint = 0;
                 break;
+            
         }
 
-        currentStage.stageProcessivity += t_increasePoint;
-        Debug.Log("진행도 : " + currentStage.stageProcessivity);
+        //currentStage.stageProcessivity += increasePoint;
+        Debug.Log("진행도 : " + increasePoint);
     }
 
     public float GetStageProcesivity()
     {
-        return currentStage.stageProcessivity;
+        return increasePoint;
     }
 
     public float GetStageMaxProcess()
@@ -90,39 +94,18 @@ public class StageManager : MonoBehaviour
 
     public void EndClearStage()
     {
-        if (currentStage.stageProcessivity > 0)
-            currentStage.stageProcessivity = 0;
-
         clearUI.OpenUI();
         clearUI.SettingItem(currentStage.weaponID);
     }
 
     public void EndFailureStage()
     {
-        currentStage.stageProcessivity = 0;
         clearUI.OpenFailureUI();
     }
 
     public void EndTimeAttack()
     {
-        for (int i = 0; i < stageArray.Length; i++)
-        {
-            stageArray[i].stageProcessivity = 0;
-        }
         clearUI.OpenTimeAttackUI();
     }
-
-    public void IncreaseStageProcessivity(float p_num)
-    {
-        if (currentStage.stageProcessivity < currentStage.maxProcessvitiy)
-        {
-            currentStage.stageProcessivity += p_num;
-        }
-        else if (currentStage.stageProcessivity == currentStage.maxProcessvitiy)
-        {
-            // 게임 종료 
-        }
-    }
-
 
 }
