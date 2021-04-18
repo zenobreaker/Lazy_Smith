@@ -21,7 +21,6 @@ public class NoteManager : MonoBehaviour
     int correctCount;
     int initCount;                  // 게임 시작시 등장할 노트 수
     int inputCount;
-    int prveIpCount;                // 사전에 입력한 좌표 기억용 
 
     ComboHit comboHit;
     List<int> guideNoteList = new List<int>();
@@ -289,7 +288,6 @@ public class NoteManager : MonoBehaviour
         }
         userNoteList.Clear();
         inputCount = 0;
-        prveIpCount = 0;
     }
 
 
@@ -326,7 +324,6 @@ public class NoteManager : MonoBehaviour
         initCount = p_NoteNum;
         currentNoteCount = p_NoteNum;
         inputCount = 0;
-        prveIpCount = inputCount;
         correctCount = 0;
         curFeverIdx = 0;    // 노트 피버 인덱스 초기화 
 

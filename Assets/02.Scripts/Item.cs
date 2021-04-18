@@ -25,12 +25,8 @@ public class Item
 
     public Item(Item _item)
     {
-    
- 
         itemName = _item.itemName;
         itemValue = _item.itemValue;
-        
-
     }
   
 
