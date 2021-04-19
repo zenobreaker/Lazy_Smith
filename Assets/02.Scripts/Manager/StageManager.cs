@@ -60,7 +60,7 @@ public class StageManager : MonoBehaviour
 
         levelCount = Mathf.Pow(0.1f, currentStage.stageLevel);
 
-        Debug.Log("레벨 보너스 " + levelCount);
+       // Debug.Log("레벨 보너스 " + levelCount);
         switch (p_combohit)
         {
             case ComboHit.PERFECT:
@@ -79,7 +79,7 @@ public class StageManager : MonoBehaviour
         }
 
         //currentStage.stageProcessivity += increasePoint;
-        Debug.Log("진행도 : " + increasePoint);
+       // Debug.Log("진행도 : " + increasePoint);
     }
 
     public float GetStageProcesivity()

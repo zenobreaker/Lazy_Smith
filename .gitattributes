@@ -5,3 +5,5 @@ D:/GameProject/LazySmithWithGit/Lazy_Smith/Ios/Libraries/libil2cpp/include/vm/St
 D:/GameProject/LazySmithWithGit/Lazy_Smith/Ios/Libraries/libil2cpp/include/vm/StackTrace.h filter=lfs diff=lfs merge=lfs -text
 D:/GameProject/LazySmithWithGit/Lazy_Smith/Ios/Libraries/libil2cpp/include/vm/ScopedThreadAttacher.h filter=lfs diff=lfs merge=lfs -text
 D:/GameProject/LazySmithWithGit/Lazy_Smith/Ios/Libraries/* filter=lfs diff=lfs merge=lfs -text
+D:/GameProject/LazySmithWithGit/Lazy_Smith/Ios/Classes/DynamicLibEngineAPI.mm filter=lfs diff=lfs merge=lfs -text
+D:/GameProject/LazySmithWithGit/Lazy_Smith/Ios/Classes/ filter=lfs diff=lfs merge=lfs -text
