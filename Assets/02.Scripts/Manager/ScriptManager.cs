@@ -24,17 +24,25 @@ public class ScriptManager : MonoBehaviour
         }
     }
 
-    public void SettingData(string p_FileName)
+    public void SettingData(string p_FileName, InteractionEvent p_IE)
     {
         csv_FileName = p_FileName;
-        ParsingData();
+        ParsingData(p_IE);
     }
 
-    void ParsingData()
+    void ParsingData(InteractionEvent p_IE)
     {
         if (csv_FileName != "")
         {
+            dialogueDic.Clear();
             Dialogue[] dialogues = theParser.Parse(csv_FileName);
+            if (dialogues == null)
+            {
+                Debug.Log("다이얼로그 없음");
+                return;
+            }
+            Vector2 t_Line = new Vector2(1, dialogues.Length);
+            p_IE.SetDialogueLine(t_Line);
             Debug.Log("가져옴 어디에서?" + dialogues.Length + dialogues[0].name);
             for (int i = 0; i < dialogues.Length; i++)
             {

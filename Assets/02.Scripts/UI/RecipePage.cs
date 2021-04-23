@@ -61,7 +61,8 @@ public class RecipePage : MonoBehaviour
     public void UnlockRecipe(int _targetNum)
     {
         recipeUnLockList[_targetNum] = false;
-        theIC.ShowDialogue(_targetNum);
+        if(_targetNum == 2)
+            theIC.ShowDialogue(2);   // 2번 퀘스트 해금 
     }
 
     // 사용가능한 레시피 확인 

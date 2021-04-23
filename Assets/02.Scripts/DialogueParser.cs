@@ -8,6 +8,13 @@ public class DialogueParser : MonoBehaviour
     {
         List<Dialogue> dialogueList = new List<Dialogue>();     // 대사 리스트 생성
         TextAsset csvData = Resources.Load<TextAsset>(_CSVFileName);    // csv 파일 가져옴
+        
+        if (csvData == null)
+        {
+            Debug.Log("파일 없음 실행 오류");
+            return null;
+        }
+
 
         string[] data = csvData.text.Split(new char[] { '\n' });
 

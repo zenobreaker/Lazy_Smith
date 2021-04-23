@@ -13,7 +13,7 @@ public class InteractionController : MonoBehaviour
 
     [SerializeField] RecipePage recipePage = null;
 
-    public List<InteractionEvent> IEList = new List<InteractionEvent>();
+    List<bool> viewList = new List<bool>();
 
 
     public void ShowDialogue(int p_EventNum)
@@ -21,15 +21,55 @@ public class InteractionController : MonoBehaviour
         switch (p_EventNum)
         {
             case 1:
-                if (!theIE.isView)
+                if (!viewList[0])
                 {
-                    ScriptManager.instance.SettingData("prologue_Lazy");
+                    ScriptManager.instance.SettingData("Prologue-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    theIE.isView = true;
+                    viewList[0] = true;
+                }
+                break;
+            case 2:
+                if (!viewList[1])
+                {
+                    ScriptManager.instance.SettingData("First-Lazy", theIE);
+                    theDM.ShowDialogue(theIE.GetDialogue());
+                    viewList[1] = true;
+                }
+                break;
+            case 3:
+                if (!viewList[2])
+                {
+                    ScriptManager.instance.SettingData("Second-Lazy", theIE);
+                    theDM.ShowDialogue(theIE.GetDialogue());
+                    viewList[2] = true;
+                }
+                break;
+            case 4:
+                if (!viewList[3])
+                {
+                    ScriptManager.instance.SettingData("Fourth-Lazy", theIE);
+                    theDM.ShowDialogue(theIE.GetDialogue());
+                    viewList[3] = true;
+                }
+                break;
+            case 5:
+                if (!viewList[4])
+                {
+                    ScriptManager.instance.SettingData("Fiveth-Lazy", theIE);
+                    theDM.ShowDialogue(theIE.GetDialogue());
+                    viewList[4] = true;
+                }
+                break;
+            case 6:
+                if (!viewList[5])
+                {
+                    ScriptManager.instance.SettingData("Last-Lazy", theIE);
+                    theDM.ShowDialogue(theIE.GetDialogue());
+                    viewList[5] = true;
                 }
                 break;
         }
-        
+
     }
 
     public void SettingIcon(bool p_flag)
@@ -37,5 +77,13 @@ public class InteractionController : MonoBehaviour
         btn_Dialogue.gameObject.SetActive(p_flag);
     }
 
+    public void SetViewList(List<bool> p_List)
+    {
+        viewList = p_List;
+    }
 
+    public List<bool> GetViewList()
+    {
+        return viewList;
+    }
 }

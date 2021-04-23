@@ -31,6 +31,7 @@ public class RecipeManager : MonoBehaviour
         SetRecipeList();
     }
 
+    // 레시피 설정 
     public void SetRecipeList()
     {
         List<Item> weapons = ItemDatabase.instance.GetWeapons();

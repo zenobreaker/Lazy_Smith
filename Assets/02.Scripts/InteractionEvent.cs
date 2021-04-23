@@ -6,11 +6,16 @@ public class InteractionEvent : MonoBehaviour
 {
     public bool isView = false;
 
-    [SerializeField] DialougeEvent dialouge = null;
+    [SerializeField] DialougeEvent dialogueEvent = null;
+
+    public void SetDialogueLine(Vector2 p_Line)
+    {
+        dialogueEvent.line = p_Line;
+    }
 
     public Dialogue[] GetDialogue()
     {
-        dialouge.dialogues = ScriptManager.instance.GetDialogue((int)dialouge.line.x, (int)dialouge.line.y);
-        return dialouge.dialogues;
+        dialogueEvent.dialogues = ScriptManager.instance.GetDialogue((int)dialogueEvent.line.x, (int)dialogueEvent.line.y);
+        return dialogueEvent.dialogues;
     }
 }

@@ -89,6 +89,7 @@ public class DialogueManager : MonoBehaviour
 
         string t_ReplaceText = dialogues[lineCount].contexts[contextCount];
         t_ReplaceText = t_ReplaceText.Replace("'", ",");
+        t_ReplaceText = t_ReplaceText.Replace("\\n", "\n");
 
         txt_Name.text = dialogues[lineCount].name;
 
@@ -106,11 +107,21 @@ public class DialogueManager : MonoBehaviour
     {
         BackGround.SetActive(p_flag);
         go_DialogueBar.SetActive(p_flag);
-        go_DialogueNameBar.SetActive(p_flag);
-        for (int i = 0; i < img_Char.Length; i++)
+        if (p_flag)
         {
-            img_Char[i].gameObject.SetActive(p_flag);
+            if(dialogues[lineCount].name == "")
+                go_DialogueNameBar.SetActive(false);
+            else
+            {
+                go_DialogueNameBar.SetActive(true);
+                txt_Name.text = dialogues[lineCount].name;
+            }
         }
+       
+        //for (int i = 0; i < img_Char.Length; i++)
+        //{
+        //    img_Char[i].gameObject.SetActive(p_flag);
+        //}
     }
 
 }
