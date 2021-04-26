@@ -14,9 +14,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] GameObject go_ExitAlert = null;
     [SerializeField] Text txt_Money = null;
 
-
-
-
     public void PasuseGame()
     {
         go_PauseUI.SetActive(true);
@@ -70,10 +67,5 @@ public class UIManager : MonoBehaviour
     public void SetMoney(int p_Money)
     {
         txt_Money.text = p_Money.ToString();
-    }
-
-    private void Start()
-    {
-        SetMoney(GameManager.money);
     }
 }

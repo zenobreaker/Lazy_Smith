@@ -130,7 +130,8 @@ public class SaveManager : MonoBehaviour
 
             theRecipe.LoadRecipeData(saveData.recipeUnlockList);
 
-            GameManager.money = saveData.money;
+            //GameManager.money = saveData.money;
+            UIManager.instance.SetMoney(saveData.money);
             
             theSC.SetSfxVolume(saveData.sfxSoundValue);
             theSC.SetBGMVolume(saveData.bgmSoundValue);

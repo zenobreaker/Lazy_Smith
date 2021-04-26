@@ -10,7 +10,7 @@ public class InteractionController : MonoBehaviour
 
     [SerializeField] InteractionEvent theIE = null;
     [SerializeField] DialogueManager theDM = null;
-
+    [SerializeField] QuestManager theQuest = null; 
     [SerializeField] RecipePage recipePage = null;
 
     List<bool> viewList = new List<bool>();
@@ -26,6 +26,7 @@ public class InteractionController : MonoBehaviour
                     ScriptManager.instance.SettingData("Prologue-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
                     viewList[0] = true;
+                    theQuest.SetQuest(1);
                 }
                 break;
             case 2:
@@ -34,6 +35,7 @@ public class InteractionController : MonoBehaviour
                     ScriptManager.instance.SettingData("First-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
                     viewList[1] = true;
+                    theQuest.SetQuest(2);
                 }
                 break;
             case 3:
@@ -42,6 +44,7 @@ public class InteractionController : MonoBehaviour
                     ScriptManager.instance.SettingData("Second-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
                     viewList[2] = true;
+                    theQuest.SetQuest(3);
                 }
                 break;
             case 4:
@@ -50,6 +53,7 @@ public class InteractionController : MonoBehaviour
                     ScriptManager.instance.SettingData("Fourth-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
                     viewList[3] = true;
+                    theQuest.SetQuest(4);
                 }
                 break;
             case 5:
@@ -58,6 +62,7 @@ public class InteractionController : MonoBehaviour
                     ScriptManager.instance.SettingData("Fiveth-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
                     viewList[4] = true;
+                    theQuest.SetQuest(5);
                 }
                 break;
             case 6:
@@ -66,6 +71,7 @@ public class InteractionController : MonoBehaviour
                     ScriptManager.instance.SettingData("Last-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
                     viewList[5] = true;
+                    theQuest.SetQuest(6);
                 }
                 break;
         }

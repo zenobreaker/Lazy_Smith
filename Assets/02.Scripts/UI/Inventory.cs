@@ -10,6 +10,7 @@ public class Inventory : TabManual
     [SerializeField] GameObject parentSlotObject = null;
     [SerializeField] InvenAlert invenAlert = null;
     [SerializeField] GameObject go_BackGround = null;
+    [SerializeField] QuestManager questManager = null;
 
     List<InvenSlot> invenSlots = new List<InvenSlot>();
     List<Item> weaponitems = new List<Item>();
@@ -94,6 +95,7 @@ public class Inventory : TabManual
 
     }
 
+    // 리스트에 의한 세팅 
     void SettingItems(List<Item> _items)
     {
         for (int i = 0; i < _items.Count; i++)
@@ -103,10 +105,12 @@ public class Inventory : TabManual
         }
     }
 
+    // 단일 아이템에 의한 세팅 
     void SettingItem(Item p_item, int p_idx)
     {
         invenSlots[p_idx].ClearSlot();
         invenSlots[p_idx].AddItem(p_item, p_item.itemCount);
+        questManager.CheckQuest();
     }
 
     public void TabSetting(int _tabNumber)
@@ -162,6 +166,7 @@ public class Inventory : TabManual
                     {
                         item.itemCount += 1;
                         //SettingItem(p_Item, weaponitems.IndexOf(p_Item));
+                        questManager.CheckQuest();
                         break;
                     }
                 }
@@ -185,6 +190,11 @@ public class Inventory : TabManual
     public void DecreaseItemCount(string p_ItemID , int p_Count)
     {
         materialItems.Find(x => x.itemID.Equals(p_ItemID)).itemCount -= p_Count; 
+    }
+    
+    public void DecreaseWeaponCount(string p_ItemID, int p_Count)
+    {
+        weaponitems.Find(x => x.itemID.Equals(p_ItemID)).itemCount -= p_Count;
     }
 
     // 무기 판매
@@ -218,6 +228,18 @@ public class Inventory : TabManual
 
         if (t_Item != null)
             return t_Item.itemCount;
+        else
+            return 0;
+    }
+
+    public int GetWeaponItemByID(string p_ID)
+    {
+        Item t_Item = weaponitems.Find(x => x.itemID.Equals(p_ID));
+
+        if (t_Item != null)
+        {
+            return t_Item.itemCount;
+        }
         else
             return 0;
     }
