@@ -14,6 +14,8 @@ public class SaveData
     public List<int> wItemCountList = new List<int>();
     public List<string> materialItemList = new List<string>();
     public List<int> mItemCountList = new List<int>();
+    public List<bool> stroyViewList = new List<bool>();
+    public List<bool> questBeingList = new List<bool>();
 }
 
 public class SaveManager : MonoBehaviour
@@ -27,7 +29,9 @@ public class SaveManager : MonoBehaviour
 
     private Inventory theInven;
     private RecipePage theRecipe;
-    private SoundController theSC; 
+    private SoundController theSC;
+    [SerializeField] InteractionController theIC = null;
+    [SerializeField] QuestManager theQuest = null;
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +55,8 @@ public class SaveManager : MonoBehaviour
 
         Item[] wItems = theInven.SaveWeaponData();
         Item[] mItems = theInven.SaveMaterialData();
+        bool[] viewArr = theIC.GetViewList().ToArray();
+        bool[] beingArr = theQuest.GetQuestBeingList().ToArray();
 
         saveData.money = GameManager.money;
         saveData.recipeUnlockList = theRecipe.SaveRecipeData();
@@ -85,9 +91,37 @@ public class SaveManager : MonoBehaviour
             }
         }
 
+        if (saveData.stroyViewList.Count < 1)
+        {
+            Debug.Log("저장 길이 0 구축 시작");
+            for (int x = 0; x < theIC.GetViewList().Count; x++)
+            {
+                saveData.stroyViewList.Add(viewArr[x]);
+            }
+        }else if(saveData.stroyViewList.Count == viewArr.Length)
+        {
+            for (int i = 0; i < saveData.stroyViewList.Count; i++)
+            {
+                saveData.stroyViewList[i] = viewArr[i];
+            }
+        }
+
+        if (saveData.questBeingList.Count < 1)
+        {
+            for (int y = 0; y < beingArr.Length; y++)
+            {
+                saveData.questBeingList.Add(beingArr[y]);
+            }
+        }
+        else if(saveData.questBeingList.Count == beingArr.Length)
+        {
+            for (int i = 0; i < saveData.questBeingList.Count; i++)
+            {
+                saveData.questBeingList[i] = beingArr[i];
+            }
+        }
+
         string json = JsonUtility.ToJson(saveData);
-
-
 
         File.WriteAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME, json);
 
@@ -130,11 +164,15 @@ public class SaveManager : MonoBehaviour
 
             theRecipe.LoadRecipeData(saveData.recipeUnlockList);
 
-            //GameManager.money = saveData.money;
+            GameManager.money = saveData.money;
             UIManager.instance.SetMoney(saveData.money);
             
             theSC.SetSfxVolume(saveData.sfxSoundValue);
             theSC.SetBGMVolume(saveData.bgmSoundValue);
+            theIC.SetViewList(saveData.stroyViewList);
+            theQuest.SetQuestDic(saveData.questBeingList);
+
+            yield return null;
 
             Debug.Log("로드 완료");
         }

@@ -20102,6 +20102,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   go_BackGround: {fileID: 53319561}
+  theIC: {fileID: 0}
 --- !u!4 &2004345043
 Transform:
   m_ObjectHideFlags: 0
@@ -21565,7 +21566,7 @@ MonoBehaviour:
   btn_Dialogue: {fileID: 0}
   theIE: {fileID: 2110662224}
   theDM: {fileID: 140645115}
-  theQuest: {fileID: 0}
+  theQuest: {fileID: 1352748186}
   recipePage: {fileID: 1515877566}
 --- !u!4 &2110662226
 Transform:

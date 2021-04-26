@@ -9,6 +9,7 @@ public class QuestManager : MonoBehaviour
     Dictionary<int, QuestData> questDic;
 
     int currentQuestNum = 0;
+    bool isQuest = false;
 
     void Awake()
     {
@@ -47,9 +48,11 @@ public class QuestManager : MonoBehaviour
     public void SetQuest(int p_num)
     {
         currentQuestNum = p_num;
+        questDic[p_num].isBeing = true;
         questUI.SettingUI(true);
         questUI.SetQuestContext(questDic[p_num]);
         CheckQuest();
+        isQuest = true;
     }
 
     // Äù½ºÆ® °Ë»ç 
@@ -82,6 +85,7 @@ public class QuestManager : MonoBehaviour
     public void ClearQuest()
     {
         QuestData t_questData = questDic[currentQuestNum];
+        questDic[currentQuestNum].isBeing = false;
         questUI.QuestClearAlert(false);
 
         for (int i = 0; i < t_questData.weaponID.Length; i++)
@@ -93,7 +97,31 @@ public class QuestManager : MonoBehaviour
         }
 
         questUI.ClearList();
+        GameManager.money += t_questData.reward;
         UIManager.instance.SetMoney(t_questData.reward);
         questUI.SettingUI(false);
+        isQuest = false;
+    }
+
+    public void SetQuestDic(List<bool> p_boolList)
+    {
+        for (int i = 0; i < p_boolList.Count; i++)
+        {
+            questDic[i+1].isBeing = p_boolList[i];
+            if (questDic[i + 1].isBeing)
+                SetQuest(i + 1);
+        }
+    }
+
+    public List<bool> GetQuestBeingList()
+    {
+        List<bool> t_BoolList = new List<bool>();
+
+        for (int i = 1; i <= questDic.Count; i++)
+        {
+            t_BoolList.Add(questDic[i].isBeing);
+        }
+
+        return t_BoolList;
     }
 }

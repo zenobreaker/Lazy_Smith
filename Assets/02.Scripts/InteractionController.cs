@@ -25,7 +25,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Prologue-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList[0] = true;
+                    viewList.Insert(0, true);
                     theQuest.SetQuest(1);
                 }
                 break;
@@ -34,7 +34,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("First-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList[1] = true;
+                    viewList.Insert(1, true);
                     theQuest.SetQuest(2);
                 }
                 break;
@@ -43,7 +43,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Second-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList[2] = true;
+                    viewList.Insert(2, true);
                     theQuest.SetQuest(3);
                 }
                 break;
@@ -52,7 +52,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Fourth-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList[3] = true;
+                    viewList.Insert(3, true);
                     theQuest.SetQuest(4);
                 }
                 break;
@@ -61,7 +61,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Fiveth-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList[4] = true;
+                    viewList.Insert(4, true); 
                     theQuest.SetQuest(5);
                 }
                 break;
@@ -70,7 +70,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Last-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList[5] = true;
+                    viewList.Insert(5, true);
                     theQuest.SetQuest(6);
                 }
                 break;
