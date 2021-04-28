@@ -9,6 +9,7 @@ public class QuestData
     public int[] each;
     public int reward;
     public bool isBeing = false;
+    public bool isClear = false;
 
     public QuestData(string p_name, string p_weaponID, int p_each, int p_reward)
     {

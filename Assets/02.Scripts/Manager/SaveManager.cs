@@ -16,6 +16,7 @@ public class SaveData
     public List<int> mItemCountList = new List<int>();
     public List<bool> stroyViewList = new List<bool>();
     public List<bool> questBeingList = new List<bool>();
+    public List<bool> questClearList = new List<bool>();
 }
 
 public class SaveManager : MonoBehaviour
@@ -57,6 +58,7 @@ public class SaveManager : MonoBehaviour
         Item[] mItems = theInven.SaveMaterialData();
         bool[] viewArr = theIC.GetViewList().ToArray();
         bool[] beingArr = theQuest.GetQuestBeingList().ToArray();
+        bool[] clearArr = theQuest.GetQuestClearList().ToArray();
 
         saveData.money = GameManager.money;
         saveData.recipeUnlockList = theRecipe.SaveRecipeData();
@@ -121,6 +123,20 @@ public class SaveManager : MonoBehaviour
             }
         }
 
+        if(saveData.questClearList.Count < 1)
+        {
+            for (int z = 0; z < clearArr.Length; z++)
+            {
+                saveData.questClearList.Add(clearArr[z]);
+            }
+        }else if(saveData.questClearList.Count == clearArr.Length)
+        {
+            for (int i = 0; i < saveData.questClearList.Count; i++)
+            {
+                saveData.questClearList[i] = clearArr[i];
+            }
+        }
+
         string json = JsonUtility.ToJson(saveData);
 
         File.WriteAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME, json);
@@ -170,8 +186,8 @@ public class SaveManager : MonoBehaviour
             theSC.SetSfxVolume(saveData.sfxSoundValue);
             theSC.SetBGMVolume(saveData.bgmSoundValue);
             theIC.SetViewList(saveData.stroyViewList);
-            theQuest.SetQuestDic(saveData.questBeingList);
-
+            theQuest.SetQuestDic(saveData.questBeingList,saveData.questClearList);
+           
             yield return null;
 
             Debug.Log("로드 완료");

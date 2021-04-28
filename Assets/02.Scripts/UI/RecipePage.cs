@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 [System.Serializable]
 public class RecipeItem
@@ -23,13 +23,26 @@ public class RecipePage : MonoBehaviour
     public List<bool> recipeUnLockList = new List<bool>();       // 레시피 해금 여부 리스트 
 
     [SerializeField] RecipeAlert ra_AlertUI = null;
+
+    [Header("레시피 UI")]
     [SerializeField] GameObject go_RacipeUI = null;
+    [SerializeField] Button btn_confirm = null;
+
+    [Space(10)]
     [SerializeField] GameObject go_RecipeContent = null;
     [SerializeField] MaterialQuest[] materialQuests = null;
 
+
+    [Header("퀘스트 경보창")]
+    [SerializeField] GameObject questAlert = null;
+    [SerializeField] Text txt_alert = null; 
+
     RecipeSlot currentRSlot;
 
+    
     [SerializeField] InteractionController theIC = null;
+    [SerializeField] QuestManager theQuest = null;
+
     // 레시피 리스트에 아이템 추가 
     void SetRecipeList()
     {
@@ -63,6 +76,39 @@ public class RecipePage : MonoBehaviour
         recipeUnLockList[_targetNum] = false;
         if(_targetNum == 2)
             theIC.ShowDialogue(2);   // 2번 퀘스트 해금 
+    }
+
+    public bool CheckQuestClear(string p_wID)
+    {
+        switch(p_wID)
+        {
+            case "102":
+            case "103":
+                if (!theQuest.GetisClear(1))
+                {
+                    txt_alert.text = "퀘스트 \" 감각 되찾기 \" 클리어";
+                    return false;
+                }
+                return true;
+            case "104":
+            case "105":
+            case "106":
+                if (!theQuest.GetisClear(3))
+                {
+                    txt_alert.text = "퀘스트 \"손님 맞이\" 클리어";
+                    return false;
+                }
+                return true;
+            case "107": case "108": case "109":
+                if (!theQuest.GetisClear(5))
+                {
+                    txt_alert.text = "퀘스트 \"게으름\" 클리어";
+                    return false;
+                }
+                return true;
+        }
+
+        return true;
     }
 
     // 사용가능한 레시피 확인 
@@ -121,6 +167,16 @@ public class RecipePage : MonoBehaviour
     {
         currentRSlot = _recipeSlot;
         SetRecipe(_recipeSlot.MyItem.itemID);
+        if (!CheckQuestClear(_recipeSlot.MyItem.itemID))
+        {
+            questAlert.SetActive(true);
+            btn_confirm.interactable = false;
+        }
+        else
+        {
+            questAlert.SetActive(false);
+            btn_confirm.interactable = true;
+        }
         go_RacipeUI.SetActive(true);
         SoundManager.instance.PlaySE("ButtonClick");
     }

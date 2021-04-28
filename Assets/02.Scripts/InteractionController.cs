@@ -13,7 +13,7 @@ public class InteractionController : MonoBehaviour
     [SerializeField] QuestManager theQuest = null; 
     [SerializeField] RecipePage recipePage = null;
 
-    List<bool> viewList = new List<bool>();
+    bool[] viewList = new bool[6];
 
 
     public void ShowDialogue(int p_EventNum)
@@ -25,7 +25,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Prologue-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList.Insert(0, true);
+                    viewList[0] =  true;
                     theQuest.SetQuest(1);
                 }
                 break;
@@ -34,7 +34,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("First-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList.Insert(1, true);
+                    viewList[1] = true;
                     theQuest.SetQuest(2);
                 }
                 break;
@@ -43,7 +43,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Second-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList.Insert(2, true);
+                    viewList[2] = true;
                     theQuest.SetQuest(3);
                 }
                 break;
@@ -52,7 +52,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Fourth-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList.Insert(3, true);
+                    viewList[3] = true;
                     theQuest.SetQuest(4);
                 }
                 break;
@@ -61,7 +61,7 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Fiveth-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList.Insert(4, true); 
+                    viewList[4] = true;
                     theQuest.SetQuest(5);
                 }
                 break;
@@ -70,13 +70,14 @@ public class InteractionController : MonoBehaviour
                 {
                     ScriptManager.instance.SettingData("Last-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
-                    viewList.Insert(5, true);
+                    viewList[5] = true;
                     theQuest.SetQuest(6);
                 }
                 break;
         }
 
     }
+
 
     public void SettingIcon(bool p_flag)
     {
@@ -85,11 +86,21 @@ public class InteractionController : MonoBehaviour
 
     public void SetViewList(List<bool> p_List)
     {
-        viewList = p_List;
+        viewList = p_List.ToArray();
+
+        if (!viewList[0])
+            ShowDialogue(1);
     }
 
     public List<bool> GetViewList()
     {
-        return viewList;
+        List<bool> t_bool = new List<bool>();
+
+        for (int i = 0; i < viewList.Length; i++)
+        {
+            t_bool.Add(viewList[i]);
+        }
+
+        return t_bool;
     }
 }

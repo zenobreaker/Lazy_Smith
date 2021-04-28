@@ -26,20 +26,20 @@ public class QuestManager : MonoBehaviour
         questDic.Add(1, new QuestData("감각 되찾기", "101", 2, 1000));
         questDic.Add(2, new QuestData("촌장님의 부탁?", "102", 3, 3000));
         
-        t_weapons = new string[2] { "101", "102" };
-        t_eachs = new int[2] { 2, 2 };
+        t_weapons = new string[3] { "101", "102" ,"103"};
+        t_eachs = new int[3] { 2, 2 ,2};
         questDic.Add(3, new QuestData("장사 준비", t_weapons, t_eachs,4000));
         
         questDic.Add(4, new QuestData("손님 맞이", "104", 3,10000));
 
-        t_weapons = new string[] { "103","104", "105" };
+        t_weapons = new string[] { "104","105", "106" };
         t_eachs = new int[] { 2,3,2 };
-        questDic.Add(5, new QuestData("게으름", t_weapons, t_eachs,12000));
+        questDic.Add(5, new QuestData("게으름", t_weapons, t_eachs, 42000));
 
 
-        t_weapons = new string[] { "104", "105" };
+        t_weapons = new string[] { "107", "108" };
         t_eachs = new int[] {3, 4 };
-        questDic.Add(6, new QuestData("수상한 의뢰인 1", t_weapons, t_eachs,100000));
+        questDic.Add(6, new QuestData("수상한 의뢰인 1", t_weapons, t_eachs, 300000));
 
         // 이후 코로니움 관련 무기 추가 
 
@@ -86,6 +86,7 @@ public class QuestManager : MonoBehaviour
     {
         QuestData t_questData = questDic[currentQuestNum];
         questDic[currentQuestNum].isBeing = false;
+        questDic[currentQuestNum].isClear = true;
         questUI.QuestClearAlert(false);
 
         for (int i = 0; i < t_questData.weaponID.Length; i++)
@@ -103,11 +104,12 @@ public class QuestManager : MonoBehaviour
         isQuest = false;
     }
 
-    public void SetQuestDic(List<bool> p_boolList)
+    public void SetQuestDic(List<bool> p_boolList, List<bool> p_clearList)
     {
         for (int i = 0; i < p_boolList.Count; i++)
         {
             questDic[i+1].isBeing = p_boolList[i];
+            questDic[i + 1].isClear = p_clearList[i];
             if (questDic[i + 1].isBeing)
                 SetQuest(i + 1);
         }
@@ -123,5 +125,30 @@ public class QuestManager : MonoBehaviour
         }
 
         return t_BoolList;
+    }
+
+    public void SetQuestClear(List<bool> p_ClearList)
+    {
+        for (int i = 0; i < p_ClearList.Count; i++)
+        {
+            questDic[i + 1].isClear = p_ClearList[i];
+        }
+    }
+
+    public List<bool> GetQuestClearList(){
+        List<bool> t_ClearList = new List<bool>();
+
+        for (int i = 1; i <= questDic.Count; i++)
+        {
+            t_ClearList.Add(questDic[i].isClear);
+        }
+
+        return t_ClearList;
+    }
+
+    public bool GetisClear(int p_num)
+    {
+        Debug.Log("번호 : " + p_num + "클리어? : " + questDic[p_num].isClear);
+        return questDic[p_num].isClear;
     }
 }
