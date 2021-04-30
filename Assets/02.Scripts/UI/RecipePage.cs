@@ -74,8 +74,14 @@ public class RecipePage : MonoBehaviour
     public void UnlockRecipe(int _targetNum)
     {
         recipeUnLockList[_targetNum] = false;
-        if(_targetNum == 2)
+        if (_targetNum == 1)
             theIC.ShowDialogue(2);   // 2번 퀘스트 해금 
+        if(_targetNum == 2)
+            theIC.ShowDialogue(3);
+        if(_targetNum == 3)
+            theIC.ShowDialogue(4);
+        if(_targetNum == 5)
+            theIC.ShowDialogue(5);
     }
 
     public bool CheckQuestClear(string p_wID)

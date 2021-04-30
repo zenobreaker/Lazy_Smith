@@ -8,7 +8,7 @@ public class RecipeAlert : MonoBehaviour
     [SerializeField] Image img_ItemImage = null;
     [SerializeField] GameObject go_BaseUI = null;
     [SerializeField] Button btn_Confirm = null;
-    [SerializeField] Button btn_Cancel = null;
+   // [SerializeField] Button btn_Cancel = null;
 
 
     Item currentItem;

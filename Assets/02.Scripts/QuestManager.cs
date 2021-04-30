@@ -9,7 +9,6 @@ public class QuestManager : MonoBehaviour
     Dictionary<int, QuestData> questDic;
 
     int currentQuestNum = 0;
-    bool isQuest = false;
 
     void Awake()
     {
@@ -52,36 +51,42 @@ public class QuestManager : MonoBehaviour
         questUI.SettingUI(true);
         questUI.SetQuestContext(questDic[p_num]);
         CheckQuest();
-        isQuest = true;
     }
 
     // 퀘스트 검사 
     public void CheckQuest()
     {
-        questUI.SetQuestContext(questDic[currentQuestNum]);
-
-        QuestData t_quest = questDic[currentQuestNum];
-        int targetCount = 0;
-
-        for (int i = 0; i < t_quest.weaponID.Length; i++)
+        if (currentQuestNum == 0)
+            return;
+        else
         {
-            int t_ItemCount = Inventory.instance.GetWeaponItemByID(t_quest.weaponID[i]);
-            
-            if(t_ItemCount >= t_quest.each[i])
-                targetCount++;
+            questUI.SetQuestContext(questDic[currentQuestNum]);
+
+            QuestData t_quest = questDic[currentQuestNum];
+            int targetCount = 0;
+
+            for (int i = 0; i < t_quest.weaponID.Length; i++)
+            {
+                int t_ItemCount = Inventory.instance.GetWeaponItemByID(t_quest.weaponID[i]);
+
+                if (t_ItemCount >= t_quest.each[i])
+                    targetCount++;
+            }
+
+            if (targetCount >= t_quest.weaponID.Length)
+                OpenQuestAlert(true);// 퀘스트완료 
+            else
+                OpenQuestAlert(false);// 퀘스트 조건 미달성
         }
-
-        if (targetCount >= t_quest.weaponID.Length)
-            OpenQuestAlert();// 퀘스트완료 
-
     }
 
-    public void OpenQuestAlert()
+    public void OpenQuestAlert(bool p_flag)
     {
         Debug.Log("퀘스트 조건 완료 ");
-        questUI.QuestClearAlert(true);
+        questUI.QuestClearAlert(p_flag);
     }
 
+    // 버튼 
     public void ClearQuest()
     {
         QuestData t_questData = questDic[currentQuestNum];
@@ -99,9 +104,8 @@ public class QuestManager : MonoBehaviour
 
         questUI.ClearList();
         GameManager.money += t_questData.reward;
-        UIManager.instance.SetMoney(t_questData.reward);
+        UIManager.instance.SetMoney(GameManager.money);
         questUI.SettingUI(false);
-        isQuest = false;
     }
 
     public void SetQuestDic(List<bool> p_boolList, List<bool> p_clearList)

@@ -11,9 +11,13 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] GameObject go_DialogueBar = null;
     [SerializeField] GameObject go_DialogueNameBar = null;
 
+    [Header("스킵 알림창")]
+    [SerializeField] GameObject go_SkipAlert = null; 
+
     [SerializeField] Text txt_Dialogue = null;
     [SerializeField] Text txt_Name = null;
 
+    //erializeField] Button btn_Skip = null; 
 
     Dialogue[] dialogues;
 
@@ -124,4 +128,24 @@ public class DialogueManager : MonoBehaviour
         //}
     }
 
+
+
+    public void OpenSkipAlert()
+    {
+        go_SkipAlert.SetActive(true);
+    }
+
+
+    public void SkipDialogue()
+    {
+        StopCoroutine(TypeWriter());
+        EndDialogue();
+        go_SkipAlert.SetActive(false);
+    }
+
+
+    public void CancelSkipDialogue()
+    {
+        go_SkipAlert.SetActive(false);
+    }
 }

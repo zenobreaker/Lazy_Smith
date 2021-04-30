@@ -14,14 +14,14 @@ public class GameManager : MonoBehaviour
 
 
 
-    [SerializeField] GameObject go_PrepareUI = null;
+   // [SerializeField] GameObject go_PrepareUI = null;
 
     [SerializeField] NoteManager noteManager = null;
     [SerializeField] TimeGauageController theTimer = null;
     [SerializeField] StageManager stageManager = null;
     [SerializeField] SaveManager saveManager = null;
     [SerializeField] TimingManager timingManager = null;
-
+    
     private void Awake()
     {
         if (instance == null)
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
         stageManager.SettingStage(p_stageNum);
         noteManager.SettingGame(stageManager.GetCurStageLevel(), stageManager.GetCurStageTimingValue());
-     
+        NoteManager.isFever = false;
         theTimer.SetMaxValue(60);
         theTimer.StartTimer();
     }

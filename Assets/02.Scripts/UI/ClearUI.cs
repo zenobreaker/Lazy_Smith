@@ -50,7 +50,7 @@ public class ClearUI : MonoBehaviour
         if (t_item != null)
         {
             currentItem = t_item;
-            img_ItemImage.sprite = t_item.itemImage;
+            img_ItemImage.sprite = t_item.itemIcon;
             txt_ItemName.text = t_item.itemName;
             Inventory.instance.IncreaseItemCount(currentItem);
         }

@@ -21,6 +21,7 @@ public class QuestUI : MonoBehaviour
         txt_QuestTitle.text = p_str;
     }
 
+    // 퀘스트 내용 작성
     public void SetQuestContext(QuestData p_questData)
     {
         SetTilte(p_questData.questName);
@@ -55,7 +56,9 @@ public class QuestUI : MonoBehaviour
 
         SetTilte("");
 
-        for (int i = 0; i < go_Context.transform.childCount; i++)
+        int count = go_Context.transform.childCount;
+
+        for (int i = 0; i < count ; i++)
         {
             Destroy(go_Context.transform.GetChild(i).gameObject);
         }

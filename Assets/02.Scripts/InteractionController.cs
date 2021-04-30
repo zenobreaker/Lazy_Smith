@@ -11,10 +11,14 @@ public class InteractionController : MonoBehaviour
     [SerializeField] InteractionEvent theIE = null;
     [SerializeField] DialogueManager theDM = null;
     [SerializeField] QuestManager theQuest = null; 
-    [SerializeField] RecipePage recipePage = null;
+   // [SerializeField] RecipePage recipePage = null;
 
     bool[] viewList = new bool[6];
 
+    private void Start()
+    {
+        
+    }
 
     public void ShowDialogue(int p_EventNum)
     {
@@ -88,6 +92,12 @@ public class InteractionController : MonoBehaviour
     {
         viewList = p_List.ToArray();
 
+        if (!viewList[0])
+            ShowDialogue(1);
+    }
+
+    public void StartFirstStroy()
+    {
         if (!viewList[0])
             ShowDialogue(1);
     }

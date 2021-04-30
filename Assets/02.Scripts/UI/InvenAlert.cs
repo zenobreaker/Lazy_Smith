@@ -10,7 +10,7 @@ public class InvenAlert : MonoBehaviour
     [SerializeField] Text txt_ItemCount = null;
 
     [SerializeField] Button btn_Confirm = null;
-    [SerializeField] Button btn_Cancel = null;
+ //   [SerializeField] Button btn_Cancel = null;
 
     Item currentItem;
     private int currentCount;

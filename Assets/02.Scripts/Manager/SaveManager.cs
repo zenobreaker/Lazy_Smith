@@ -26,7 +26,7 @@ public class SaveManager : MonoBehaviour
     private SaveData saveData = new SaveData();
 
     private string SAVE_DATA_DIRECTROTY;
-    private string SAVE_FILENAME = "/SaveFile.txt";
+    private string SAVE_FILENAME = "/SaveFile.json";
 
     private Inventory theInven;
     private RecipePage theRecipe;
@@ -38,6 +38,7 @@ public class SaveManager : MonoBehaviour
     void Start()
     {
         SAVE_DATA_DIRECTROTY = Application.persistentDataPath + "/Saves/";
+        //Debug.Log(SAVE_DATA_DIRECTROTY);
 
         if (!Directory.Exists(SAVE_DATA_DIRECTROTY))
             Directory.CreateDirectory(SAVE_DATA_DIRECTROTY);
@@ -191,9 +192,13 @@ public class SaveManager : MonoBehaviour
             yield return null;
 
             Debug.Log("로드 완료");
+            theIC.StartFirstStroy();
         }
         else
         {
+            GameManager.money = 0;
+            UIManager.instance.SetMoney(GameManager.money);
+            theIC.StartFirstStroy();
             Debug.Log("저장된 파일이 없습니다.");
         }
         go_BackGround.SetActive(false);

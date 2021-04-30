@@ -38,7 +38,7 @@ public class NoteManager : MonoBehaviour
     public bool isTimeAttak = false;
     bool isMiss = false;
     bool isInput = true;   // 입력 제한 
-    bool oneTime = false; 
+    //bool oneTime = false; 
 
     [Header("화살표 노트")]
     [SerializeField] GameObject go_UpArrow = null;      // 화살표 프리팹  
@@ -258,9 +258,9 @@ public class NoteManager : MonoBehaviour
     }
 
     // 콤보에 따른 피버 수치 증가
-    void IncreaseFeverCount(ComboHit p_Comobo)
+    void IncreaseFeverCount(ComboHit p_Combo)
     {
-        switch (p_Comobo)
+        switch (p_Combo)
         {
             case ComboHit.PERFECT:
                 feverCount += 10;
@@ -275,8 +275,8 @@ public class NoteManager : MonoBehaviour
                 feverCount -= 2;
                 break;
         }
-       // Debug.Log("현재 피버 점수 : " + feverCount);
-        if (feverCount == feverValue[curFeverIdx] && !isFever)
+        Debug.Log("현재 피버 점수 : " + feverCount + "피버 인덱 " + curFeverIdx + "콤보 : " + p_Combo);
+        if (feverCount >= feverValue[curFeverIdx] && !isFever)
         {
          //   Debug.Log("피버!!1");
             if (curFeverIdx < 4)
@@ -342,8 +342,10 @@ public class NoteManager : MonoBehaviour
         // 노트 개수 설정 
         initCount = p_NoteNum;
         currentNoteCount = p_NoteNum;
+        
         inputCount = 0;
         prevInputCount = 0;
+        
         correctCount = 0;
         curFeverIdx = 0;    // 노트 피버 인덱스 초기화 
 
@@ -352,6 +354,9 @@ public class NoteManager : MonoBehaviour
 
         effectManager.SettingAnim(true);
         effectManager.ResetEffect();
+
+        curFeverIdx = 0;
+        feverCount = 0;
 
         isStart = true;
         isTimeAttak = p_TimeAttack;
@@ -407,7 +412,7 @@ public class NoteManager : MonoBehaviour
         // 유저가 입력한 노트 리스트에 추가 
         GameObject clone = null;
 
-        if (userNoteList.Count >= currentNoteCount)  // 추가 개수 입력 방지 
+        if (userNoteList.Count >= currentNoteCount || !isInput)  // 추가 개수 입력 방지 
             return;
 
         switch (p_KeyCode)
