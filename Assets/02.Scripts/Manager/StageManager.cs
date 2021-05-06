@@ -42,10 +42,24 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    public void SettingRandomStage()
+    {
+        int ran = Random.Range(0, stageArray.Length);
+        increasePoint = 0;
+        curNum = ran;
+        currentStage = stageArray[curNum];
+        SettingItemImage();
+    }
+
     public int GetCurStageLevel()
     {
         Debug.Log("스테이지 레벨 : " + currentStage.stageLevel);
         return currentStage.stageLevel;
+    }
+
+    public int GetCurStageMaxLevel()
+    {
+        return currentStage.stageMaxLevel;
     }
 
     public float GetCurStageTimingValue()
@@ -108,4 +122,5 @@ public class StageManager : MonoBehaviour
         clearUI.OpenTimeAttackUI();
     }
 
+   
 }

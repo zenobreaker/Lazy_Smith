@@ -35,7 +35,7 @@ public class NoteManager : MonoBehaviour
     public int[] feverValue = new int[5];
     public static bool isFever = false;
     bool isFeverCheck = false;
-    public bool isTimeAttak = false;
+    public bool isTimeAttack = false;
     bool isMiss = false;
     bool isInput = true;   // 입력 제한 
     //bool oneTime = false; 
@@ -57,7 +57,7 @@ public class NoteManager : MonoBehaviour
     [SerializeField] EffectManager effectManager = null;
     [SerializeField] TimingManager timingManager = null;
     [SerializeField] HammerController theHammer = null;
-
+    [SerializeField] StageManager stageManager = null;
 
 
     private void Update()
@@ -82,7 +82,6 @@ public class NoteManager : MonoBehaviour
     {
         if (!timingManager.GetTiming() && !isMiss && !isFever)
         {
-
             isMiss = true;
             comboHit = ComboHit.MISS;
             effectManager.judgementEffect(3);
@@ -106,6 +105,7 @@ public class NoteManager : MonoBehaviour
         isCreateGuideNote = false;
         ClearGuideNote();
         ClearUserNote();
+        timingManager.StopTiming();
     }
 
     public bool CheckSingleNote()
@@ -210,7 +210,7 @@ public class NoteManager : MonoBehaviour
                 Debug.Log("멈춤?" + timingManager.isStop());
                 isFeverCheck = true;
                 comboHit = ComboHit.FEVER;
-                effectManager.judgementEffect(0);
+                effectManager.judgementEffect(4);
                 comboManager.IncreaseScore(comboHit);
                 comboManager.IncreaseCombo();
                 theHammer.StartAction();
@@ -228,8 +228,20 @@ public class NoteManager : MonoBehaviour
     // 진행에 따른 노트 수 추가 
     void IncreaseNoteCount()
     {
-        if (currentNoteCount <= fixedNoteCount)
-            currentNoteCount++;
+        if (isTimeAttack)
+        {
+            if (currentNoteCount < fixedNoteCount)
+                currentNoteCount++;
+        }
+        else
+        {
+            if (stageManager.GetStageProcesivity() >= stageManager.GetStageMaxProcess() * 0.6f ||
+                stageManager.GetStageProcesivity() >= stageManager.GetStageMaxProcess() * 0.3f)
+            {
+                if (currentNoteCount < stageManager.GetCurStageMaxLevel())
+                    currentNoteCount++;
+            }
+        }
     }
 
     // 노트 확인 코루틴 
@@ -243,7 +255,7 @@ public class NoteManager : MonoBehaviour
         ClearGuideNote();
         ClearUserNote();
         GameManager.instance.IncreaseLevel(comboHit);
-        if (isTimeAttak)
+        if (isTimeAttack)
             IncreaseFeverCount(comboHit);
         if (!isFever)
             timingManager.StopTiming();        // 타이밍값 초기화
@@ -359,7 +371,7 @@ public class NoteManager : MonoBehaviour
         feverCount = 0;
 
         isStart = true;
-        isTimeAttak = p_TimeAttack;
+        isTimeAttack = p_TimeAttack;
         // 타이밍 값 설정 
         timingValue = p_Time;
         //timingManager.StartTiming(p_Time);

@@ -6248,6 +6248,7 @@ MonoBehaviour:
   effectManager: {fileID: 1022501356}
   timingManager: {fileID: 2131991094}
   theHammer: {fileID: 1740615379}
+  stageManager: {fileID: 2131991096}
 --- !u!4 &603463414
 Transform:
   m_ObjectHideFlags: 0
@@ -9941,6 +9942,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 661a892e90836dc4a9d494224a538339, type: 3}
   - {fileID: 21300000, guid: 43e8cc84b8ef7604cb1160ef11f65b77, type: 3}
   - {fileID: 21300000, guid: 58da2ce6e83de29448b229419d551639, type: 3}
+  - {fileID: -6788513699943618483, guid: bb4003653c578d6439abbc247c3b65fc, type: 3}
 --- !u!1 &1060682765
 GameObject:
   m_ObjectHideFlags: 0
@@ -23185,38 +23187,47 @@ MonoBehaviour:
   stageArray:
   - weaponID: 101
     stageLevel: 1
+    stageMaxLevel: 3
     maxProcessvitiy: 300
     timingTime: 15
   - weaponID: 102
     stageLevel: 2
+    stageMaxLevel: 4
     maxProcessvitiy: 300
     timingTime: 15
   - weaponID: 103
     stageLevel: 3
+    stageMaxLevel: 5
     maxProcessvitiy: 2000
     timingTime: 15
   - weaponID: 104
     stageLevel: 2
+    stageMaxLevel: 0
     maxProcessvitiy: 50
     timingTime: 15
   - weaponID: 105
     stageLevel: 3
+    stageMaxLevel: 5
     maxProcessvitiy: 2100
     timingTime: 10
   - weaponID: 106
     stageLevel: 3
+    stageMaxLevel: 5
     maxProcessvitiy: 2000
     timingTime: 10
   - weaponID: 107
     stageLevel: 5
+    stageMaxLevel: 7
     maxProcessvitiy: 3000
     timingTime: 10
   - weaponID: 108
     stageLevel: 5
+    stageMaxLevel: 7
     maxProcessvitiy: 3000
     timingTime: 10
   - weaponID: 109
     stageLevel: 5
+    stageMaxLevel: 7
     maxProcessvitiy: 3000
     timingTime: 10
   sptr_WeaponImage: {fileID: 1257248276}

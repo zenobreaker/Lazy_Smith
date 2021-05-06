@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
 
     public int gameScore;            // 게임 점수 
 
-
-
    // [SerializeField] GameObject go_PrepareUI = null;
 
     [SerializeField] NoteManager noteManager = null;
@@ -84,14 +82,14 @@ public class GameManager : MonoBehaviour
         {
             theTimer.StopTimer();
 
-            if (!noteManager.isTimeAttak)
+            if (!noteManager.isTimeAttack)
                 stageManager.EndFailureStage();
-            else if (noteManager.isTimeAttak)
+            else if (noteManager.isTimeAttack)
                 stageManager.EndTimeAttack();
         }
         else if (stageManager.GetStageProcesivity() >= stageManager.GetStageMaxProcess())
         {
-            if (!noteManager.isTimeAttak)
+            if (!noteManager.isTimeAttack)
             {
                 // 게임 종료 로직 
                 theTimer.StopTimer();
@@ -100,7 +98,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                stageManager.SettingNextStage();
+                stageManager.SettingRandomStage();
             }
         }
     }
@@ -113,6 +111,7 @@ public class GameManager : MonoBehaviour
         theTimer.StopTimer();
         timingManager.StopTiming();
     }
+
 
     // 방향키 입력 검사 
     public void GetInput()
