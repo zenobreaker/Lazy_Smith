@@ -65,6 +65,12 @@ public class ClearUI : MonoBehaviour
         go_TAUI.SetActive(false);
         go_BaseUI.SetActive(true);
         theAnim.SetTrigger("Appear");
+        int rand = Random.Range(0, 2);
+
+        if (rand == 1)
+            AdsManager.instance.ApearAdsButton(true);
+        else
+            AdsManager.instance.ApearAdsButton(false);
     }
 
     public void OpenFailureUI()
@@ -78,6 +84,13 @@ public class ClearUI : MonoBehaviour
 
         go_BaseUI.SetActive(true);
         theAnim.SetTrigger("Appear");
+
+        int rand = Random.Range(0, 2);
+        
+        if(rand == 1)
+            AdsManager.instance.ApearAdsButton(true);
+        else
+            AdsManager.instance.ApearAdsButton(false);
     }
 
     public void OpenTimeAttackUI()
@@ -89,6 +102,13 @@ public class ClearUI : MonoBehaviour
 
         go_BaseUI.SetActive(true);
         theAnim.SetTrigger("Appear");
+        
+        int rand = Random.Range(0, 2);
+
+        if (rand == 1)
+            AdsManager.instance.ApearAdsButton(true);
+        else
+            AdsManager.instance.ApearAdsButton(false);
     }
 
     public void SettingText()

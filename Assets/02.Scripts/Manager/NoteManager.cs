@@ -38,7 +38,6 @@ public class NoteManager : MonoBehaviour
     public bool isTimeAttack = false;
     bool isMiss = false;
     bool isInput = true;   // 입력 제한 
-    //bool oneTime = false; 
 
     [Header("화살표 노트")]
     [SerializeField] GameObject go_UpArrow = null;      // 화살표 프리팹  
@@ -69,7 +68,7 @@ public class NoteManager : MonoBehaviour
             CheckTiming();
             
             if(isInput)
-                GameManager.instance.GetInput();
+                GameManager.instance.GetInput();    // 키보드 입력 테스트 
             CheckCorrectNote();
             CheckFeverNote();
             GameManager.instance.GameEnd();
@@ -144,28 +143,12 @@ public class NoteManager : MonoBehaviour
                 effectManager.judgementEffect(3);
                 comboManager.ResetCombo();
                 ResetNoteCount();
+                if (isTimeAttack)
+                    GameManager.instance.DownTimeCount(2);
                 StartCoroutine(CheckNoteComplete());
             }
         }
-        /*
-        if (CheckSingleNote())
-        {
-            // prveIpCount = inputCount;
-            correctCount++;
-            Debug.Log("이거 몇번 검사?");
-
-        }
-        else
-        {
-            Debug.Log("여기옹?");
-            comboHit = ComboHit.MISS;
-            effectManager.judgementEffect(3);
-            comboManager.ResetCombo();
-            ResetNoteCount();
-            StartCoroutine(CheckNoteComplete());
-
-        }
-        */
+       
         if (correctCount == currentNoteCount)
         {
             correctCount = 0;
@@ -454,7 +437,6 @@ public class NoteManager : MonoBehaviour
         if (clone != null)
         {
             go_UserBox.transform.SetParent(clone.transform);
-//            CheckCorrectNote();
         }
     }
 

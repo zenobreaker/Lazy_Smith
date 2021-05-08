@@ -10,7 +10,7 @@ public class StageManager : MonoBehaviour
     [SerializeField] Stage[] stageArray = null;
 
     Stage currentStage;
-
+    [SerializeField] Image img_Gauage = null;
     [SerializeField] SpriteRenderer sptr_WeaponImage = null;
     int curNum;
     int increasePoint = 0;
@@ -92,6 +92,11 @@ public class StageManager : MonoBehaviour
             
         }
 
+        if(img_Gauage.IsActive())
+        {
+            img_Gauage.fillAmount = increasePoint / currentStage.maxProcessvitiy;
+        }
+
         //currentStage.stageProcessivity += increasePoint;
        // Debug.Log("진행도 : " + increasePoint);
     }
@@ -122,5 +127,11 @@ public class StageManager : MonoBehaviour
         clearUI.OpenTimeAttackUI();
     }
 
+
+    public void SettingGauageUI(bool p_flag)
+    {
+        img_Gauage.fillAmount = 0;
+        img_Gauage.gameObject.SetActive(p_flag);
+    }
    
 }

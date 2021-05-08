@@ -16,7 +16,6 @@ public class QuestManager : MonoBehaviour
         GenerateData();
     }
 
-
     void GenerateData()
     {
         string[] t_weapons; ;

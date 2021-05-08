@@ -131,7 +131,7 @@ public class RecipePage : MonoBehaviour
         }
     }
 
-    // 제작하러 가기 
+    // 제작하러 가기 버튼 이벤트 
     public void GotoCraft(int p_num = 0)
     {
         HideUI();

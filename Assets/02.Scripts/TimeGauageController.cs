@@ -71,4 +71,9 @@ public class TimeGauageController : MonoBehaviour
         }else
             img_fillGauage.color = Color.red;
     }
+
+    public void DownTimeCount(float p_value)
+    {
+        timeSlider.value -= p_value;
+    }
 }

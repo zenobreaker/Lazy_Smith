@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         noteManager.ClearUserNote();
 
         stageManager.SettingStage(p_stageNum);
+        stageManager.SettingGauageUI(true);
         noteManager.SettingGame(stageManager.GetCurStageLevel(), stageManager.GetCurStageTimingValue());
         NoteManager.isFever = false;
         theTimer.SetMaxValue(60);
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
         noteManager.ClearUserNote();
 
         stageManager.SettingStage(0);
+        stageManager.SettingGauageUI(false);
         noteManager.SettingGame(stageManager.GetCurStageLevel(), stageManager.GetCurStageTimingValue(),true);
        
         NoteManager.isFever = false;
@@ -161,6 +163,12 @@ public class GameManager : MonoBehaviour
                 break;
 
         }
+    }
+
+    // 타이머 게이지 다운 
+    public void DownTimeCount(float p_value)
+    {
+        theTimer.DownTimeCount(p_value);
     }
 
     public void SaveClick()

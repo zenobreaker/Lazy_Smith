@@ -15,11 +15,6 @@ public class InteractionController : MonoBehaviour
 
     bool[] viewList = new bool[6];
 
-    private void Start()
-    {
-        
-    }
-
     public void ShowDialogue(int p_EventNum)
     {
         switch (p_EventNum)
