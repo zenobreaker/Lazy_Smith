@@ -64,7 +64,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
    
     public void SettingUI(bool p_flag)
     {
-        txt_AlertText.text = "광고를 보고 보상을 받으시겠습니까?\n 시청완료 : 2500  스킵 : 1500";
+        txt_AlertText.text = "광고를 보고 보상을 받으시겠습니까?\n 시청완료 : 2500";
         go_BaseUI.SetActive(p_flag);
     }
 

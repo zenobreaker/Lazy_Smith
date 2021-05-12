@@ -19,26 +19,23 @@ public class TimingManager : MonoBehaviour
     {
         curTime = p_time;
         maxTime = p_time;
-        
-        if(timing != null)
+
+        if (timing != null)
             StopTiming();
         
         timing = TimingCo();
         StartCoroutine(timing);
     }
 
+ 
+    public float GetTime() {
+        return maxTime;
+    }
+
     public void StopTiming()
     {
         timingCount = 0;
         StopCoroutine(timing);
-    }
-
-    public void ResetTiming()
-    {
-        StopCoroutine(timing);
-        curTime = maxTime;
-        timing = TimingCo();
-        StartCoroutine(timing);
     }
 
     public bool GetTiming()
@@ -63,12 +60,12 @@ public class TimingManager : MonoBehaviour
      IEnumerator TimingCo()
     {
         timingCount++;
-        Debug.Log("현재 진행 중인 타이밍 = " + timingCount);
+        Debug.Log("현재 진행 시간  = " + maxTime);
 
         while (curTime > 0)
         {
             curTime -= Time.deltaTime;
-            img_timingImage.fillAmount = curTime/maxTime;
+            img_timingImage.fillAmount = curTime / maxTime;
             isGoodTiming = true;
             yield return null;
         }

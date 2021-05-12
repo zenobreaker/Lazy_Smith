@@ -18,7 +18,7 @@ public class ClearUI : MonoBehaviour
     [SerializeField] Text txt_Score     = null;
     [SerializeField] Text txt_MaxCombo  = null;
 
-    [SerializeField] Button btn_Confirm = null;
+  //  [SerializeField] Button btn_Confirm = null;
     [SerializeField] Animator theAnim = null;
 
    
@@ -96,7 +96,7 @@ public class ClearUI : MonoBehaviour
     public void OpenTimeAttackUI()
     {
         SettingText();
-
+        img_BackGround.gameObject.SetActive(true);
         go_NormalUI.SetActive(false);
         go_TAUI.SetActive(true);
 

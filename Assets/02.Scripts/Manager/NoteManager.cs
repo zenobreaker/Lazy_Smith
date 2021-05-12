@@ -15,6 +15,7 @@ public class NoteManager : MonoBehaviour
 
 
     float timingValue;
+    float prevTimingValue; 
     int fixedNoteCount = 7;         // 고정 수 
     //public int maxNoteCount;      // 최대로 생성될 노트 수 
     int currentNoteCount;           // 현재 나오는 노트 수 
@@ -34,8 +35,9 @@ public class NoteManager : MonoBehaviour
     int feverCount;
     public int[] feverValue = new int[5];
     public static bool isFever = false;
-    bool isFeverCheck = false;
     public bool isTimeAttack = false;
+    bool isFeverCheck = false;
+    bool isOneTime = false; 
     bool isMiss = false;
     bool isInput = true;   // 입력 제한 
 
@@ -85,6 +87,7 @@ public class NoteManager : MonoBehaviour
             comboHit = ComboHit.MISS;
             effectManager.judgementEffect(3);
             comboManager.ResetCombo();
+            timingValue = prevTimingValue;
             ResetNoteCount();
             StopCoroutine(CheckNoteComplete());
             StartCoroutine(CheckNoteComplete());
@@ -93,8 +96,11 @@ public class NoteManager : MonoBehaviour
         {
             isMiss = true;
             isFever = false;
-            Debug.Log("피버 종료");
+            isOneTime = false;
+         //   Debug.Log("피버 종료");
+           
             StartCoroutine(CheckNoteComplete());
+            currentNoteCount = prevCount;
         }
     }
 
@@ -143,8 +149,13 @@ public class NoteManager : MonoBehaviour
                 effectManager.judgementEffect(3);
                 comboManager.ResetCombo();
                 ResetNoteCount();
+
+
                 if (isTimeAttack)
+                {
                     GameManager.instance.DownTimeCount(2);
+                    timingValue = prevTimingValue;
+                }
                 StartCoroutine(CheckNoteComplete());
             }
         }
@@ -187,10 +198,10 @@ public class NoteManager : MonoBehaviour
     {
         if (isFever)
         {
-            Debug.Log("피버 노트 등장 ");
+         //   Debug.Log("피버 노트 등장 ");
             if (userNoteList.Count >= 3 && !isFeverCheck)
             {
-                Debug.Log("멈춤?" + timingManager.isStop());
+            //    Debug.Log("멈춤?" + timingManager.isStop());
                 isFeverCheck = true;
                 comboHit = ComboHit.FEVER;
                 effectManager.judgementEffect(4);
@@ -213,8 +224,13 @@ public class NoteManager : MonoBehaviour
     {
         if (isTimeAttack)
         {
-            if (currentNoteCount < fixedNoteCount)
-                currentNoteCount++;
+            if (comboManager.comboCount % 3 == 0)
+            {
+                if (currentNoteCount < fixedNoteCount)
+                    currentNoteCount++;
+                if(timingManager.GetTime() > 7)
+                    timingValue -= 3;
+            }
         }
         else
         {
@@ -270,7 +286,7 @@ public class NoteManager : MonoBehaviour
                 feverCount -= 2;
                 break;
         }
-        Debug.Log("현재 피버 점수 : " + feverCount + "피버 인덱 " + curFeverIdx + "콤보 : " + p_Combo);
+        //Debug.Log("현재 피버 점수 : " + feverCount + "피버 인덱 " + curFeverIdx + "콤보 : " + p_Combo);
         if (feverCount >= feverValue[curFeverIdx] && !isFever)
         {
          //   Debug.Log("피버!!1");
@@ -285,6 +301,9 @@ public class NoteManager : MonoBehaviour
     // 가이드 및 입력한 노트 및 정보 초기화 
     public void ClearGuideNote()
     {
+        if (isFever)
+            return;
+
         for (int i = 0; i < guideNoteList.Count; i++)
         {
             Destroy(go_GuideBox.transform.GetChild(i).gameObject);
@@ -346,6 +365,7 @@ public class NoteManager : MonoBehaviour
 
         comboManager.InitailCombo();
         comboManager.ResetCombo();
+        comboManager.SetScoreText(p_TimeAttack);
 
         effectManager.SettingAnim(true);
         effectManager.ResetEffect();
@@ -357,6 +377,7 @@ public class NoteManager : MonoBehaviour
         isTimeAttack = p_TimeAttack;
         // 타이밍 값 설정 
         timingValue = p_Time;
+        prevTimingValue = timingValue; 
         //timingManager.StartTiming(p_Time);
     }
 
@@ -389,14 +410,18 @@ public class NoteManager : MonoBehaviour
         }
         else
         {
-            // 피버 타임 배치 
-            prevCount = currentNoteCount;
-            currentNoteCount = 3;
-            for (int i = 0; i < feverNotes.Count; i++)
+            if (!isOneTime)
             {
-                CreateRandomArrow();
-                var clone = Instantiate(feverNotes[i], go_GuideBox.transform);
-                go_GuideBox.transform.SetParent(clone.transform);
+                isOneTime = true;
+                // 피버 타임 배치 
+                prevCount = currentNoteCount;
+                currentNoteCount = 3;
+                for (int i = 0; i < feverNotes.Count; i++)
+                {
+                    CreateRandomArrow();
+                    var clone = Instantiate(feverNotes[i], go_GuideBox.transform);
+                    go_GuideBox.transform.SetParent(clone.transform);
+                }
             }
         }
     }

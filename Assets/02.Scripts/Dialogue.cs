@@ -16,7 +16,6 @@ public class Dialogue
 public class DialougeEvent
 {
     public string name;     // 다이얼로그 이벤트 네임 
-
     public Vector2 line;    // 대사를 읽어내는 양
     public Dialogue[] dialogues;    
 }

@@ -12,7 +12,7 @@ public class Title : MonoBehaviour
         if(Application.platform == RuntimePlatform.Android)
         {
             if (Input.GetKey(KeyCode.Escape))
-                Application.Quit();
+                go_Alert.SetActive(true);
         }
     }
 

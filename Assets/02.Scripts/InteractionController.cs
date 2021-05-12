@@ -11,7 +11,6 @@ public class InteractionController : MonoBehaviour
     [SerializeField] InteractionEvent theIE = null;
     [SerializeField] DialogueManager theDM = null;
     [SerializeField] QuestManager theQuest = null; 
-   // [SerializeField] RecipePage recipePage = null;
 
     bool[] viewList = new bool[6];
 
@@ -52,7 +51,7 @@ public class InteractionController : MonoBehaviour
                     ScriptManager.instance.SettingData("Fourth-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
                     viewList[3] = true;
-                    theQuest.SetQuest(4);
+                    theQuest.SetQuest(5);
                 }
                 break;
             case 5:
@@ -61,16 +60,16 @@ public class InteractionController : MonoBehaviour
                     ScriptManager.instance.SettingData("Fiveth-Lazy", theIE);
                     theDM.ShowDialogue(theIE.GetDialogue());
                     viewList[4] = true;
-                    theQuest.SetQuest(5);
+                    theQuest.SetQuest(6);
                 }
                 break;
             case 6:
                 if (!viewList[5])
                 {
+                    // 마지막 시나리오 
                     ScriptManager.instance.SettingData("Last-Lazy", theIE);
-                    theDM.ShowDialogue(theIE.GetDialogue());
+                    theDM.ShowDialogue(theIE.GetDialogue(),true);
                     viewList[5] = true;
-                    theQuest.SetQuest(6);
                 }
                 break;
         }

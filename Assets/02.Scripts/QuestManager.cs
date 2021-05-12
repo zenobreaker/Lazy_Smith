@@ -21,23 +21,23 @@ public class QuestManager : MonoBehaviour
         string[] t_weapons; ;
         int[] t_eachs;
 
-        questDic.Add(1, new QuestData("감각 되찾기", "101", 2, 1000));
+        questDic.Add(1, new QuestData("일하기 싫어요.", "101", 2, 1000));
         questDic.Add(2, new QuestData("촌장님의 부탁?", "102", 3, 3000));
         
         t_weapons = new string[3] { "101", "102" ,"103"};
         t_eachs = new int[3] { 2, 2 ,2};
-        questDic.Add(3, new QuestData("장사 준비", t_weapons, t_eachs,4000));
+        questDic.Add(3, new QuestData("쉬어가기 쉬운 것", t_weapons, t_eachs,4000));
         
         questDic.Add(4, new QuestData("손님 맞이", "104", 3,10000));
 
         t_weapons = new string[] { "104","105", "106" };
         t_eachs = new int[] { 2,3,2 };
-        questDic.Add(5, new QuestData("게으름", t_weapons, t_eachs, 42000));
+        questDic.Add(5, new QuestData("필사적 게으름", t_weapons, t_eachs, 42000));
 
 
-        t_weapons = new string[] { "107", "108" };
-        t_eachs = new int[] {3, 4 };
-        questDic.Add(6, new QuestData("수상한 의뢰인 1", t_weapons, t_eachs, 300000));
+        t_weapons = new string[] { "107", "108","109" };
+        t_eachs = new int[] {3, 4, 2};
+        questDic.Add(6, new QuestData("과거로 부터 선물", t_weapons, t_eachs, 300000));
 
         // 이후 코로니움 관련 무기 추가 
 
@@ -105,6 +105,9 @@ public class QuestManager : MonoBehaviour
         GameManager.money += t_questData.reward;
         UIManager.instance.SetMoney(GameManager.money);
         questUI.SettingUI(false);
+
+        if (currentQuestNum == 5)
+            ShopPage.instance.LastItemView();
     }
 
     public void SetQuestDic(List<bool> p_boolList, List<bool> p_clearList)

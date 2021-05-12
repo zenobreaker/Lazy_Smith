@@ -17,6 +17,9 @@ public class ShopPage : TabManual
     [Header("일반 아이템 상점 목록")]
     [SerializeField] List<Item> stoneItems = new List<Item>();
 
+
+    [SerializeField] QuestManager theQuest = null; 
+
     private void Awake()
     {
         if (instance == null)
@@ -87,6 +90,8 @@ public class ShopPage : TabManual
                     ShopSlot clone = Instantiate(shopSlot, Vector3.zero, Quaternion.identity);
                     clone.transform.SetParent(parentSlotPage.transform, false);
                     shopSlots.Add(clone);
+                    
+
                 }
             }
             else if (_items.Count < shopSlots.Count)
@@ -105,6 +110,10 @@ public class ShopPage : TabManual
         for (int i = 0; i < _items.Count; i++)
         {
             shopSlots[i].gameObject.SetActive(true);
+            if (!theQuest.GetisClear(5))
+                shopSlots[_items.Count-1].gameObject.SetActive(false);
+            else
+                shopSlots[_items.Count-1].gameObject.SetActive(true);
         }
 
 
@@ -156,4 +165,9 @@ public class ShopPage : TabManual
         Debug.Log("스크롤 : " + scrollbar.value);
     }
 
+
+    public void LastItemView()
+    {
+        shopSlots[shopSlots.Count - 1].gameObject.SetActive(true);
+    }
 }

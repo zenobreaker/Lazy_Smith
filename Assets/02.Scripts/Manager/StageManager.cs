@@ -11,6 +11,7 @@ public class StageManager : MonoBehaviour
 
     Stage currentStage;
     [SerializeField] Image img_Gauage = null;
+    
     [SerializeField] SpriteRenderer sptr_WeaponImage = null;
     int curNum;
     int increasePoint = 0;
@@ -29,18 +30,18 @@ public class StageManager : MonoBehaviour
         SettingItemImage();
     }
 
-    public void SettingNextStage()
-    {
-        if(curNum <= stageArray.Length-1)
-        {
-            increasePoint = 0;
-            currentStage = stageArray[curNum];
-            Debug.Log("현재 스테이지 " + curNum);
-            SettingItemImage();
-            curNum++;
+    //public void SettingNextStage()
+    //{
+    //    if(curNum <= stageArray.Length-1)
+    //    {
+    //        increasePoint = 0;
+    //        currentStage = stageArray[curNum];
+    //        Debug.Log("현재 스테이지 " + curNum);
+    //        SettingItemImage();
+    //        curNum++;
             
-        }
-    }
+    //    }
+    //}
 
     public void SettingRandomStage()
     {
@@ -133,5 +134,7 @@ public class StageManager : MonoBehaviour
         img_Gauage.fillAmount = 0;
         img_Gauage.gameObject.SetActive(p_flag);
     }
+
+
    
 }

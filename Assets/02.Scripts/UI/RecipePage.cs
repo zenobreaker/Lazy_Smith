@@ -78,9 +78,11 @@ public class RecipePage : MonoBehaviour
             theIC.ShowDialogue(2);   // 2번 퀘스트 해금 
         if(_targetNum == 2)
             theIC.ShowDialogue(3);
-        if(_targetNum == 3)
+        if (_targetNum == 3)
+            theQuest.SetQuest(4);
+        if(_targetNum == 4)
             theIC.ShowDialogue(4);
-        if(_targetNum == 5)
+        if(!recipeUnLockList[6] && !recipeUnLockList[7] && !recipeUnLockList[8])
             theIC.ShowDialogue(5);
     }
 
@@ -92,7 +94,7 @@ public class RecipePage : MonoBehaviour
             case "103":
                 if (!theQuest.GetisClear(1))
                 {
-                    txt_alert.text = "퀘스트 \" 감각 되찾기 \" 클리어";
+                    txt_alert.text = "퀘스트 \" 일하기 싫어요. \" 클리어";
                     return false;
                 }
                 return true;
@@ -101,14 +103,14 @@ public class RecipePage : MonoBehaviour
             case "106":
                 if (!theQuest.GetisClear(3))
                 {
-                    txt_alert.text = "퀘스트 \"손님 맞이\" 클리어";
+                    txt_alert.text = "퀘스트 \"쉬어가기 쉬운 것\" 클리어";
                     return false;
                 }
                 return true;
             case "107": case "108": case "109":
                 if (!theQuest.GetisClear(5))
                 {
-                    txt_alert.text = "퀘스트 \"게으름\" 클리어";
+                    txt_alert.text = "퀘스트 \"필사적 게으름\" 클리어";
                     return false;
                 }
                 return true;

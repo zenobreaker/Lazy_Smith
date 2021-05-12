@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class SaveData
@@ -63,8 +64,8 @@ public class SaveManager : MonoBehaviour
 
         saveData.money = GameManager.money;
         saveData.recipeUnlockList = theRecipe.SaveRecipeData();
-        saveData.sfxSoundValue = theSC.sfxSlider.value;
-        saveData.bgmSoundValue = theSC.bgmSlider.value;
+        saveData.sfxSoundValue = Mathf.Floor(theSC.sfxSlider.value*10)/10;
+        saveData.bgmSoundValue = Mathf.Floor(theSC.bgmSlider.value*10)/10;
 
         for (int i = 0; i < wItems.Length; i++)
         {
@@ -148,7 +149,28 @@ public class SaveManager : MonoBehaviour
 
     public void LoadData()
     {
-        StartCoroutine(LoadingData());
+        if (SceneManager.GetActiveScene().name.Equals("Title"))
+            LoadSoundData();
+        else 
+            StartCoroutine(LoadingData());
+    }
+
+    void LoadSoundData()
+    {
+
+        if (File.Exists(SAVE_DATA_DIRECTROTY + SAVE_FILENAME))
+        {
+            string loadJson = File.ReadAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME);
+            saveData = JsonUtility.FromJson<SaveData>(loadJson);
+
+            Debug.Log(saveData.sfxSoundValue + " , " + saveData.bgmSoundValue);
+            for (int i = 0; i < SoundManager.instance.sfxPlayer.Length; i++)
+            {
+                SoundManager.instance.sfxPlayer[i].volume = saveData.sfxSoundValue;
+            }
+
+            SoundManager.instance.bgmPlayer.volume = (saveData.bgmSoundValue);
+        }
     }
 
     IEnumerator LoadingData()
@@ -206,6 +228,7 @@ public class SaveManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        SaveData();
+        if (!SceneManager.GetActiveScene().name.Equals("Title"))
+            SaveData();
     }
 }

@@ -16,6 +16,7 @@ public class ComboManager : MonoBehaviour
     int feverCount = 0;
 
     [SerializeField] Text txt_ComboText = null;
+    [SerializeField] Text txt_ScoreText = null;
 
     private void Start()
     {
@@ -94,5 +95,15 @@ public class ComboManager : MonoBehaviour
                 feverCount++;
                 break;
         }
+
+        txt_ScoreText.text = score.ToString();
     }
+
+    public void SetScoreText(bool p_Flag)
+    {
+        txt_ScoreText.gameObject.SetActive(p_Flag);
+        txt_ScoreText.text = "0";
+    }
+
+    
 }

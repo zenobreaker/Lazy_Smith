@@ -17,6 +17,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] Text txt_Dialogue = null;
     [SerializeField] Text txt_Name = null;
 
+    [SerializeField] Image img_CreditScreen = null;
+    public float fadeSpeed;
     //erializeField] Button btn_Skip = null; 
 
     Dialogue[] dialogues;
@@ -76,6 +78,21 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(TypeWriter());
     }
 
+    public void ShowDialogue(Dialogue[] p_dialogues, bool isEnd = false)
+    {
+        isDialouge = true;
+        txt_Dialogue.text = "";
+        txt_Name.text = "";
+
+        dialogues = p_dialogues;
+
+        StartCoroutine(TypeWriter());
+
+        if (isEnd)
+            StartCoroutine(EndCardOpen());
+
+    }
+
     void EndDialogue()
     {
         isDialouge = false;
@@ -104,6 +121,28 @@ public class DialogueManager : MonoBehaviour
         }
 
         isNext = true;
+
+    }
+
+    IEnumerator EndCardOpen()
+    {
+        yield return new WaitUntil(() => !isDialouge);
+
+        
+        img_CreditScreen.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1);
+        Color t_color = img_CreditScreen.color;
+        t_color.a = 1;
+        img_CreditScreen.color = t_color;
+
+        while(t_color.a > 0)
+        {
+            t_color.a -= fadeSpeed;
+            img_CreditScreen.color = t_color;
+            yield return null;
+        }
+
+        img_CreditScreen.gameObject.SetActive(false);
 
     }
 

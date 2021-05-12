@@ -15,6 +15,8 @@ public class ShopDialog : MonoBehaviour
     private ShopSlot selectedSlot;
     protected int itemCount;
 
+    [SerializeField] InteractionController theIC = null;
+
     public void ShowToolTip(ShopSlot _shopSlot, int _count = 1)
     {
         selectedSlot = _shopSlot;
@@ -60,7 +62,10 @@ public class ShopDialog : MonoBehaviour
             UIManager.instance.SetMoney(GameManager.money);
             Inventory.instance.IncreaseItemCount(selectedItem);
             Debug.Log("구입 완료" + selectedItem.itemName);
+            if (selectedItem.itemID.Equals("006"))
+                theIC.ShowDialogue(6);
             CancelUI();
+           
         }
     }
 }

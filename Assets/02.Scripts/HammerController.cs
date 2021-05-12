@@ -7,6 +7,7 @@ public class HammerController : MonoBehaviour
     [SerializeField] Animator hammerAnimator = null;
     [SerializeField] Animator hitAnimator = null;
     [SerializeField] SpriteRenderer weaponSprite = null;
+    [SerializeField] SpriteRenderer feverSprite = null;
     [SerializeField] Transform targetTR = null;
 
     // 망치 및 아이템 정렬 
@@ -19,6 +20,12 @@ public class HammerController : MonoBehaviour
     {
         StopCoroutine(SwingAction());
         StartCoroutine(SwingAction());
+
+        if (NoteManager.isFever)
+        {
+            StopCoroutine(FeverEffect());
+            StartCoroutine(FeverEffect());
+        }
     }
 
      void SwingHammer()
@@ -46,5 +53,14 @@ public class HammerController : MonoBehaviour
         
         SoundManager.instance.PlaySE(hammer);
         AppearEffect();
+    }
+
+    IEnumerator FeverEffect()
+    {
+        feverSprite.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f);
+        
+        feverSprite.gameObject.SetActive(false);
     }
 }
