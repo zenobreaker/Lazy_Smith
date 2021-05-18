@@ -7,6 +7,7 @@ public class RecipeAlert : MonoBehaviour
 {
     [SerializeField] Image img_ItemImage = null;
     [SerializeField] GameObject go_BaseUI = null;
+    [SerializeField] Text txt_ItemName = null;
    // [SerializeField] Button btn_Confirm = null;
    // [SerializeField] Button btn_Cancel = null;
 
@@ -35,6 +36,7 @@ public class RecipeAlert : MonoBehaviour
     public void SetItem(RecipeSlot _recipeSlot)
     {
         currentItem = _recipeSlot.MyItem;
+        txt_ItemName.text = _recipeSlot.MyItem.itemName;
         img_ItemImage.sprite = _recipeSlot.itemImage.sprite;
     }
 

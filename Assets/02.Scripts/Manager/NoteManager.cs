@@ -36,6 +36,7 @@ public class NoteManager : MonoBehaviour
     public int[] feverValue = new int[5];
     public static bool isFever = false;
     public bool isTimeAttack = false;
+
     bool isFeverCheck = false;
     bool isOneTime = false; 
     bool isMiss = false;
@@ -65,7 +66,6 @@ public class NoteManager : MonoBehaviour
     {
         if (isStart)
         {
-
             CreateNote();
             CheckTiming();
             
@@ -107,10 +107,18 @@ public class NoteManager : MonoBehaviour
     public void ClearGame()
     {
         isStart = false;
+        isFever = false;
+        isOneTime = false;
+        isMiss = false;
+        isFeverCheck = false;
+        isInput = true;
+        feverCount = 0;
+        curFeverIdx = 0;
         isCreateGuideNote = false;
         ClearGuideNote();
         ClearUserNote();
         timingManager.StopTiming();
+        theHammer.ResetEffect();
     }
 
     public bool CheckSingleNote()

@@ -33,15 +33,14 @@ public class HammerController : MonoBehaviour
         hammerAnimator.SetTrigger("Hit");
     }
 
-     void AppearEffect()
-    {
-        // var clone = Instantiate(hitAnimator.gameObject,targetTR.position,Quaternion.identity);
-        // clone.GetComponent<Animator>().SetTrigger("Hit");
-        hitAnimator.transform.position = targetTR.position;
-        hitAnimator.gameObject.SetActive(true);
-        hitAnimator.SetTrigger("Hit");
-    }
 
+
+
+    public void ResetEffect()
+    {
+        hitAnimator.gameObject.SetActive(false);
+        feverSprite.gameObject.SetActive(false);
+    }
 
     IEnumerator SwingAction()
     {
@@ -52,7 +51,15 @@ public class HammerController : MonoBehaviour
         string hammer = "Hammer0" + rand.ToString();
         
         SoundManager.instance.PlaySE(hammer);
-        AppearEffect();
+        StartCoroutine(AppearEffect()); 
+    }
+    IEnumerator AppearEffect()
+    {
+        hitAnimator.transform.position = targetTR.position;
+        hitAnimator.gameObject.SetActive(true);
+        hitAnimator.SetTrigger("Hit");
+        yield return new WaitForSeconds(0.35f);
+        hitAnimator.gameObject.SetActive(false);
     }
 
     IEnumerator FeverEffect()

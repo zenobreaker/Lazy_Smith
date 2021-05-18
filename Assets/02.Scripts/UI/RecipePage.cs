@@ -74,14 +74,16 @@ public class RecipePage : MonoBehaviour
     public void UnlockRecipe(int _targetNum)
     {
         recipeUnLockList[_targetNum] = false;
-        if (_targetNum == 1)
+        if (_targetNum == 1)    // 활
             theIC.ShowDialogue(2);   // 2번 퀘스트 해금 
-        if(_targetNum == 2)
+        if(_targetNum == 2) // 창
             theIC.ShowDialogue(3);
-        if (_targetNum == 3)
+        if (_targetNum == 3)    //환도
             theQuest.SetQuest(4);
-        if(_targetNum == 4)
+
+        if (!recipeUnLockList[3] && !recipeUnLockList[4] && !recipeUnLockList[5])
             theIC.ShowDialogue(4);
+        
         if(!recipeUnLockList[6] && !recipeUnLockList[7] && !recipeUnLockList[8])
             theIC.ShowDialogue(5);
     }
@@ -91,19 +93,31 @@ public class RecipePage : MonoBehaviour
         switch(p_wID)
         {
             case "102":
-            case "103":
                 if (!theQuest.GetisClear(1))
                 {
                     txt_alert.text = "퀘스트 \" 일하기 싫어요. \" 클리어";
                     return false;
                 }
                 return true;
+            case "103":
+                if (!theQuest.GetisClear(2))
+                {
+                    txt_alert.text = "퀘스트 \" 촌장님의 부탁? \" 클리어";
+                    return false;
+                }
+                return true;
             case "104":
-            case "105":
-            case "106":
                 if (!theQuest.GetisClear(3))
                 {
                     txt_alert.text = "퀘스트 \"쉬어가기 쉬운 것\" 클리어";
+                    return false;
+                }
+                return true;
+            case "105":
+            case "106":
+                if (!theQuest.GetisClear(4))
+                {
+                    txt_alert.text = "퀘스트 \"손님은 맞이해야\" 클리어";
                     return false;
                 }
                 return true;

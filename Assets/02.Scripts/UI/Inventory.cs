@@ -152,7 +152,7 @@ public class Inventory : TabManual
 
 
     // 아이템 개수 증가 
-    public void IncreaseItemCount(Item p_Item)
+    public void IncreaseItemCount(Item p_Item, int _Count = 1)
     {
         Debug.Log("item 추가 " + p_Item.itemType);
         //p_Item.itemCount += 1;
@@ -177,7 +177,7 @@ public class Inventory : TabManual
                     if (item.Equals(p_Item))
                     {
                         Debug.Log("item 추가 " + p_Item.itemName);
-                        item.itemCount += 1;
+                        item.itemCount += _Count;
                         //SettingItem(p_Item, materialItems.IndexOf(p_Item));
                         break;
                     }

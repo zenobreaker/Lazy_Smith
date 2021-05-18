@@ -21,22 +21,22 @@ public class QuestManager : MonoBehaviour
         string[] t_weapons; ;
         int[] t_eachs;
 
-        questDic.Add(1, new QuestData("일하기 싫어요.", "101", 2, 1000));
-        questDic.Add(2, new QuestData("촌장님의 부탁?", "102", 3, 3000));
+        questDic.Add(1, new QuestData("일하기 싫어요.", "101", 2, 2500));
+        questDic.Add(2, new QuestData("촌장님의 부탁?", "102", 3, 5000));
         
         t_weapons = new string[3] { "101", "102" ,"103"};
         t_eachs = new int[3] { 2, 2 ,2};
-        questDic.Add(3, new QuestData("쉬어가기 쉬운 것", t_weapons, t_eachs,4000));
+        questDic.Add(3, new QuestData("쉬어가기 쉬운 것", t_weapons, t_eachs,6000));
         
-        questDic.Add(4, new QuestData("손님 맞이", "104", 3,10000));
+        questDic.Add(4, new QuestData("손님은 맞이해야", "104", 3,10000));
 
         t_weapons = new string[] { "104","105", "106" };
-        t_eachs = new int[] { 2,3,2 };
-        questDic.Add(5, new QuestData("필사적 게으름", t_weapons, t_eachs, 42000));
+        t_eachs = new int[3] { 2,3,2 };
+        questDic.Add(5, new QuestData("필사적 게으름", t_weapons, t_eachs, 82000));
 
 
         t_weapons = new string[] { "107", "108","109" };
-        t_eachs = new int[] {3, 4, 2};
+        t_eachs = new int[3] {3, 4, 2};
         questDic.Add(6, new QuestData("과거로 부터 선물", t_weapons, t_eachs, 300000));
 
         // 이후 코로니움 관련 무기 추가 
@@ -73,7 +73,10 @@ public class QuestManager : MonoBehaviour
             }
 
             if (targetCount >= t_quest.weaponID.Length)
+            {
+                Debug.Log("퀘스트 완료 " + questDic[currentQuestNum].isBeing);
                 OpenQuestAlert(true);// 퀘스트완료 
+            }
             else
                 OpenQuestAlert(false);// 퀘스트 조건 미달성
         }
@@ -118,6 +121,10 @@ public class QuestManager : MonoBehaviour
             questDic[i + 1].isClear = p_clearList[i];
             if (questDic[i + 1].isBeing)
                 SetQuest(i + 1);
+            //else if(!questDic[i + 1].isBeing && !questDic[i + 1].isClear)
+            //{
+            //    SetQuest(i + 1);
+            //}
         }
     }
 
@@ -129,7 +136,7 @@ public class QuestManager : MonoBehaviour
         {
             t_BoolList.Add(questDic[i].isBeing);
         }
-
+        
         return t_BoolList;
     }
 

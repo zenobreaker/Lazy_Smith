@@ -95,8 +95,10 @@ public class GameManager : MonoBehaviour
             {
                 // 게임 종료 로직 
                 theTimer.StopTimer();
+                timingManager.StopTiming();
                 stageManager.EndClearStage();
                 noteManager.ClearGame();
+                noteManager.ResetEffects();
             }
             else
             {

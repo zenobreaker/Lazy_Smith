@@ -39,6 +39,7 @@ public class GameMenu : TabManual
         {
             if (Input.GetKey(KeyCode.Escape))
             {
+                TabSettingToGame(2);
                 OpenUI();
             }
         }

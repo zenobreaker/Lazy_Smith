@@ -10,10 +10,18 @@ public class ShopDialog : MonoBehaviour
     [SerializeField] protected Image img_item = null;
     [SerializeField] protected Text txt_ItemName = null;
     [SerializeField] protected Text txt_ItemDesc = null;
+    [SerializeField] Text txt_ItemCount = null;
+
+    [SerializeField] GameObject go_Warning = null;
+    [SerializeField] Text txt_Alert = null;
 
     public Item selectedItem;
     private ShopSlot selectedSlot;
     protected int itemCount;
+    public int maxCount = 99;
+
+    public Color successColor;
+    public Color FailureColor;
 
     [SerializeField] InteractionController theIC = null;
 
@@ -22,14 +30,14 @@ public class ShopDialog : MonoBehaviour
         selectedSlot = _shopSlot;
         selectedItem = _shopSlot.MyItem;
         itemCount = _count;
+        
 
         if (!go_Base.activeSelf)
             go_Base.SetActive(true);
 
         img_item.sprite = _shopSlot.MyItem.itemImage;
-        txt_ItemName.text = "+" + " " + _shopSlot.MyItem.itemName;
-           
-        
+        txt_ItemName.text = _shopSlot.MyItem.itemName;
+        txt_ItemCount.text = itemCount.ToString();
     }
 
     public void CancelUI()
@@ -41,31 +49,62 @@ public class ShopDialog : MonoBehaviour
 
     public void BuyItem()
     {
-        //if (RLModeController.isRLMode)
-        //{
-        //    RLModeController.instance.DownBHPoint();
 
-        //    if (RLModeController.instance.behaviourPoint > 0)
-        //    {
-        //        selectedItem.isSale = true;
-        //        selectedSlot.SetItemSale();
-        //        selectedSlot.GetComponent<Image>().enabled = false;
-        //    }
-        //    else
-        //        return;
-        //}
 
-        if (GameManager.money >= selectedItem.itemValue)
+        if (GameManager.money >= selectedItem.itemValue * itemCount)
         {
             //Item buyedItem = new Item(selectedItem);
-            GameManager.money -= selectedItem.itemValue;
+            GameManager.money -= selectedItem.itemValue * itemCount;
             UIManager.instance.SetMoney(GameManager.money);
-            Inventory.instance.IncreaseItemCount(selectedItem);
+            Inventory.instance.IncreaseItemCount(selectedItem, itemCount);
             Debug.Log("구입 완료" + selectedItem.itemName);
+
+            txt_Alert.color = successColor;
+            txt_Alert.text = "구입이 성공적으로 이루어졌습니다.";
+            StartCoroutine(FadeInOut());
+
             if (selectedItem.itemID.Equals("006"))
                 theIC.ShowDialogue(6);
+
             CancelUI();
-           
+
+        }
+        else
+            AppearFailedBuyItem();
+    }
+
+    public void IncreaseCount()
+    {
+        if (itemCount < maxCount)
+        {
+            itemCount++;
+            txt_ItemCount.text = itemCount.ToString();
         }
     }
+
+    public void DecreaseCount()
+    {
+        if(itemCount > 1 )
+        {
+            itemCount--;
+            txt_ItemCount.text = itemCount.ToString();
+        }
+    }
+
+    public void AppearFailedBuyItem()
+    {
+        txt_Alert.color = FailureColor;
+        txt_Alert.text = "잔액이 부족합니다.";
+
+        StartCoroutine(FadeInOut());
+    }
+
+
+    IEnumerator FadeInOut()
+    {
+        go_Warning.SetActive(true);
+        yield return new WaitForSeconds(0.7f);
+        go_Warning.SetActive(false);
+    }
+
 }
