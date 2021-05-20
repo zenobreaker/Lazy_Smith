@@ -15,7 +15,8 @@ public class NoteManager : MonoBehaviour
 
 
     float timingValue;
-    float prevTimingValue; 
+    float prevTimingValue;
+   
     int fixedNoteCount = 7;         // 고정 수 
     //public int maxNoteCount;      // 최대로 생성될 노트 수 
     int currentNoteCount;           // 현재 나오는 노트 수 
@@ -97,8 +98,10 @@ public class NoteManager : MonoBehaviour
             isMiss = true;
             isFever = false;
             isOneTime = false;
-         //   Debug.Log("피버 종료");
-           
+            isInput = false;
+            //   Debug.Log("피버 종료");
+
+            ClearUserNote();    // 눌러본 노트 제거 
             StartCoroutine(CheckNoteComplete());
             currentNoteCount = prevCount;
         }
@@ -261,19 +264,20 @@ public class NoteManager : MonoBehaviour
 
         ClearGuideNote();
         ClearUserNote();
+
         GameManager.instance.IncreaseLevel(comboHit);
         if (isTimeAttack)
             IncreaseFeverCount(comboHit);
         if (!isFever)
             timingManager.StopTiming();        // 타이밍값 초기화
 
-        isCreateGuideNote = false;
-        isMiss = false;
+
 
         if (isFever)
             isFeverCheck = false;
 
-        isInput = true;
+        isCreateGuideNote = false;
+        isMiss = false;
     }
 
     // 콤보에 따른 피버 수치 증가
@@ -294,6 +298,8 @@ public class NoteManager : MonoBehaviour
                 feverCount -= 2;
                 break;
         }
+        
+        stageManager.IncreaseFeverPoint(feverCount, feverValue[curFeverIdx], !isFever);
         //Debug.Log("현재 피버 점수 : " + feverCount + "피버 인덱 " + curFeverIdx + "콤보 : " + p_Combo);
         if (feverCount >= feverValue[curFeverIdx] && !isFever)
         {
@@ -404,7 +410,7 @@ public class NoteManager : MonoBehaviour
             return;
 
         isCreateGuideNote = true;
-        Debug.Log("노트 붙임 : " + currentNoteCount);
+      //  Debug.Log("노트 붙임 : " + currentNoteCount);
         if (!isFever)
         {
             timingManager.StartTiming(timingValue);
@@ -432,6 +438,8 @@ public class NoteManager : MonoBehaviour
                 }
             }
         }
+
+        isInput = true;
     }
 
     // 유저가 키를 누르면 작동 

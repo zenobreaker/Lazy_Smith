@@ -100,11 +100,14 @@ public class DialogueManager : MonoBehaviour
             {
                 oneTime = false;
                 StopCoroutine(dialogueScript);
-                dialogueScript = null;
-                txt_Dialogue.text = dialogues[lineCount].contexts[contextCount];
+                // dialogueScript = null;
+                string t_ReplaceText = dialogues[lineCount].contexts[contextCount];
+                t_ReplaceText = t_ReplaceText.Replace("'", ",");
+                t_ReplaceText = t_ReplaceText.Replace("\\n", "\n");
+                txt_Dialogue.text = t_ReplaceText;
                 isTalking = false;
             }
-            else if (!isTalking && dialogueScript == null)
+            else if (!isTalking)
             {
                 oneTime = true;
                 isNext = true;
@@ -133,7 +136,7 @@ public class DialogueManager : MonoBehaviour
         txt_Name.text = "";
 
         dialogues = p_dialogues;
-
+        go_TouchScreen.SetActive(true);
         dialogueScript = TypeWriter();
         StartCoroutine(dialogueScript);
 
@@ -236,6 +239,7 @@ public class DialogueManager : MonoBehaviour
         StopCoroutine(dialogueScript);
         EndDialogue();
         go_SkipAlert.SetActive(false);
+        isSkip = false;
         
     }
 

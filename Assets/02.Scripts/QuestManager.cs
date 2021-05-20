@@ -22,13 +22,13 @@ public class QuestManager : MonoBehaviour
         int[] t_eachs;
 
         questDic.Add(1, new QuestData("일하기 싫어요.", "101", 2, 2500));
-        questDic.Add(2, new QuestData("촌장님의 부탁?", "102", 3, 5000));
+        questDic.Add(2, new QuestData("촌장님의 부탁?", "102", 3, 6500));
         
         t_weapons = new string[3] { "101", "102" ,"103"};
         t_eachs = new int[3] { 2, 2 ,2};
-        questDic.Add(3, new QuestData("쉬어가기 쉬운 것", t_weapons, t_eachs,6000));
+        questDic.Add(3, new QuestData("쉬어가기 쉬운 것", t_weapons, t_eachs,9900));
         
-        questDic.Add(4, new QuestData("손님은 맞이해야", "104", 3,10000));
+        questDic.Add(4, new QuestData("손님은 맞이해야", "104", 3,15000));
 
         t_weapons = new string[] { "104","105", "106" };
         t_eachs = new int[3] { 2,3,2 };
@@ -161,7 +161,7 @@ public class QuestManager : MonoBehaviour
 
     public bool GetisClear(int p_num)
     {
-        Debug.Log("번호 : " + p_num + "클리어? : " + questDic[p_num].isClear);
+       // Debug.Log("번호 : " + p_num + "클리어? : " + questDic[p_num].isClear);
         return questDic[p_num].isClear;
     }
 }

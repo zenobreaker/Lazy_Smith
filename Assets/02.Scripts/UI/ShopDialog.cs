@@ -15,6 +15,8 @@ public class ShopDialog : MonoBehaviour
     [SerializeField] GameObject go_Warning = null;
     [SerializeField] Text txt_Alert = null;
 
+    [SerializeField] Text txt_Explain = null; 
+
     public Item selectedItem;
     private ShopSlot selectedSlot;
     protected int itemCount;
@@ -38,6 +40,7 @@ public class ShopDialog : MonoBehaviour
         img_item.sprite = _shopSlot.MyItem.itemImage;
         txt_ItemName.text = _shopSlot.MyItem.itemName;
         txt_ItemCount.text = itemCount.ToString();
+        txt_Explain.text = "위 아이템을 구매하시겠습니까? " + "현재 가격 : " + selectedItem.itemValue * itemCount + "코인";
     }
 
     public void CancelUI()
@@ -79,6 +82,7 @@ public class ShopDialog : MonoBehaviour
         {
             itemCount++;
             txt_ItemCount.text = itemCount.ToString();
+            txt_Explain.text = "위 아이템을 구매하시겠습니까? " + "현재 가격 : " + selectedItem.itemValue * itemCount + "코인";
         }
     }
 
@@ -88,6 +92,7 @@ public class ShopDialog : MonoBehaviour
         {
             itemCount--;
             txt_ItemCount.text = itemCount.ToString();
+            txt_Explain.text = "위 아이템을 구매하시겠습니까? " + "현재 가격 : " + selectedItem.itemValue * itemCount + "코인";
         }
     }
 

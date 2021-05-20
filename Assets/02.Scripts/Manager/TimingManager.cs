@@ -8,8 +8,10 @@ public class TimingManager : MonoBehaviour
     int[] judgementRecord = new int[4];
 
     [SerializeField] Image img_timingImage = null;
+    [SerializeField] Image img_WaringFrame = null;
 
     bool isGoodTiming;      // 좋은 점수를 유지하는 타이밍 확인  
+    bool isWarning = false;
     float curTime;          // 진행하는 시간 수 
     float maxTime;
     IEnumerator timing;
@@ -97,12 +99,52 @@ public class TimingManager : MonoBehaviour
             Debug.Log("피버타임 중 ");
             t_FeverTime -= Time.deltaTime;
             img_timingImage.fillAmount = t_FeverTime / 10;
+
+            if (t_FeverTime < 3 && !isWarning)
+            {
+                isWarning = true;
+                StartCoroutine(FlashingWarnig(t_FeverTime));
+            }
+
             isGoodTiming = true;
             yield return null;
         }
         Debug.Log("피버타임 끝");
         isGoodTiming = false;
+        img_WaringFrame.gameObject.SetActive(false);
+        isWarning = false;
         //NoteManager.isFever = false;
+    }
+
+    IEnumerator FlashingWarnig(float p_Time)
+    {
+        img_WaringFrame.gameObject.SetActive(true);
+        Color t_color = img_WaringFrame.color;
+        t_color.a = 1;
+        bool isSwtich = false;
+
+        while (p_Time > 0)
+        {
+            p_Time -= Time.deltaTime;
+
+            if (!isSwtich)
+            {
+                t_color.a -= Time.deltaTime;
+                if (t_color.a <= 0)
+                    isSwtich = true;
+            }
+            else if (isSwtich)
+            {
+                t_color.a += Time.deltaTime;
+                if(t_color.a >= 1)
+                    isSwtich = false;
+            }
+
+            img_WaringFrame.color = t_color;
+            yield return null;
+            
+        }
+        img_WaringFrame.gameObject.SetActive(false);
     }
 
 }

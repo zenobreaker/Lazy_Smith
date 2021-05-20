@@ -102,6 +102,13 @@ public class StageManager : MonoBehaviour
        // Debug.Log("진행도 : " + increasePoint);
     }
 
+    public void IncreaseFeverPoint(int p_Pnt, int _max, bool _fever)
+    {
+        Debug.Log("현재 피버 점수 " + _fever + p_Pnt + " " + _max +  " " + p_Pnt / _max);
+        img_Gauage.gameObject.SetActive(_fever);
+        img_Gauage.fillAmount =(float) p_Pnt / _max;
+    }
+
     public float GetStageProcesivity()
     {
         return increasePoint;

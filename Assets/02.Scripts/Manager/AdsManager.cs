@@ -64,7 +64,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
    
     public void SettingUI(bool p_flag)
     {
-        txt_AlertText.text = "광고를 보고 보상을 받으시겠습니까?\n 시청완료 : 10000";
+        txt_AlertText.text = "광고를 보고 보상을 받으시겠습니까?\n 시청완료 : 15000";
         go_BaseUI.SetActive(p_flag);
     }
 
@@ -104,7 +104,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
                 }
                 break;
             case ShowResult.Finished:
-                coin = 10000;
+                coin = 15000;
                 if(placementId == rewardedViedoAd)
                 {
                     Debug.Log("Reward The Player");

@@ -9,6 +9,7 @@ public class GameMenu : TabManual
     public GameObject soundTab; // 사운드 조정 탭
     //public GameObject missionTab; // 임무 탭
     public GameObject gameTab; // 그래픽 조정 탭 
+    public GameObject infoTab; 
 
     [SerializeField] SaveManager saveManager = null;
 
@@ -57,6 +58,9 @@ public class GameMenu : TabManual
             case 2:
                 TabSlotOpen(gameTab);
                 break;
+            case 3:
+                TabSlotOpen(infoTab);
+                break;
         }
     }
 
@@ -73,6 +77,9 @@ public class GameMenu : TabManual
             case 1:
                 TabSlotOpen(gameTab);
                 //StartCoroutine(TimeStopAndStart());
+                break;
+            case 2:
+                TabSlotOpen(infoTab);
                 break;
         }
     }

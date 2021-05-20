@@ -35,6 +35,8 @@ public class InvenAlert : MonoBehaviour
         if (p_Item.itemType == ItemType.WEAPON && p_Item.itemCount > 0)
         {
             Debug.Log(p_Item.itemType);
+            txt_Explain.text = "위 아이템을 파시겠습니까?" + " 개당 " + p_Item.itemValue.ToString() + "코인"
+                + " 현재 : "+(p_Item.itemValue * currentCount).ToString() + "코인";
             txt_Explain.gameObject.SetActive(true);
             btn_Confirm.interactable = true;
         }
@@ -64,8 +66,13 @@ public class InvenAlert : MonoBehaviour
         if (currentCount < maxCount && maxCount > 0)
         {
             currentCount++;
+            btn_Confirm.interactable = true;
             txt_ItemCount.text = currentCount.ToString();
+            if(currentItem.itemType == ItemType.WEAPON)
+                txt_Explain.text = "위 아이템을 파시겠습니까?" + " 개당 " + currentItem.itemValue.ToString() + "코인"
+              + " 현재 : " + (currentItem.itemValue * currentCount).ToString() + "코인";
         }
+        
     }
 
     public void DecreaseCount()
@@ -73,7 +80,14 @@ public class InvenAlert : MonoBehaviour
         if (currentCount > 0)
         {
             currentCount--;
+           
+            if (currentCount == 0)
+                btn_Confirm.interactable = false;
+     
             txt_ItemCount.text = currentCount.ToString();
+            if (currentItem.itemType == ItemType.WEAPON)
+                txt_Explain.text = "위 아이템을 파시겠습니까?" + " 개당 " + currentItem.itemValue.ToString() + "코인"
+              + " 현재 : " + (currentItem.itemValue * currentCount).ToString() + "코인";
         }
     }
 }

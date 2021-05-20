@@ -162,7 +162,7 @@ public class ShopPage : TabManual
 
 
         scrollbar.value = 0;
-        Debug.Log("스크롤 : " + scrollbar.value);
+     //   Debug.Log("스크롤 : " + scrollbar.value);
     }
 
 
