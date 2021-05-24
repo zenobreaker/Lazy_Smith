@@ -32,6 +32,7 @@ public class SoundController : MonoBehaviour
             bgmImage.sprite = audioSprite[1];
         else if (bgmSlider.value > 0)
             bgmImage.sprite = audioSprite[0];
+      //  SaveManager.instance.SaveSoundData();
     }
 
     public void SetSfxVolume(float _volume)
@@ -47,6 +48,8 @@ public class SoundController : MonoBehaviour
             sfxImage.sprite = audioSprite[1];
         else if (sfxSlider.value > 0)
             sfxImage.sprite = audioSprite[0];
+
+       // SaveManager.instance.SaveSoundData();
     }
 
     // 이미지 버튼을 누르면 동작 

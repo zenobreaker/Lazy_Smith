@@ -11,7 +11,6 @@ public class GameMenu : TabManual
     public GameObject gameTab; // 그래픽 조정 탭 
     public GameObject infoTab; 
 
-    [SerializeField] SaveManager saveManager = null;
 
     void Start()
     {
@@ -100,7 +99,7 @@ public class GameMenu : TabManual
 
     public void GoToTitle()
     {
-        saveManager.SaveData();
+        SaveManager.instance.SaveData();
         SceneManager.LoadScene(0);
     }
 }

@@ -22,6 +22,8 @@ public class SaveData
 
 public class SaveManager : MonoBehaviour
 {
+    public static SaveManager instance = null;
+
     [SerializeField] GameObject go_BackGround = null;
 
     private SaveData saveData = new SaveData();
@@ -29,13 +31,20 @@ public class SaveManager : MonoBehaviour
     private string SAVE_DATA_DIRECTROTY;
     private string SAVE_FILENAME = "/SaveFile.json";
 
-    private Inventory theInven;
-    private RecipePage theRecipe;
-    private SoundController theSC;
+    [SerializeField] private Inventory theInven;
+    [SerializeField] private RecipePage theRecipe;
+    [SerializeField] private SoundController theSC;
     [SerializeField] InteractionController theIC = null;
     [SerializeField] QuestManager theQuest = null;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else
+            Destroy(this);
+    }
+
     void Start()
     {
         SAVE_DATA_DIRECTROTY = Application.persistentDataPath + "/Saves/";
@@ -49,12 +58,12 @@ public class SaveManager : MonoBehaviour
 
     public void SaveData()
     {
-        if(theInven == null)
-            theInven = FindObjectOfType<Inventory>();
-        if (theRecipe == null)
-            theRecipe = FindObjectOfType<RecipePage>();
-        if (theSC == null)
-            theSC = FindObjectOfType<SoundController>();
+        //if(theInven == null)
+        //    theInven = FindObjectOfType<Inventory>();
+        //if (theRecipe == null)
+        //    theRecipe = FindObjectOfType<RecipePage>();
+        //if (theSC == null)
+        //    theSC = FindObjectOfType<SoundController>();
 
         Item[] wItems = theInven.SaveWeaponData();
         Item[] mItems = theInven.SaveMaterialData();
@@ -97,7 +106,7 @@ public class SaveManager : MonoBehaviour
 
         if (saveData.stroyViewList.Count < 1)
         {
-            Debug.Log("저장 길이 0 구축 시작");
+           // Debug.Log("저장 길이 0 구축 시작");
             for (int x = 0; x < theIC.GetViewList().Count; x++)
             {
                 saveData.stroyViewList.Add(viewArr[x]);
@@ -143,9 +152,118 @@ public class SaveManager : MonoBehaviour
 
         File.WriteAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME, json);
 
-        Debug.Log("저장 완료");
-        Debug.Log(json);
+        //Debug.Log("저장 완료");
+        //Debug.Log(json);
     }
+
+    
+    public void SaveRecipe()
+    {
+        saveData.recipeUnlockList = theRecipe.SaveRecipeData();
+        saveData.money = GameManager.money;
+    }
+    
+    public void SaveSoundData()
+    {
+        saveData.sfxSoundValue = Mathf.Floor(theSC.sfxSlider.value * 10) / 10;
+        saveData.bgmSoundValue = Mathf.Floor(theSC.bgmSlider.value * 10) / 10;
+    }
+
+    public void SaveItems()
+    {
+
+        Item[] wItems = theInven.SaveWeaponData();
+        Item[] mItems = theInven.SaveMaterialData();
+
+        for (int i = 0; i < wItems.Length; i++)
+        {
+            if (saveData.weaponItemList.Contains(wItems[i].itemID))
+            {
+                int idx = saveData.weaponItemList.IndexOf(wItems[i].itemID);
+                saveData.wItemCountList[idx] = wItems[idx].itemCount;
+            }
+            else
+            {
+                saveData.weaponItemList.Add(wItems[i].itemID);
+                saveData.wItemCountList.Add(wItems[i].itemCount);
+            }
+        }
+
+        for (int j = 0; j < mItems.Length; j++)
+        {
+            if (saveData.materialItemList.Contains(mItems[j].itemID))
+            {
+                int idx = saveData.materialItemList.IndexOf(mItems[j].itemID);
+                saveData.mItemCountList[idx] = mItems[idx].itemCount;
+            }
+            else
+            {
+                saveData.materialItemList.Add(mItems[j].itemID);
+                saveData.mItemCountList.Add(mItems[j].itemCount);
+            }
+        }
+
+        saveData.money = GameManager.money;
+    }
+
+
+    public void SaveStoryView()
+    {
+        bool[] viewArr = theIC.GetViewList().ToArray();
+
+        if (saveData.stroyViewList.Count < 1)
+        {
+            //Debug.Log("저장 길이 0 구축 시작");
+            for (int x = 0; x < theIC.GetViewList().Count; x++)
+            {
+                saveData.stroyViewList.Add(viewArr[x]);
+            }
+        }
+        else if (saveData.stroyViewList.Count == viewArr.Length)
+        {
+            for (int i = 0; i < saveData.stroyViewList.Count; i++)
+            {
+                saveData.stroyViewList[i] = viewArr[i];
+            }
+        }
+    }
+    
+    public void SaveQuestData()
+    {
+        bool[] beingArr = theQuest.GetQuestBeingList().ToArray();
+        bool[] clearArr = theQuest.GetQuestClearList().ToArray();
+
+        if (saveData.questBeingList.Count < 1)
+        {
+            for (int y = 0; y < beingArr.Length; y++)
+            {
+                saveData.questBeingList.Add(beingArr[y]);
+            }
+        }
+        else if (saveData.questBeingList.Count == beingArr.Length)
+        {
+            for (int i = 0; i < saveData.questBeingList.Count; i++)
+            {
+                saveData.questBeingList[i] = beingArr[i];
+            }
+        }
+
+        if (saveData.questClearList.Count < 1)
+        {
+            for (int z = 0; z < clearArr.Length; z++)
+            {
+                saveData.questClearList.Add(clearArr[z]);
+            }
+        }
+        else if (saveData.questClearList.Count == clearArr.Length)
+        {
+            for (int i = 0; i < saveData.questClearList.Count; i++)
+            {
+                saveData.questClearList[i] = clearArr[i];
+            }
+        }
+    }
+
 
     public void LoadData()
     {
@@ -182,12 +300,12 @@ public class SaveManager : MonoBehaviour
             string loadJson = File.ReadAllText(SAVE_DATA_DIRECTROTY + SAVE_FILENAME);
             saveData = JsonUtility.FromJson<SaveData>(loadJson);
 
-            if (theInven == null)
-                theInven = FindObjectOfType<Inventory>();
-            if (theRecipe == null)
-                theRecipe = FindObjectOfType<RecipePage>();
-            if (theSC == null)
-                theSC = FindObjectOfType<SoundController>();
+            //if (theInven == null)
+            //    theInven = FindObjectOfType<Inventory>();
+            //if (theRecipe == null)
+            //    theRecipe = FindObjectOfType<RecipePage>();
+            //if (theSC == null)
+            //    theSC = FindObjectOfType<SoundController>();
 
             for (int i = 0; i < saveData.weaponItemList.Count; i++)
             {

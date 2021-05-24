@@ -50,6 +50,7 @@ public class QuestManager : MonoBehaviour
         questUI.SettingUI(true);
         questUI.SetQuestContext(questDic[p_num]);
         CheckQuest();
+     //   SaveManager.instance.SaveQuestData();
     }
 
     // Äù½ºÆ® °Ë»ç 
@@ -111,6 +112,8 @@ public class QuestManager : MonoBehaviour
 
         if (currentQuestNum == 5)
             ShopPage.instance.LastItemView();
+
+      //  SaveManager.instance.SaveQuestData();
     }
 
     public void SetQuestDic(List<bool> p_boolList, List<bool> p_clearList)

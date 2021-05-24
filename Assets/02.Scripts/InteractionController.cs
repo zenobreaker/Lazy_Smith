@@ -73,7 +73,7 @@ public class InteractionController : MonoBehaviour
                 }
                 break;
         }
-
+     //   SaveManager.instance.SaveStoryView();
     }
 
 

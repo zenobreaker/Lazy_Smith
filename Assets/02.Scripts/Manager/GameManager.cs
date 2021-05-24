@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] NoteManager noteManager = null;
     [SerializeField] TimeGauageController theTimer = null;
     [SerializeField] StageManager stageManager = null;
-    [SerializeField] SaveManager saveManager = null;
     [SerializeField] TimingManager timingManager = null;
     
     private void Awake()
@@ -175,13 +174,13 @@ public class GameManager : MonoBehaviour
 
     public void SaveClick()
     {
-        saveManager.SaveData();
+        SaveManager.instance.SaveData();
     }
 
 
     public void LoadClick()
     {
-        saveManager.LoadData();
+        SaveManager.instance.LoadData();
         UIManager.instance.SetMoney(money);
     }
 }

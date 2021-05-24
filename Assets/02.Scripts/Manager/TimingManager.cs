@@ -53,10 +53,12 @@ public class TimingManager : MonoBehaviour
             return 0;
         else if (rate <= 70 && rate > 40)
             return 1;
-        else if (rate <= 40 && rate > 0)
+        else if (rate <= 40 && rate > 10)
             return 2;
-        else
+        else if (rate <= 10 && rate > 0)
             return 3;
+        else 
+            return 4;
     }
 
      IEnumerator TimingCo()

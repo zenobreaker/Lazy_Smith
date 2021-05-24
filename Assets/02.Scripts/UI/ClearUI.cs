@@ -65,6 +65,8 @@ public class ClearUI : MonoBehaviour
         go_TAUI.SetActive(false);
         go_BaseUI.SetActive(true);
         theAnim.SetTrigger("Appear");
+        img_ItemImage.gameObject.SetActive(true);
+
         int rand = Random.Range(0, 2);
 
         if (rand == 1)
@@ -84,6 +86,7 @@ public class ClearUI : MonoBehaviour
 
         go_BaseUI.SetActive(true);
         theAnim.SetTrigger("Appear");
+        img_ItemImage.gameObject.SetActive(false);
 
         int rand = Random.Range(0, 2);
         

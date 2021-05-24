@@ -89,7 +89,10 @@ public class NoteManager : MonoBehaviour
             effectManager.judgementEffect(3);
             comboManager.ResetCombo();
             timingValue = prevTimingValue;
-            ResetNoteCount();
+
+            currentNoteCount = initCount;   // 노트 카운트 리셋 
+            correctCount = 0;
+
             StopCoroutine(CheckNoteComplete());
             StartCoroutine(CheckNoteComplete());
         }
@@ -144,23 +147,24 @@ public class NoteManager : MonoBehaviour
     // 노트 검사 
     public void CheckCorrectNote()
     {
-        if (isFever)
+        if (isFever || isMiss)
             return;
 
-        if (inputCount > 0 && prevInputCount != inputCount) {
-            if (userNoteList[inputCount-1].Equals(guideNoteList[inputCount-1]))
+        if (inputCount > 0 && prevInputCount != inputCount)
+        {
+            if (userNoteList[inputCount - 1].Equals(guideNoteList[inputCount - 1]))
             {
                 prevInputCount = inputCount;
                 correctCount++;
-            }else
+            }
+            else
             {
                 correctCount = 0;
                 prevInputCount = inputCount;
                 comboHit = ComboHit.MISS;
                 effectManager.judgementEffect(3);
                 comboManager.ResetCombo();
-                ResetNoteCount();
-
+                correctCount = 0;
 
                 if (isTimeAttack)
                 {
@@ -168,6 +172,7 @@ public class NoteManager : MonoBehaviour
                     timingValue = prevTimingValue;
                 }
                 StartCoroutine(CheckNoteComplete());
+                return;
             }
         }
        
@@ -209,26 +214,23 @@ public class NoteManager : MonoBehaviour
     {
         if (isFever)
         {
-         //   Debug.Log("피버 노트 등장 ");
             if (userNoteList.Count >= 3 && !isFeverCheck)
             {
-            //    Debug.Log("멈춤?" + timingManager.isStop());
                 isFeverCheck = true;
                 comboHit = ComboHit.FEVER;
+                theHammer.StartAction();
+
                 effectManager.judgementEffect(4);
+                
                 comboManager.IncreaseScore(comboHit);
                 comboManager.IncreaseCombo();
-                theHammer.StartAction();
+                
                 StartCoroutine(CheckNoteComplete());
             }
         }
     }
 
-    // 노트 등장 수 초기화 
-    void ResetNoteCount()
-    {
-        currentNoteCount = initCount;
-    }
+
 
     // 진행에 따른 노트 수 추가 
     void IncreaseNoteCount()
@@ -275,7 +277,7 @@ public class NoteManager : MonoBehaviour
 
         if (isFever)
             isFeverCheck = false;
-
+        correctCount = 0;
         isCreateGuideNote = false;
         isMiss = false;
     }
@@ -413,7 +415,6 @@ public class NoteManager : MonoBehaviour
       //  Debug.Log("노트 붙임 : " + currentNoteCount);
         if (!isFever)
         {
-            timingManager.StartTiming(timingValue);
             for (int i = 0; i < currentNoteCount; i++)
             {
 
@@ -421,6 +422,8 @@ public class NoteManager : MonoBehaviour
                 var clone = Instantiate(CreateRandomArrow(), go_GuideBox.transform);
                 go_GuideBox.transform.SetParent(clone.transform);
             }
+
+            timingManager.StartTiming(timingValue);
         }
         else
         {

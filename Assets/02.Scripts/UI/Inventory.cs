@@ -111,6 +111,7 @@ public class Inventory : TabManual
         invenSlots[p_idx].ClearSlot();
         invenSlots[p_idx].AddItem(p_item, p_item.itemCount);
         questManager.CheckQuest();
+        //SaveManager.instance.SaveItems();
     }
 
     public void TabSetting(int _tabNumber)
@@ -184,17 +185,21 @@ public class Inventory : TabManual
                 }
                 break;
         }
+
+      //  SaveManager.instance.SaveItems();
     }
 
     // 아이템 개수 감소 
     public void DecreaseItemCount(string p_ItemID , int p_Count)
     {
-        materialItems.Find(x => x.itemID.Equals(p_ItemID)).itemCount -= p_Count; 
+        materialItems.Find(x => x.itemID.Equals(p_ItemID)).itemCount -= p_Count;
+      //  SaveManager.instance.SaveItems();
     }
     
     public void DecreaseWeaponCount(string p_ItemID, int p_Count)
     {
         weaponitems.Find(x => x.itemID.Equals(p_ItemID)).itemCount -= p_Count;
+     //   SaveManager.instance.SaveItems();
     }
 
     // 무기 판매
@@ -205,6 +210,7 @@ public class Inventory : TabManual
         SettingItem(p_Item,weaponitems.IndexOf(p_Item));
         UIManager.instance.SetMoney(GameManager.money);
         //weaponitems.Find(x => x == p_Item).itemCount -= p_Count;
+      //  SaveManager.instance.SaveItems();
     }
 
     // 레시피페이지에서만 작동 

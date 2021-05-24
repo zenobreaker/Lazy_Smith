@@ -86,6 +86,8 @@ public class RecipePage : MonoBehaviour
         
         if(!recipeUnLockList[6] && !recipeUnLockList[7] && !recipeUnLockList[8])
             theIC.ShowDialogue(5);
+        
+        //SaveManager.instance.SaveRecipe();
     }
 
     public bool CheckQuestClear(string p_wID)
