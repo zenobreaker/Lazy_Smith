@@ -331,7 +331,7 @@ public class SaveManager : MonoBehaviour
            
             yield return null;
 
-            Debug.Log("로드 완료");
+           // Debug.Log("로드 완료");
             theIC.StartFirstStroy();
         }
         else
@@ -339,7 +339,7 @@ public class SaveManager : MonoBehaviour
             GameManager.money = 0;
             UIManager.instance.SetMoney(GameManager.money);
             theIC.StartFirstStroy();
-            Debug.Log("저장된 파일이 없습니다.");
+          //  Debug.Log("저장된 파일이 없습니다.");
         }
         go_BackGround.SetActive(false);
     }

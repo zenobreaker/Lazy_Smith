@@ -171,6 +171,8 @@ public class NoteManager : MonoBehaviour
                     GameManager.instance.DownTimeCount(2);
                     timingValue = prevTimingValue;
                 }
+                else
+                    currentNoteCount = initCount;
                 StartCoroutine(CheckNoteComplete());
                 return;
             }

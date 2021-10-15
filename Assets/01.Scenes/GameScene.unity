@@ -3723,8 +3723,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 464092835}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: PasuseGame
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: PauseGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17584,6 +17584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameLevel: 3
   gameScore: 3
+  bPaused: 0
   noteManager: {fileID: 603463413}
   theTimer: {fileID: 1398585511}
   stageManager: {fileID: 2131991096}

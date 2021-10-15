@@ -35,16 +35,16 @@ public class SoundManager : MonoBehaviour
         PlayRandomBGM();
     }
 
-    private void Update()
-    {
-        if (!bgmPlayer.isPlaying)
-        {
-            int random = Random.Range(0, bgmSounds.Length - 1);
+    //private void Update()
+    //{
+    //    if (!bgmPlayer.isPlaying && !GameManager.instance.isStop)
+    //    {
+    //        int random = Random.Range(0, bgmSounds.Length - 1);
 
-            bgmPlayer.clip = bgmSounds[random].clip;
-            bgmPlayer.Play();
-        }
-    }
+    //        bgmPlayer.clip = bgmSounds[random].clip;
+    //        bgmPlayer.Play();
+    //    }
+    //}
 
     public void PlayRandomBGM()
     {
@@ -77,5 +77,20 @@ public class SoundManager : MonoBehaviour
             }
         }
         Debug.Log("등록된 효과음이 없습니다.");
+    }
+
+    public void PauseBGM()
+    {
+        //Debug.Log("비지엠  스탑");
+        bgmPlayer.Pause();
+    }
+    
+    public void RestartBGM()
+    {
+        //ebug.Log("비지엠  다시 재생");
+        if(!bgmPlayer.isPlaying)
+        {
+            bgmPlayer.Play();
+        }
     }
 }

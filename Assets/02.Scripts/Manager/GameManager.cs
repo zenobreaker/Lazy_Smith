@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     public int gameScore;            // 게임 점수 
 
+    public bool bPaused = false;
+
    // [SerializeField] GameObject go_PrepareUI = null;
 
     [SerializeField] NoteManager noteManager = null;
@@ -182,5 +184,28 @@ public class GameManager : MonoBehaviour
     {
         SaveManager.instance.LoadData();
         UIManager.instance.SetMoney(money);
+    }
+
+    private void OnApplicationPause(bool pause)
+    {
+        if (pause)
+        {
+            bPaused = true;
+            SaveManager.instance.SaveData();
+            if(noteManager.isStart)
+            {
+                UIManager.instance.PauseGame();
+            }
+            Debug.Log("일시정지");
+        }
+        else
+        {
+            if (bPaused)
+            {
+                bPaused = false;
+          
+                Debug.Log("일시정지 해제 ");
+            }
+        }
     }
 }
